@@ -5,10 +5,14 @@
 Game::Game(const int width, const int height)
 {
     SetTraceLogLevel(LOG_WARNING);
-    InitWindow(width, height, "RPG Monsters");
+    InitWindow(width, height, "Sprout Land");
     SetTargetFPS(60);
     SetRandomSeed(std::time(nullptr));
     InitAudioDevice();
+
+    display_surface = LoadRenderTexture(width, height);
+    while (!IsRenderTextureReady(display_surface))
+    {}
 }
 
 Game::~Game()
@@ -17,17 +21,11 @@ Game::~Game()
     CloseWindow();
 }
 
-void Game::Draw()
-{
-    BeginTextureModeC(display_surface, BLACK);
-    EndTextureModeSafe();
-}
-
 void Game::run()
 {
     while (!WindowShouldClose())
     {
-        Draw();
+        level.run(GetFrameTime());
         DisplayUpdate();
     }
 }
