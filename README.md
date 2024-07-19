@@ -1,14 +1,18 @@
 # C++ Raylib Sprout Land
 
-Tutorial from **Clear Code** in Python https://www.youtube.com/watch?v=T4IX36sP_0c  
+Tutorial from **Clear Code** in Python https://www.youtube.com/watch?v=T4IX36sP_0c
 
-This project is similar to **Stardew Valley**.  
+This project is similar to **Stardew Valley**.
 
 ### Dependencies
 
 - Raylib  
   Main library to manage window, inputs, screen  
   Compile and install raylib https://github.com/raysan5/raylib
+- Raylib Utils  
+  https://github.com/brccabral/raylib_utils.git  
+  I created this library to have my Raylib helper functions available to all my projects.  
+  Use as STATIC library.
 - TMX  
   Parse `.tmx` files (**Tiled**)  
   Compile and install TMX https://github.com/baylej/tmx
