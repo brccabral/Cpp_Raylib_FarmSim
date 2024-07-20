@@ -55,6 +55,17 @@ void Player::Update(const float deltaTime)
 {
     Input();
     Move(deltaTime);
+    Animate(deltaTime);
+}
+
+void Player::Animate(const float dt)
+{
+    frame_index += 4 * dt;
+    if (frame_index >= animations[status].size())
+    {
+        frame_index = 0;
+    }
+    image = animations[status][int(frame_index)];
 }
 
 void Player::Move(const float dt)

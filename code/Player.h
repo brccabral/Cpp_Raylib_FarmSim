@@ -12,6 +12,7 @@ public:
     ~Player() override;
     void Input();
     void Update(float deltaTime) override;
+    void Animate(float dt);
 
 private:
 
