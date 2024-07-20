@@ -4,15 +4,19 @@
 
 Game::Game(const int width, const int height)
 {
-    SetTraceLogLevel(LOG_WARNING);
+    // SetTraceLogLevel(LOG_WARNING);
     InitWindow(width, height, "Sprout Land");
     SetTargetFPS(60);
     SetRandomSeed(std::time(nullptr));
     InitAudioDevice();
 
     display_surface = LoadRenderTexture(width, height);
-    while (!IsRenderTextureReady(display_surface))
-    {}
+    // IsRenderTextureReady does not retry nor waits for RenderTexture to be ready
+    // in fact, it checks if it has an Id, Width and Height
+    if (!IsRenderTextureReady(display_surface))
+    {
+        TraceLog(LOG_ERROR, "Could not load display_surface.");
+    }
 
     // need to init level after InitWindow()
     level = new Level();

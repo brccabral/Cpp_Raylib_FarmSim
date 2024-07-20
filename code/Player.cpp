@@ -3,6 +3,8 @@
 
 Player::Player(const Vector2 pos, SpriteGroup *group) : SimpleSprite(group)
 {
+    ImportAssets();
+
     image = new Surface(32, 64);
     image->Fill(GREEN);
 
@@ -13,6 +15,13 @@ Player::Player(const Vector2 pos, SpriteGroup *group) : SimpleSprite(group)
 Player::~Player()
 {
     delete image;
+    for (auto &[key, surfaces]: animations)
+    {
+        for (const auto *surface: surfaces)
+        {
+            delete surface;
+        };
+    }
 }
 
 void Player::Input()
@@ -58,4 +67,34 @@ void Player::Move(const float dt)
     rect.pos.x += direction.x * speed * dt;
     // vertical movement
     rect.pos.y += direction.y * speed * dt;
+}
+
+void Player::ImportAssets()
+{
+    animations["up"] = {};
+    animations["down"] = {};
+    animations["left"] = {};
+    animations["right"] = {};
+    animations["up_idle"] = {};
+    animations["down_idle"] = {};
+    animations["left_idle"] = {};
+    animations["right_idle"] = {};
+    animations["up_hoe"] = {};
+    animations["down_hoe"] = {};
+    animations["left_hoe"] = {};
+    animations["right_hoe"] = {};
+    animations["up_axe"] = {};
+    animations["down_axe"] = {};
+    animations["left_axe"] = {};
+    animations["right_axe"] = {};
+    animations["up_water"] = {};
+    animations["down_water"] = {};
+    animations["left_water"] = {};
+    animations["right_water"] = {};
+
+    for (auto &[key, surfaces]: animations)
+    {
+        std::string path = "resources/graphics/character/" + key;
+        surfaces = ImportFolder(path.c_str());
+    }
 }
