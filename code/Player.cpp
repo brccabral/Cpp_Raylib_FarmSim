@@ -26,40 +26,46 @@ Player::~Player()
 
 void Player::Input()
 {
-    if (IsKeyDown(KEY_UP))
+    // player can't move when tool is in use
+    if (!timers["tool use"].active)
     {
-        direction.y = -1;
-        direction_status = "up";
-    }
-    else if (IsKeyDown(KEY_DOWN))
-    {
-        direction.y = 1;
-        direction_status = "down";
-    }
-    else
-    {
-        direction.y = 0;
-    }
+        if (IsKeyDown(KEY_UP))
+        {
+            direction.y = -1;
+            direction_status = "up";
+        }
+        else if (IsKeyDown(KEY_DOWN))
+        {
+            direction.y = 1;
+            direction_status = "down";
+        }
+        else
+        {
+            direction.y = 0;
+        }
 
-    if (IsKeyDown(KEY_RIGHT))
-    {
-        direction.x = 1;
-        direction_status = "right";
-    }
-    else if (IsKeyDown(KEY_LEFT))
-    {
-        direction.x = -1;
-        direction_status = "left";
-    }
-    else
-    {
-        direction.x = 0;
-    }
+        if (IsKeyDown(KEY_RIGHT))
+        {
+            direction.x = 1;
+            direction_status = "right";
+        }
+        else if (IsKeyDown(KEY_LEFT))
+        {
+            direction.x = -1;
+            direction_status = "left";
+        }
+        else
+        {
+            direction.x = 0;
+        }
 
-    // tool use
-    if (IsKeyPressed(KEY_SPACE))
-    {
-        timers["tool use"].Activate();
+        // tool use
+        if (IsKeyPressed(KEY_SPACE))
+        {
+            timers["tool use"].Activate();
+            direction = {};
+            frame_index = 0;
+        }
     }
 }
 
@@ -91,13 +97,14 @@ void Player::UpdateStatus()
     {
         animation_status = "_idle";
     }
-    else if (timers["tool use"].active)
-    {
-        animation_status = "_" + selected_tool;
-    }
     else
     {
         animation_status = "";
+    }
+
+    if (timers["tool use"].active)
+    {
+        animation_status = "_" + selected_tool;
     }
     status = direction_status + animation_status;
 }
