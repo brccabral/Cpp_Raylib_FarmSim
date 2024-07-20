@@ -1,4 +1,5 @@
 #include "Player.h"
+#include <raymath.h>
 
 Player::Player(const Vector2 pos, SpriteGroup *group) : SimpleSprite(group)
 {
@@ -51,5 +52,6 @@ void Player::Update(const float deltaTime)
 
 void Player::Move(const float dt)
 {
+    direction = Vector2Normalize(direction);
     rect.pos += direction * speed * dt;
 }
