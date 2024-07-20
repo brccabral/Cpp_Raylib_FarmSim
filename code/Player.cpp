@@ -9,6 +9,8 @@ Player::Player(const Vector2 pos, SpriteGroup *group) : SimpleSprite(group)
 
     rect = image->GetRect();
     RectToCenter(rect, pos);
+
+    timers["tool use"] = Timer(0.350f, false, false, [this] { UseTool(); });
 }
 
 Player::~Player()
@@ -53,10 +55,20 @@ void Player::Input()
     {
         direction.x = 0;
     }
+
+    // tool use
+    if (IsKeyPressed(KEY_SPACE))
+    {
+        timers["tool use"].Activate();
+    }
 }
 
 void Player::Update(const float deltaTime)
 {
+    for (auto &[key, timer]: timers)
+    {
+        timer.Update();
+    }
     Input();
     UpdateStatus();
     Move(deltaTime);
@@ -79,11 +91,20 @@ void Player::UpdateStatus()
     {
         animation_status = "_idle";
     }
+    else if (timers["tool use"].active)
+    {
+        animation_status = "_" + selected_tool;
+    }
     else
     {
         animation_status = "";
     }
     status = direction_status + animation_status;
+}
+
+void Player::UseTool()
+{
+    std::string tool = selected_tool;
 }
 
 void Player::Move(const float dt)

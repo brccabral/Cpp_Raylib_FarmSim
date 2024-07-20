@@ -19,6 +19,7 @@ private:
     void Input();
     void Animate(float dt);
     void UpdateStatus();
+    void UseTool();
 
     Vector2 direction{};
     float speed = 200.0f;
@@ -28,4 +29,8 @@ private:
     std::string direction_status = "down";
     std::string animation_status = "_idle";
     float frame_index = 0.0f;
+
+    std::string selected_tool = "axe";
+
+    std::map<std::string, Timer> timers;
 };
