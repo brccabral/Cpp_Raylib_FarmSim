@@ -13,6 +13,9 @@ Game::Game(const int width, const int height)
     display_surface = LoadRenderTexture(width, height);
     while (!IsRenderTextureReady(display_surface))
     {}
+
+    // need to init level after InitWindow()
+    level = new Level();
 }
 
 Game::~Game()
@@ -25,13 +28,14 @@ void Game::run()
 {
     while (!WindowShouldClose())
     {
-        level.run(GetFrameTime());
+        level->run(GetFrameTime());
         DisplayUpdate();
     }
 }
 
 void Game::UnloadResources()
 {
+    delete level;
     CloseAudioDevice();
 }
 
