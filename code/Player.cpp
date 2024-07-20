@@ -27,10 +27,12 @@ void Player::Input()
     if (IsKeyDown(KEY_UP))
     {
         direction.y = -1;
+        status = "up";
     }
     else if (IsKeyDown(KEY_DOWN))
     {
         direction.y = 1;
+        status = "down";
     }
     else
     {
@@ -40,10 +42,12 @@ void Player::Input()
     if (IsKeyDown(KEY_RIGHT))
     {
         direction.x = 1;
+        status = "right";
     }
     else if (IsKeyDown(KEY_LEFT))
     {
         direction.x = -1;
+        status = "left";
     }
     else
     {
