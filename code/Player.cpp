@@ -27,12 +27,12 @@ void Player::Input()
     if (IsKeyDown(KEY_UP))
     {
         direction.y = -1;
-        status = "up";
+        direction_status = "up";
     }
     else if (IsKeyDown(KEY_DOWN))
     {
         direction.y = 1;
-        status = "down";
+        direction_status = "down";
     }
     else
     {
@@ -42,12 +42,12 @@ void Player::Input()
     if (IsKeyDown(KEY_RIGHT))
     {
         direction.x = 1;
-        status = "right";
+        direction_status = "right";
     }
     else if (IsKeyDown(KEY_LEFT))
     {
         direction.x = -1;
-        status = "left";
+        direction_status = "left";
     }
     else
     {
@@ -58,6 +58,7 @@ void Player::Input()
 void Player::Update(const float deltaTime)
 {
     Input();
+    UpdateStatus();
     Move(deltaTime);
     Animate(deltaTime);
 }
@@ -70,6 +71,19 @@ void Player::Animate(const float dt)
         frame_index = 0;
     }
     image = animations[status][int(frame_index)];
+}
+
+void Player::UpdateStatus()
+{
+    if (Vector2Length(direction) == 0)
+    {
+        animation_status = "_idle";
+    }
+    else
+    {
+        animation_status = "";
+    }
+    status = direction_status + animation_status;
 }
 
 void Player::Move(const float dt)

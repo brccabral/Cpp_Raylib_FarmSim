@@ -10,19 +10,22 @@ public:
 
     Player(Vector2 pos, SpriteGroup *group);
     ~Player() override;
-    void Input();
     void Update(float deltaTime) override;
-    void Animate(float dt);
 
 private:
 
     void Move(float dt);
     void ImportAssets();
+    void Input();
+    void Animate(float dt);
+    void UpdateStatus();
 
     Vector2 direction{};
     float speed = 200.0f;
 
     std::map<std::string, std::vector<Surface *>> animations;
     std::string status = "down_idle";
+    std::string direction_status = "down";
+    std::string animation_status = "_idle";
     float frame_index = 0.0f;
 };
