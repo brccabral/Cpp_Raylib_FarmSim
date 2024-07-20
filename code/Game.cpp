@@ -4,7 +4,7 @@
 
 Game::Game(const int width, const int height)
 {
-    // SetTraceLogLevel(LOG_WARNING);
+    SetTraceLogLevel(LOG_WARNING);
     InitWindow(width, height, "Sprout Land");
     SetTargetFPS(60);
     SetRandomSeed(std::time(nullptr));

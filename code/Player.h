@@ -22,4 +22,6 @@ private:
     float speed = 200.0f;
 
     std::map<std::string, std::vector<Surface *>> animations;
+    std::string status = "down_idle";
+    float frame_index = 0.0f;
 };

@@ -5,8 +5,7 @@ Player::Player(const Vector2 pos, SpriteGroup *group) : SimpleSprite(group)
 {
     ImportAssets();
 
-    image = new Surface(32, 64);
-    image->Fill(GREEN);
+    image = animations[status][frame_index];
 
     rect = image->GetRect();
     RectToCenter(rect, pos);
@@ -14,7 +13,6 @@ Player::Player(const Vector2 pos, SpriteGroup *group) : SimpleSprite(group)
 
 Player::~Player()
 {
-    delete image;
     for (auto &[key, surfaces]: animations)
     {
         for (const auto *surface: surfaces)
