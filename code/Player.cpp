@@ -53,5 +53,9 @@ void Player::Update(const float deltaTime)
 void Player::Move(const float dt)
 {
     direction = Vector2Normalize(direction);
-    rect.pos += direction * speed * dt;
+    // split the movement to deal with collisions
+    // horizontal movement
+    rect.pos.x += direction.x * speed * dt;
+    // vertical movement
+    rect.pos.y += direction.y * speed * dt;
 }
