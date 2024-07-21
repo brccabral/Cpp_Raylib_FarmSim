@@ -2,15 +2,22 @@
 #include "Settings.h"
 
 
-void CameraGroup::CustomDraw()
+void CameraGroup::CustomDraw(const Player *player)
 {
+    offset = GetRectCenter(player->rect);
+    offset.x -= SCREEN_WIDTH / 2.0f;
+    offset.y -= SCREEN_HEIGHT / 2.0f;
+
     for (auto &[key, order]: LAYERS)
     {
         for (const auto *sprite: sprites)
         {
             if (sprite->z == order)
             {
-                display_surface->Blit(sprite->image, sprite->rect.pos);
+                RectangleU offset_rect = sprite->rect;
+                offset_rect.pos -= offset;
+
+                display_surface->Blit(sprite->image, offset_rect.pos);
             }
         }
     }

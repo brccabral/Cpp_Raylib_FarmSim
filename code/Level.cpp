@@ -20,7 +20,7 @@ Level::~Level()
 void Level::run(const float dt)
 {
     display_surface->Fill(BLACK);
-    all_sprites.CustomDraw();
+    all_sprites.CustomDraw(player);
     all_sprites.Update(dt);
     overlay->Display();
 }
