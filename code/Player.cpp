@@ -11,6 +11,7 @@ Player::Player(const Vector2 pos, SpriteGroup *group) : SimpleSprite(group)
     RectToCenter(rect, pos);
 
     timers["tool use"] = Timer(0.350f, false, false, [this] { UseTool(); });
+    timers["tool switch"] = Timer(0.2f);
 }
 
 Player::~Player()
@@ -27,45 +28,57 @@ Player::~Player()
 void Player::Input()
 {
     // player can't move when tool is in use
-    if (!timers["tool use"].active)
+    if (timers["tool use"].active)
     {
-        if (IsKeyDown(KEY_UP))
-        {
-            direction.y = -1;
-            direction_status = "up";
-        }
-        else if (IsKeyDown(KEY_DOWN))
-        {
-            direction.y = 1;
-            direction_status = "down";
-        }
-        else
-        {
-            direction.y = 0;
-        }
+        return;
+    }
+    if (IsKeyDown(KEY_UP))
+    {
+        direction.y = -1;
+        direction_status = "up";
+    }
+    else if (IsKeyDown(KEY_DOWN))
+    {
+        direction.y = 1;
+        direction_status = "down";
+    }
+    else
+    {
+        direction.y = 0;
+    }
 
-        if (IsKeyDown(KEY_RIGHT))
-        {
-            direction.x = 1;
-            direction_status = "right";
-        }
-        else if (IsKeyDown(KEY_LEFT))
-        {
-            direction.x = -1;
-            direction_status = "left";
-        }
-        else
-        {
-            direction.x = 0;
-        }
+    if (IsKeyDown(KEY_RIGHT))
+    {
+        direction.x = 1;
+        direction_status = "right";
+    }
+    else if (IsKeyDown(KEY_LEFT))
+    {
+        direction.x = -1;
+        direction_status = "left";
+    }
+    else
+    {
+        direction.x = 0;
+    }
 
-        // tool use
-        if (IsKeyPressed(KEY_SPACE))
-        {
-            timers["tool use"].Activate();
-            direction = {};
-            frame_index = 0;
-        }
+    // tool use
+    if (IsKeyPressed(KEY_SPACE))
+    {
+        timers["tool use"].Activate();
+        direction = {};
+        frame_index = 0;
+    }
+
+    // change tool
+    // the timer is not needed in here because we are using IsKeyReleased, but it is here to be
+    // compliant with the tutorial
+    if (IsKeyReleased(KEY_Q) && !timers["tool switch"].active)
+    {
+        timers["tool switch"].Activate();
+        tool_index += 1;
+        tool_index %= tools.size();
+        selected_tool = tools[tool_index];
     }
 }
 

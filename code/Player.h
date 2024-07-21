@@ -30,7 +30,9 @@ private:
     std::string animation_status = "_idle";
     float frame_index = 0.0f;
 
-    std::string selected_tool = "axe";
+    std::vector<std::string> tools = {"hoe", "axe", "water"};
+    unsigned int tool_index = 0;
+    std::string selected_tool = tools[tool_index];
 
     std::map<std::string, Timer> timers;
 };
