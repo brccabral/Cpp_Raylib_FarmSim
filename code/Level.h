@@ -1,9 +1,6 @@
 #pragma once
+#include "CameraGroup.h"
 #include "Overlay.h"
-
-
-#include <raylib_utils.h>
-
 #include "Player.h"
 
 
@@ -18,7 +15,7 @@ public:
 
 private:
 
-    SpriteGroup all_sprites{};
+    CameraGroup all_sprites{};
     Player *player = nullptr;
     Overlay *overlay = nullptr;
 };
