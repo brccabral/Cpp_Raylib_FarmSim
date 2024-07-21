@@ -20,6 +20,7 @@ private:
     void Animate(float dt);
     void UpdateStatus();
     void UseTool();
+    void UseSeed();
 
     Vector2 direction{};
     float speed = 200.0f;
@@ -33,6 +34,10 @@ private:
     std::vector<std::string> tools = {"hoe", "axe", "water"};
     unsigned int tool_index = 0;
     std::string selected_tool = tools[tool_index];
+
+    std::vector<std::string> seeds = {"corn", "tomato"};
+    unsigned int seed_index = 0;
+    std::string selected_seed = seeds[seed_index];
 
     std::map<std::string, Timer> timers;
 };

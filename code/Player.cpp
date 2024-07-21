@@ -12,6 +12,8 @@ Player::Player(const Vector2 pos, SpriteGroup *group) : SimpleSprite(group)
 
     timers["tool use"] = Timer(0.350f, false, false, [this] { UseTool(); });
     timers["tool switch"] = Timer(0.2f);
+    timers["seed use"] = Timer(0.350f, false, false, [this] { UseSeed(); });
+    timers["seed switch"] = Timer(0.2f);
 }
 
 Player::~Player()
@@ -80,6 +82,25 @@ void Player::Input()
         tool_index %= tools.size();
         selected_tool = tools[tool_index];
     }
+
+    // seed use
+    if (IsKeyPressed(KEY_LEFT_CONTROL))
+    {
+        timers["seed use"].Activate();
+        direction = {};
+        frame_index = 0;
+    }
+
+    // change seed
+    // the timer is not needed in here because we are using IsKeyReleased, but it is here to be
+    // compliant with the tutorial
+    if (IsKeyReleased(KEY_E) && !timers["seed switch"].active)
+    {
+        timers["seed switch"].Activate();
+        seed_index += 1;
+        seed_index %= seeds.size();
+        selected_seed = seeds[seed_index];
+    }
 }
 
 void Player::Update(const float deltaTime)
@@ -125,6 +146,11 @@ void Player::UpdateStatus()
 void Player::UseTool()
 {
     std::string tool = selected_tool;
+}
+
+void Player::UseSeed()
+{
+    std::string seed = selected_seed;
 }
 
 void Player::Move(const float dt)
