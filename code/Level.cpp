@@ -3,19 +3,21 @@
 Level::Level()
 {
     Setup();
+    overlay = new Overlay(player);
 }
 
 Level::~Level()
 {
     delete player;
+    delete overlay;
 }
 
 void Level::run(const float dt)
 {
-    BeginTextureModeC(display_surface, BLACK);
-    EndTextureModeSafe();
+    display_surface->Fill(BLACK);
     all_sprites.Draw(display_surface);
     all_sprites.Update(dt);
+    overlay->Display();
 }
 
 void Level::Setup()

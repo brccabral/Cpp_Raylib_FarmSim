@@ -1,4 +1,7 @@
 #pragma once
+#include "Overlay.h"
+
+
 #include <raylib_utils.h>
 
 #include "Player.h"
@@ -17,4 +20,5 @@ private:
 
     SpriteGroup all_sprites{};
     Player *player = nullptr;
+    Overlay *overlay = nullptr;
 };

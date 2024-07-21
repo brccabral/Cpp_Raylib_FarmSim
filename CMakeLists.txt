@@ -13,6 +13,7 @@ add_executable(${PROJECT_NAME} code/main.cpp
         code/Game.cpp
         code/Level.cpp
         code/Player.cpp
+        code/Overlay.cpp
 )
 target_include_directories(${PROJECT_NAME} PRIVATE
         "external/raylib-tmx"

@@ -12,6 +12,12 @@ public:
     ~Player() override;
     void Update(float deltaTime) override;
 
+    std::vector<std::string> tools = {"hoe", "axe", "water"};
+    std::string selected_tool = tools[tool_index];
+
+    std::vector<std::string> seeds = {"corn", "tomato"};
+    std::string selected_seed = seeds[seed_index];
+
 private:
 
     void Move(float dt);
@@ -31,13 +37,9 @@ private:
     std::string animation_status = "_idle";
     float frame_index = 0.0f;
 
-    std::vector<std::string> tools = {"hoe", "axe", "water"};
     unsigned int tool_index = 0;
-    std::string selected_tool = tools[tool_index];
 
-    std::vector<std::string> seeds = {"corn", "tomato"};
     unsigned int seed_index = 0;
-    std::string selected_seed = seeds[seed_index];
 
     std::map<std::string, Timer> timers;
 };

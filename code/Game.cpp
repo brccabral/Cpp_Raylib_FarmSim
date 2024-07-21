@@ -10,13 +10,7 @@ Game::Game(const int width, const int height)
     SetRandomSeed(std::time(nullptr));
     InitAudioDevice();
 
-    display_surface = LoadRenderTexture(width, height);
-    // IsRenderTextureReady does not retry nor waits for RenderTexture to be ready
-    // in fact, it checks if it has an Id, Width and Height
-    if (!IsRenderTextureReady(display_surface))
-    {
-        TraceLog(LOG_ERROR, "Could not load display_surface.");
-    }
+    display_surface = new Surface(width, height);
 
     // need to init level after InitWindow()
     level = new Level();
@@ -50,7 +44,8 @@ void Game::DisplayUpdate() const
     // RenderTexture renders things flipped in Y axis, we draw it "unflipped"
     // https://github.com/raysan5/raylib/issues/3803
     DrawTextureRec(
-            display_surface.texture,
-            {0, 0, (float) display_surface.texture.width, (float) -display_surface.texture.height}, {0, 0}, WHITE);
+            *display_surface->Texture(),
+            {0, 0, (float) display_surface->Texture()->width, (float) -display_surface->Texture()->height}, {0, 0},
+            WHITE);
     EndDrawing();
 }
