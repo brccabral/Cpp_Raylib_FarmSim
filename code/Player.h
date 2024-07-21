@@ -8,7 +8,7 @@ class Player : public SimpleSprite
 {
 public:
 
-    Player(Vector2 pos, SpriteGroup *group);
+    Player(Vector2 pos, SpriteGroup &group);
     ~Player() override;
     void Update(float deltaTime) override;
 

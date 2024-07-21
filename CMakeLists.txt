@@ -15,6 +15,7 @@ add_executable(${PROJECT_NAME} code/main.cpp
         code/Player.cpp
         code/Overlay.cpp
         code/CameraGroup.cpp
+        code/GenericSprite.cpp
 )
 target_include_directories(${PROJECT_NAME} PRIVATE
         "external/raylib-tmx"
@@ -26,6 +27,7 @@ if (WIN32)
     set(COMPILE_FLAGS "/NODEFAULTLIB:libcmt")
 else ()
     target_link_libraries(${PROJECT_NAME} m)
+    #    target_compile_options(${PROJECT_NAME} PRIVATE "-fsanitize=address")
 endif ()
 
 # copy resources to Build folder for debugging

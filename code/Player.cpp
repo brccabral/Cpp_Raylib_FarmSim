@@ -1,7 +1,7 @@
 #include "Player.h"
 #include <raymath.h>
 
-Player::Player(const Vector2 pos, SpriteGroup *group) : SimpleSprite(group)
+Player::Player(const Vector2 pos, SpriteGroup &group) : SimpleSprite(group)
 {
     ImportAssets();
 
@@ -25,6 +25,9 @@ Player::~Player()
             delete surface;
         };
     }
+    // image is a pointer to one of the animations
+    // but it is also deleted in the SimpleSprite parent class
+    image = nullptr;
 }
 
 void Player::Input()
