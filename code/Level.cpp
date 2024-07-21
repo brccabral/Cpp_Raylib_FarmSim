@@ -1,5 +1,4 @@
 #include "Level.h"
-
 #include "GenericSprite.h"
 
 Level::Level()
@@ -28,8 +27,10 @@ void Level::run(const float dt)
 
 void Level::Setup()
 {
-    auto *surface = Surface::Load("resources/graphics/world/ground.png");
-    new GenericSprite({0, 0}, surface, {&all_sprites}); // GenericSprite will be deleted in ~Level.all_sprites
-
     player = new Player({640, 360}, all_sprites);
+
+    auto *surface = Surface::Load("resources/graphics/world/ground.png");
+    new GenericSprite(
+            {0, 0}, surface, {&all_sprites},
+            LAYERS["ground"]); // GenericSprite will be deleted in ~Level.all_sprites
 }

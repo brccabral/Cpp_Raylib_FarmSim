@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Settings.h"
 #include <raymath.h>
 
 Player::Player(const Vector2 pos, SpriteGroup &group) : SimpleSprite(group)
@@ -9,6 +10,8 @@ Player::Player(const Vector2 pos, SpriteGroup &group) : SimpleSprite(group)
 
     rect = image->GetRect();
     RectToCenter(rect, pos);
+
+    z = LAYERS["main"];
 
     timers["tool use"] = Timer(0.350f, false, false, [this] { UseTool(); });
     timers["tool switch"] = Timer(0.2f);

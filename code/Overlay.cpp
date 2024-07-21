@@ -1,5 +1,4 @@
 #include "Overlay.h"
-
 #include "Settings.h"
 
 Overlay::Overlay(Player *player) : player(player)

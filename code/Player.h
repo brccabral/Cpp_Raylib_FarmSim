@@ -1,7 +1,7 @@
 #pragma once
 #include <map>
-#include <raylib_utils.h>
 #include <string>
+#include <raylib_utils.h>
 
 
 class Player : public SimpleSprite
@@ -13,10 +13,10 @@ public:
     void Update(float deltaTime) override;
 
     std::vector<std::string> tools = {"hoe", "axe", "water"};
-    std::string selected_tool = tools[tool_index];
+    std::string selected_tool = "hoe";
 
     std::vector<std::string> seeds = {"corn", "tomato"};
-    std::string selected_seed = seeds[seed_index];
+    std::string selected_seed = "corn";
 
 private:
 

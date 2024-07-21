@@ -1,6 +1,6 @@
-#include "Game.h"
 #include <ctime>
-#include "raylib_utils.h"
+#include <raylib_utils.h>
+#include "Game.h"
 
 Game::Game(const int width, const int height)
 {
