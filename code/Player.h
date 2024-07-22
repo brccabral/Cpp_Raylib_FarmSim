@@ -8,7 +8,7 @@ class Player : public SimpleSprite
 {
 public:
 
-    Player(Vector2 pos, SpriteGroup &group);
+    Player(Vector2 pos, SpriteGroup &group, SpriteGroup *collisionSprites);
     ~Player() override;
     void Update(float deltaTime) override;
 
@@ -43,4 +43,6 @@ private:
     unsigned int seed_index = 0;
 
     std::map<std::string, Timer> timers;
+
+    SpriteGroup *collisionSprites = nullptr;
 };

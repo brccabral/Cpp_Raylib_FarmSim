@@ -24,6 +24,13 @@ Level::~Level()
     {
         delete sprite;
     }
+    // some sprites might be in collisionSprites, but not in all_sprites
+    // those that are in both, when they are deleted from all_sprites, they are
+    // removed from collisionSprites to avoid double free
+    for (const auto *sprite: collisionSprites.sprites)
+    {
+        delete sprite;
+    }
     delete overlay;
     UnloadTMX(tmx_data);
 }
@@ -46,7 +53,6 @@ void Level::Setup()
             {"HouseFurnitureBottom", LAYERS["house bottom"]}, //
             {"HouseWalls", LAYERS["main"]}, //
             {"HouseFurnitureTop", LAYERS["main"]}, //
-            {"Fence", LAYERS["main"]}, //
     };
     for (auto &[layer_name, order]: layers)
     {
@@ -57,6 +63,14 @@ void Level::Setup()
         {
             new GenericSprite(tilePos, tileSurf, {&all_sprites}, order);
         }
+    }
+
+    // fence
+    const tmx_layer *fence_layer = tmx_find_layer_by_name(tmx_data, "Fence");
+    auto fence_tiles = GetTMXTiles(tmx_data, fence_layer);
+    for (auto &[fence_pos, fence_surf]: fence_tiles)
+    {
+        new GenericSprite(fence_pos, fence_surf, {&all_sprites, &collisionSprites});
     }
 
     // water
@@ -71,48 +85,37 @@ void Level::Setup()
 
     // wildflowers
     const tmx_layer *decor_layer = tmx_find_layer_by_name(tmx_data, "Decoration");
-    auto *decorObj = decor_layer->content.objgr->head;
-    std::vector<tmx_object *> reverseDecorOrder{};
-    while (decorObj)
+    const auto *decor = decor_layer->content.objgr->head;
+    while (decor)
     {
-        reverseDecorOrder.push_back(decorObj);
-        decorObj = decorObj->next;
-    }
-    for (int i = reverseDecorOrder.size() - 1; i >= 0; --i)
-    {
-        const auto *decor = reverseDecorOrder[i];
-
         const int gid = decor->content.gid;
         if (tmx_data->tiles[gid])
         {
             auto *surf = GetTMXTileSurface(tmx_data->tiles[gid]);
-            new WildFlower({(float) decor->x, (float) (decor->y - decor->height)}, surf, {&all_sprites});
+            new WildFlower(
+                    {(float) decor->x, (float) (decor->y - decor->height)}, surf, {&all_sprites, &collisionSprites});
         }
+        decor = decor->next;
     }
 
     // trees
     const tmx_layer *trees_layer = tmx_find_layer_by_name(tmx_data, "Trees");
-    auto *treeObj = trees_layer->content.objgr->head;
-    std::vector<tmx_object *> reverseTreeOrder{};
-    while (treeObj)
+    const auto *tree = trees_layer->content.objgr->head;
+    while (tree)
     {
-        reverseTreeOrder.push_back(treeObj);
-        treeObj = treeObj->next;
-    }
-    for (int i = reverseTreeOrder.size() - 1; i >= 0; --i)
-    {
-        const auto *tree = reverseTreeOrder[i];
-
         const int gid = tree->content.gid;
         if (tmx_data->tiles[gid])
         {
             auto *surf = GetTMXTileSurface(tmx_data->tiles[gid]);
-            new Tree({(float) tree->x, (float) (tree->y - tree->height)}, surf, {&all_sprites}, tree->name);
+            new Tree(
+                    {(float) tree->x, (float) (tree->y - tree->height)}, surf, {&all_sprites, &collisionSprites},
+                    tree->name);
         }
+        tree = tree->next;
     }
 
 
-    player = new Player({640, 360}, all_sprites);
+    player = new Player({640, 360}, all_sprites, collisionSprites);
 
     auto *surface = Surface::Load("resources/graphics/world/ground.png");
     new GenericSprite(

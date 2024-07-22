@@ -2,7 +2,8 @@
 #include <raymath.h>
 #include "Settings.h"
 
-Player::Player(const Vector2 pos, SpriteGroup &group) : SimpleSprite(group)
+Player::Player(const Vector2 pos, SpriteGroup &group, SpriteGroup *collisionSprites)
+    : SimpleSprite(group), collisionSprites(collisionSprites)
 {
     ImportAssets();
 
