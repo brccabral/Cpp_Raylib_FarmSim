@@ -11,6 +11,18 @@ inline std::map<std::string, Vector2> OVERLAY_POSITIONS = {
         {"seed", {70, SCREEN_HEIGHT - 5}}, //
 };
 
-inline InsertOrderMap LAYERS = {"water",       "ground",       "soil",         "soil water",  "rain floor",
-                                "house floor", "house bottom", "ground plant", "house walls", "main",
-                                "house top",   "fruit",        "rain drops"};
+inline InsertOrderMap<std::string, unsigned int> LAYERS = {
+        {"water", 0}, //
+        {"ground", 1}, //
+        {"soil", 2}, //
+        {"soil water", 3}, //
+        {"rain floor", 4}, //
+        {"house floor", 5}, //
+        {"house bottom", 6}, //
+        {"ground plant", 7}, //
+        {"house walls", 8}, //
+        {"main", 9}, //
+        {"house top", 10}, //
+        {"fruit", 11}, //
+        {"rain drops", 12}, //
+};
