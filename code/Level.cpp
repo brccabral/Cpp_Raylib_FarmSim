@@ -67,12 +67,12 @@ void Level::Setup()
 
     // wildflowers
     const tmx_layer *decor_layer = tmx_find_layer_by_name(tmx_data, "Decoration");
-    auto *decor = decor_layer->content.objgr->head;
+    auto *decorObj = decor_layer->content.objgr->head;
     std::vector<tmx_object *> reverseDecorOrder{};
-    while (decor)
+    while (decorObj)
     {
-        reverseDecorOrder.push_back(decor);
-        decor = decor->next;
+        reverseDecorOrder.push_back(decorObj);
+        decorObj = decorObj->next;
     }
     for (int i = reverseDecorOrder.size() - 1; i >= 0; --i)
     {
