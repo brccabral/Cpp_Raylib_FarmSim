@@ -18,4 +18,7 @@ private:
     CameraGroup all_sprites{};
     Player *player = nullptr;
     Overlay *overlay = nullptr;
+
+    tmx_map *tmx_data = nullptr;
+    std::vector<Surface *> water_frames;
 };

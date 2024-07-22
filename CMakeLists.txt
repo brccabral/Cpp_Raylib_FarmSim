@@ -17,6 +17,7 @@ add_executable(${PROJECT_NAME} code/main.cpp
         code/Overlay.cpp
         code/CameraGroup.cpp
         code/GenericSprite.cpp
+        code/Water.cpp
 )
 target_link_libraries(${PROJECT_NAME} raylib raylib_utils tmx raylib-tmx)
 

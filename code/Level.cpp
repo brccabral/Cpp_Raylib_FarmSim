@@ -1,6 +1,7 @@
 #include <raylib-tmx.h>
 #include "Level.h"
 #include "GenericSprite.h"
+#include "Water.h"
 
 Level::Level()
 {
@@ -10,12 +11,19 @@ Level::Level()
 
 Level::~Level()
 {
+    // deletes all water_frames, the Water class don't need to delete them
+    // but need to set image to nullptr
+    for (const auto *surface: water_frames)
+    {
+        delete surface;
+    }
     // deletes player and all sprites
     for (const auto *sprite: all_sprites.sprites)
     {
         delete sprite;
     }
     delete overlay;
+    UnloadTMX(tmx_data);
 }
 
 void Level::run(const float dt)
@@ -28,7 +36,7 @@ void Level::run(const float dt)
 
 void Level::Setup()
 {
-    const auto *tmx_data = LoadTMX("resources/data/map.tmx");
+    tmx_data = LoadTMX("resources/data/map.tmx");
 
     // static layers
     const std::vector<std::pair<std::string, unsigned int>> layers = {
@@ -43,6 +51,16 @@ void Level::Setup()
         const tmx_layer *layer = tmx_find_layer_by_name(tmx_data, layer_name.c_str());
         auto *surf = GetTMXLayerSurface(tmx_data, layer);
         new GenericSprite({0, 0}, surf, {&all_sprites}, order);
+    }
+
+    // water
+    water_frames = ImportFolder("resources/graphics/water");
+    const tmx_layer *water_layer = tmx_find_layer_by_name(tmx_data, "Water");
+    auto water_tiles = GetTMXTiles(tmx_data, water_layer);
+    for (auto &[water_pos, water_surf]: water_tiles)
+    {
+        new Water(water_pos, water_frames, {&all_sprites});
+        delete water_surf;
     }
 
     player = new Player({640, 360}, all_sprites);
