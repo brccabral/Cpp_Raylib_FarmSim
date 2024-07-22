@@ -2,6 +2,7 @@
 #include "Level.h"
 #include "Sprites/GenericSprite.h"
 #include "Sprites/Water.h"
+#include "Sprites/WildFlower.h"
 
 Level::Level()
 {
@@ -62,6 +63,21 @@ void Level::Setup()
         new Water(water_pos, water_frames, {&all_sprites});
         delete water_surf;
     }
+
+    // wildflowers
+    const tmx_layer *decor_layer = tmx_find_layer_by_name(tmx_data, "Decoration");
+    const auto *decor = decor_layer->content.objgr->head;
+    while (decor)
+    {
+        const int gid = decor->content.gid;
+        if (tmx_data->tiles[gid])
+        {
+            auto *surf = GetTMXTileSurface(tmx_data->tiles[gid]);
+            new WildFlower({(float) decor->x, (float) decor->y}, surf, {&all_sprites});
+        }
+        decor = decor->next;
+    }
+
 
     player = new Player({640, 360}, all_sprites);
 
