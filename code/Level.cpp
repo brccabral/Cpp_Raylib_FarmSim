@@ -1,7 +1,7 @@
 #include <raylib-tmx.h>
 #include "Level.h"
-#include "GenericSprite.h"
-#include "Water.h"
+#include "Sprites/GenericSprite.h"
+#include "Sprites/Water.h"
 
 Level::Level()
 {

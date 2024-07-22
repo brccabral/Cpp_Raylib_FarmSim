@@ -1,6 +1,6 @@
 #pragma once
 #include <raylib_utils.h>
-#include "Settings.h"
+#include "../Settings.h"
 
 
 class GenericSprite : public SimpleSprite
