@@ -1,6 +1,7 @@
 #include <raylib-tmx.h>
 #include "Level.h"
 #include "Sprites/GenericSprite.h"
+#include "Sprites/Tree.h"
 #include "Sprites/Water.h"
 #include "Sprites/WildFlower.h"
 
@@ -66,16 +67,44 @@ void Level::Setup()
 
     // wildflowers
     const tmx_layer *decor_layer = tmx_find_layer_by_name(tmx_data, "Decoration");
-    const auto *decor = decor_layer->content.objgr->head;
+    auto *decor = decor_layer->content.objgr->head;
+    std::vector<tmx_object *> reverseDecorOrder{};
     while (decor)
     {
+        reverseDecorOrder.push_back(decor);
+        decor = decor->next;
+    }
+    for (int i = reverseDecorOrder.size() - 1; i >= 0; --i)
+    {
+        const auto *decor = reverseDecorOrder[i];
+
         const int gid = decor->content.gid;
         if (tmx_data->tiles[gid])
         {
             auto *surf = GetTMXTileSurface(tmx_data->tiles[gid]);
-            new WildFlower({(float) decor->x, (float) decor->y}, surf, {&all_sprites});
+            new WildFlower({(float) decor->x, (float) (decor->y - decor->height)}, surf, {&all_sprites});
         }
-        decor = decor->next;
+    }
+
+    // trees
+    const tmx_layer *trees_layer = tmx_find_layer_by_name(tmx_data, "Trees");
+    auto *treeObj = trees_layer->content.objgr->head;
+    std::vector<tmx_object *> reverseTreeOrder{};
+    while (treeObj)
+    {
+        reverseTreeOrder.push_back(treeObj);
+        treeObj = treeObj->next;
+    }
+    for (int i = reverseTreeOrder.size() - 1; i >= 0; --i)
+    {
+        const auto *tree = reverseTreeOrder[i];
+
+        const int gid = tree->content.gid;
+        if (tmx_data->tiles[gid])
+        {
+            auto *surf = GetTMXTileSurface(tmx_data->tiles[gid]);
+            new Tree({(float) tree->x, (float) (tree->y - tree->height)}, surf, {&all_sprites}, tree->name);
+        }
     }
 
 
