@@ -1,3 +1,4 @@
+#include <raylib-tmx.h>
 #include "Level.h"
 #include "GenericSprite.h"
 
@@ -27,6 +28,14 @@ void Level::run(const float dt)
 
 void Level::Setup()
 {
+    const auto *tmx_data = LoadTMX("resources/data/map.tmx");
+
+    // house
+    const tmx_layer *house_bottom = tmx_find_layer_by_name(tmx_data, "HouseFurnitureBottom");
+
+    auto *house_bottom_surf = GetTMXLayerSurface(tmx_data, house_bottom);
+    new GenericSprite({0, 0}, house_bottom_surf, {&all_sprites}, LAYERS["house bottom"]);
+
     player = new Player({640, 360}, all_sprites);
 
     auto *surface = Surface::Load("resources/graphics/world/ground.png");

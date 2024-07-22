@@ -16,8 +16,9 @@ This project is similar to **Stardew Valley**.
 - TMX  
   Parse `.tmx` files (**Tiled**)  
   Compile and install TMX https://github.com/baylej/tmx
-- File `raylib-tmx.h` is from https://github.com/RobLoach/raylib-tmx  
-  It contains helper functions to integrate TMX with Raylib
+- File `raylib-tmx.h` from https://github.com/RobLoach/raylib-tmx  
+  It contains helper functions to integrate TMX with Raylib.  
+  Add this file to your include path.
 
 ### Resources
 
