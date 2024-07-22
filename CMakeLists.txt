@@ -20,10 +20,6 @@ add_executable(${PROJECT_NAME} code/main.cpp
 )
 target_link_libraries(${PROJECT_NAME} raylib raylib_utils tmx raylib-tmx)
 
-add_executable(test_tmx test_tmx.cpp)
-target_link_libraries(test_tmx raylib raylib_utils tmx raylib-tmx)
-
-
 if (WIN32)
     target_link_libraries(${PROJECT_NAME} gdi32 msvcrt winmm)
     set(COMPILE_FLAGS "/NODEFAULTLIB:libcmt")
