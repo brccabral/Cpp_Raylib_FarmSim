@@ -29,6 +29,7 @@ private:
     void UpdateStatus();
     void UseTool();
     void UseSeed();
+    void Collision(Axis axis);
 
     Vector2 direction{};
     float speed = 200.0f;

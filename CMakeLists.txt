@@ -29,6 +29,7 @@ if (WIN32)
 else ()
     target_link_libraries(${PROJECT_NAME} m)
     #    target_compile_options(${PROJECT_NAME} PRIVATE "-fsanitize=address")
+    target_compile_options(${PROJECT_NAME} PRIVATE "-Werror" "-Wreturn-type")
 endif ()
 
 # copy resources to Build folder for debugging

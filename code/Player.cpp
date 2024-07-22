@@ -1,6 +1,7 @@
 #include "Player.h"
 #include <raymath.h>
 #include "Settings.h"
+#include "Sprites/GenericSprite.h"
 
 Player::Player(const Vector2 pos, SpriteGroup &group, SpriteGroup *collisionSprites)
     : SimpleSprite(group), collisionSprites(collisionSprites)
@@ -163,16 +164,55 @@ void Player::UseSeed()
     std::string seed = selected_seed;
 }
 
+void Player::Collision(const Axis axis)
+{
+    // only GenericSprite should be added to collisionSprites as collisionSprites has hitbox
+    for (auto *sprite: collisionSprites->sprites)
+    {
+        const auto *generic_sprite = (GenericSprite *) sprite;
+        if (CheckCollisionRecs(generic_sprite->hitbox.rectangle, hitbox.rectangle))
+        {
+            if (axis == HORIZONTAL)
+            {
+                if (direction.x > 0) // player moving right
+                {
+                    hitbox.x = generic_sprite->hitbox.x - hitbox.width;
+                }
+                else if (direction.x < 0) // player moving left
+                {
+                    hitbox.x = generic_sprite->hitbox.x + generic_sprite->hitbox.width;
+                }
+            }
+            else
+            {
+                if (direction.y > 0) // player moving down
+                {
+                    hitbox.y = generic_sprite->hitbox.y - hitbox.height;
+                }
+                else if (direction.y < 0) // player moving up
+                {
+                    hitbox.y = generic_sprite->hitbox.y + generic_sprite->hitbox.height;
+                }
+            }
+            RectToCenter(rect, GetRectCenter(hitbox));
+        }
+    }
+}
+
 void Player::Move(const float dt)
 {
     direction = Vector2Normalize(direction);
+
     // split the movement to deal with collisions
     // horizontal movement
     rect.pos.x += direction.x * speed * dt;
+    RectToCenter(hitbox, GetRectCenter(rect));
+    Collision(HORIZONTAL);
+
     // vertical movement
     rect.pos.y += direction.y * speed * dt;
-
     RectToCenter(hitbox, GetRectCenter(rect));
+    Collision(VERTICAL);
 }
 
 void Player::ImportAssets()

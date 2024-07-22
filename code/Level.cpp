@@ -19,18 +19,14 @@ Level::~Level()
     {
         delete surface;
     }
+
     // deletes player and all sprites
-    for (const auto *sprite: all_sprites.sprites)
-    {
-        delete sprite;
-    }
+    all_sprites.DeleteAll();
     // some sprites might be in collisionSprites, but not in all_sprites
     // those that are in both, when they are deleted from all_sprites, they are
     // removed from collisionSprites to avoid double free
-    for (const auto *sprite: collisionSprites.sprites)
-    {
-        delete sprite;
-    }
+    collisionSprites.DeleteAll();
+
     delete overlay;
     UnloadTMX(tmx_data);
 }
@@ -115,7 +111,7 @@ void Level::Setup()
     }
 
 
-    player = new Player({640, 360}, all_sprites, collisionSprites);
+    player = new Player({1561, 1772}, all_sprites, &collisionSprites);
 
     auto *surface = Surface::Load("resources/graphics/world/ground.png");
     new GenericSprite(
