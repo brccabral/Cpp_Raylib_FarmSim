@@ -11,3 +11,18 @@ Water::~Water()
     // and the image is deleted in the SimpleSprite parent
     image = nullptr;
 }
+
+void Water::Update(const float deltaTime)
+{
+    Animate(deltaTime);
+}
+
+void Water::Animate(const float dt)
+{
+    frame_index += 5 * dt;
+    if (frame_index >= frames.size())
+    {
+        frame_index = 0;
+    }
+    image = frames[int(frame_index)];
+}
