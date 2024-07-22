@@ -8,7 +8,8 @@ void CameraGroup::CustomDraw(const Player *player)
     offset.x -= SCREEN_WIDTH / 2.0f;
     offset.y -= SCREEN_HEIGHT / 2.0f;
 
-    std::sort(
+    // stable_sort keeps original order in case of equality
+    std::stable_sort(
             sprites.begin(), sprites.end(),
             [](const SimpleSprite *l, const SimpleSprite *r)
             {
