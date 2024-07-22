@@ -31,13 +31,18 @@ void Level::Setup()
     const auto *tmx_data = LoadTMX("resources/data/map.tmx");
 
     // house
-    const std::vector<std::string> houseLayers = {"HouseFloor", "HouseFurnitureBottom"};
-    for (auto &house_layer: houseLayers)
+    const std::vector<std::pair<std::string, unsigned int>> houseLayers = {
+            {"HouseFloor", LAYERS["house bottom"]}, //
+            {"HouseFurnitureBottom", LAYERS["house bottom"]}, //
+            {"HouseWalls", LAYERS["main"]}, //
+            {"HouseFurnitureTop", LAYERS["main"]}, //
+    };
+    for (auto &[house_layer, order]: houseLayers)
     {
         const tmx_layer *house_tmx = tmx_find_layer_by_name(tmx_data, house_layer.c_str());
 
         auto *house_surf = GetTMXLayerSurface(tmx_data, house_tmx);
-        new GenericSprite({0, 0}, house_surf, {&all_sprites}, LAYERS["house bottom"]);
+        new GenericSprite({0, 0}, house_surf, {&all_sprites}, order);
     }
 
     player = new Player({640, 360}, all_sprites);
