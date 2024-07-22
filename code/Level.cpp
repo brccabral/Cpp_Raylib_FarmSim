@@ -42,7 +42,7 @@ void Level::Setup()
 
     // static layers
     const std::vector<std::pair<std::string, unsigned int>> layers = {
-            {"HouseFloor", LAYERS["house bottom"]}, //
+            {"HouseFloor", LAYERS["house floor"]}, //
             {"HouseFurnitureBottom", LAYERS["house bottom"]}, //
             {"HouseWalls", LAYERS["main"]}, //
             {"HouseFurnitureTop", LAYERS["main"]}, //

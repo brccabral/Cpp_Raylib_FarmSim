@@ -16,7 +16,7 @@ void CameraGroup::CustomDraw(const Player *player)
                 const float yr = GetRectCenter(r->rect).y;
                 return yl < yr;
             });
-    for (unsigned int order = 0; order < LAYERS_ORDER.size(); ++order)
+    for (const auto &[layer, order]: LAYERS)
     {
         for (const auto *sprite: sprites)
         {
