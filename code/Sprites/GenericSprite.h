@@ -9,4 +9,6 @@ public:
 
     GenericSprite(
             Vector2 pos, Surface *surf, const std::vector<SpriteGroup *> &groups, unsigned int z = LAYERS["main"]);
+
+    RectangleU hitbox{};
 };

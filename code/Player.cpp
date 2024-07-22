@@ -1,6 +1,6 @@
 #include "Player.h"
-#include "Settings.h"
 #include <raymath.h>
+#include "Settings.h"
 
 Player::Player(const Vector2 pos, SpriteGroup &group) : SimpleSprite(group)
 {
@@ -17,6 +17,9 @@ Player::Player(const Vector2 pos, SpriteGroup &group) : SimpleSprite(group)
     timers["tool switch"] = Timer(0.2f);
     timers["seed use"] = Timer(0.350f, false, false, [this] { UseSeed(); });
     timers["seed switch"] = Timer(0.2f);
+
+    hitbox = rect;
+    RectInflate(hitbox, -126, -70);
 }
 
 Player::~Player()
@@ -167,6 +170,8 @@ void Player::Move(const float dt)
     rect.pos.x += direction.x * speed * dt;
     // vertical movement
     rect.pos.y += direction.y * speed * dt;
+
+    RectToCenter(hitbox, GetRectCenter(rect));
 }
 
 void Player::ImportAssets()

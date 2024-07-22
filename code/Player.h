@@ -18,6 +18,8 @@ public:
     std::vector<std::string> seeds = {"corn", "tomato"};
     std::string selected_seed = "corn";
 
+    RectangleU hitbox{};
+
 private:
 
     void Move(float dt);
@@ -38,7 +40,6 @@ private:
     float frame_index = 0.0f;
 
     unsigned int tool_index = 0;
-
     unsigned int seed_index = 0;
 
     std::map<std::string, Timer> timers;

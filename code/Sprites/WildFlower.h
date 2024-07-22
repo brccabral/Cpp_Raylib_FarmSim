@@ -8,4 +8,6 @@ class WildFlower : public GenericSprite
 public:
 
     WildFlower(Vector2 pos, Surface *surf, const std::vector<SpriteGroup *> &groups);
+
+    RectangleU hitbox{};
 };

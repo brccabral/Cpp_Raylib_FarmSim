@@ -8,4 +8,7 @@ GenericSprite::GenericSprite(const Vector2 pos, Surface *surf, const std::vector
     RectToTopLeft(rect, pos);
 
     this->z = z;
+
+    hitbox = rect;
+    RectInflate(hitbox, -rect.width * 0.2f, -rect.height * 0.75f);
 }
