@@ -51,8 +51,12 @@ void Level::Setup()
     for (auto &[layer_name, order]: layers)
     {
         const tmx_layer *layer = tmx_find_layer_by_name(tmx_data, layer_name.c_str());
-        auto *surf = GetTMXLayerSurface(tmx_data, layer);
-        new GenericSprite({0, 0}, surf, {&all_sprites}, order);
+        // can't draw as a single sprite because we need to sort them on Y before drawing
+        auto tiles = GetTMXTiles(tmx_data, layer);
+        for (auto &[tilePos, tileSurf]: tiles)
+        {
+            new GenericSprite(tilePos, tileSurf, {&all_sprites}, order);
+        }
     }
 
     // water
