@@ -5,6 +5,8 @@
 #include "Sprites/Water.h"
 #include "Sprites/WildFlower.h"
 
+#include <cstring>
+
 Level::Level()
 {
     Setup();
@@ -110,8 +112,18 @@ void Level::Setup()
         tree = tree->next;
     }
 
+    // Player
+    const tmx_layer *player_layer = tmx_find_layer_by_name(tmx_data, "Player");
+    const auto *playerObj = player_layer->content.objgr->head;
+    while (playerObj)
+    {
+        if (!strcmp(playerObj->name, "Start"))
+        {
+            player = new Player({(float) playerObj->x, (float) playerObj->y}, all_sprites, &collisionSprites);
+        }
+        playerObj = playerObj->next;
+    }
 
-    player = new Player({1561, 1772}, all_sprites, &collisionSprites);
 
     auto *surface = Surface::Load("resources/graphics/world/ground.png");
     new GenericSprite(
