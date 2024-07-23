@@ -112,6 +112,15 @@ void Level::Setup()
         tree = tree->next;
     }
 
+    // collision tiles
+    const tmx_layer *collision_layer = tmx_find_layer_by_name(tmx_data, "Collision");
+    auto collision_tiles = GetTMXTiles(tmx_data, collision_layer);
+    for (auto &[collision_pos, collision_surf]: collision_tiles)
+    {
+        new GenericSprite(collision_pos, collision_surf, {&collisionSprites});
+    }
+
+
     // Player
     const tmx_layer *player_layer = tmx_find_layer_by_name(tmx_data, "Player");
     const auto *playerObj = player_layer->content.objgr->head;
