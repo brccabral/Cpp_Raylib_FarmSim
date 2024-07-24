@@ -8,7 +8,7 @@ class Player : public SimpleSprite
 {
 public:
 
-    Player(Vector2 pos, SpriteGroup &group, SpriteGroup *collisionSprites);
+    Player(Vector2 pos, SpriteGroup &group, SpriteGroup *collisionSprites, SpriteGroup *treeSprites);
     ~Player() override;
     void Update(float deltaTime) override;
 
@@ -32,6 +32,7 @@ private:
     void UseTool();
     void UseSeed();
     void Collision(Axis axis);
+    void GetTargetPos();
 
     Vector2 direction{};
     float speed = 200.0f;
@@ -47,4 +48,7 @@ private:
     std::map<std::string, Timer> timers;
 
     SpriteGroup *collisionSprites = nullptr;
+    SpriteGroup *treeSprites = nullptr;
+
+    Vector2 target_pos{};
 };

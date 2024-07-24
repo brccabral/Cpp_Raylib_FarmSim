@@ -28,6 +28,7 @@ Level::~Level()
     // those that are in both, when they are deleted from all_sprites, they are
     // removed from collisionSprites to avoid double free
     collisionSprites.DeleteAll();
+    treeSprites.DeleteAll(); // all trees should be in allSprites, but just in case we missed any
 
     delete overlay;
     UnloadTMX(tmx_data);
@@ -106,8 +107,8 @@ void Level::Setup()
         {
             auto *surf = GetTMXTileSurface(tmx_data->tiles[gid]);
             new Tree(
-                    {(float) tree->x, (float) (tree->y - tree->height)}, surf, {&all_sprites, &collisionSprites},
-                    tree->name);
+                    {(float) tree->x, (float) (tree->y - tree->height)}, surf,
+                    {&all_sprites, &collisionSprites, &treeSprites}, tree->name);
         }
         tree = tree->next;
     }
@@ -128,7 +129,8 @@ void Level::Setup()
     {
         if (!strcmp(playerObj->name, "Start"))
         {
-            player = new Player({(float) playerObj->x, (float) playerObj->y}, all_sprites, &collisionSprites);
+            player = new Player(
+                    {(float) playerObj->x, (float) playerObj->y}, all_sprites, &collisionSprites, &treeSprites);
         }
         playerObj = playerObj->next;
     }

@@ -1,10 +1,12 @@
+#include <cstring>
 #include "Player.h"
 #include <raymath.h>
 #include "Settings.h"
 #include "Sprites/GenericSprite.h"
+#include "Sprites/Tree.h"
 
-Player::Player(const Vector2 pos, SpriteGroup &group, SpriteGroup *collisionSprites)
-    : SimpleSprite(group), collisionSprites(collisionSprites)
+Player::Player(const Vector2 pos, SpriteGroup &group, SpriteGroup *collisionSprites, SpriteGroup *treeSprites)
+    : SimpleSprite(group), collisionSprites(collisionSprites), treeSprites(treeSprites)
 {
     ImportAssets();
 
@@ -122,6 +124,8 @@ void Player::Update(const float deltaTime)
     }
     Input();
     UpdateStatus();
+    GetTargetPos();
+
     Move(deltaTime);
     Animate(deltaTime);
 }
@@ -156,7 +160,17 @@ void Player::UpdateStatus()
 
 void Player::UseTool()
 {
-    std::string tool = selected_tool;
+    if (strcmp(selected_tool.c_str(), "axe") == 0)
+    {
+        for (auto treeSprite: treeSprites->sprites)
+        {
+            auto tree = (Tree *) treeSprite;
+            if (CheckCollisionPointRec(target_pos, tree->rect.rectangle))
+            {
+                tree->Damage();
+            }
+        }
+    }
 }
 
 void Player::UseSeed()
@@ -197,6 +211,11 @@ void Player::Collision(const Axis axis)
             RectToCenter(rect, GetRectCenter(hitbox));
         }
     }
+}
+
+void Player::GetTargetPos()
+{
+    target_pos = GetRectCenter(rect) + PLAYER_TOOL_OFFSET[direction_status];
 }
 
 void Player::Move(const float dt)

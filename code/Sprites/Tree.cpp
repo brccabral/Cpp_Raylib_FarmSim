@@ -29,11 +29,24 @@ void Tree::CreateFruit()
 {
     for (const auto position: apple_pos)
     {
-        if (GetRandomValue(0, 10) < 2)
+        if (GetRandomValue(0, 9) < 2) // 20%
         {
             Surface *apple_surf = Surface::Load("resources/graphics/fruit/apple.png");
             const Vector2 pos = rect.pos + position;
             new GenericSprite(pos, apple_surf, {&apple_sprites, groups[0]}, LAYERS["fruit"]);
         }
+    }
+}
+
+void Tree::Damage()
+{
+    // damaging tree
+    health -= 1;
+
+    // remove an apple
+    if (!apple_sprites.sprites.empty())
+    {
+        const int random_apple = GetRandomValue(0, apple_sprites.sprites.size() - 1); // GetRandomValue includes `max`
+        apple_sprites.sprites[random_apple]->Kill();
     }
 }

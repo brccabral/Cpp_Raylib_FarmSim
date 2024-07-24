@@ -17,6 +17,7 @@ private:
 
     CameraGroup all_sprites{};
     SpriteGroup collisionSprites{};
+    SpriteGroup treeSprites{};
     Player *player = nullptr;
     Overlay *overlay = nullptr;
 
