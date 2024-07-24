@@ -1,4 +1,3 @@
-#include <ctime>
 #include <raylib_utils.h>
 #include "Game.h"
 
@@ -7,8 +6,6 @@ Game::Game(const int width, const int height)
     rg::Init();
     rg::display::SetMode(width, height);
     rg::display::SetCaption("Sprout Land");
-    rl::SetTargetFPS(60);
-    rl::SetRandomSeed(std::time(nullptr));
     rl::InitAudioDevice();
 
     // need to init level after InitWindow()
