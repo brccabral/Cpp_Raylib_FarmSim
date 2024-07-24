@@ -11,7 +11,7 @@ Tree::Tree(const Vector2 pos, Surface *surf, const std::vector<SpriteGroup *> &g
     const std::string path = "resources/graphics/stumps/" + name_ + ".png";
     stump_surf = Surface::Load(path.c_str());
 
-#ifndef NDEBUG
+#ifdef SHOW_HITBOX
     const RectangleU rd = {0, 0, rect.size};
     rg::DrawRect(image, RED, rd, 2);
     RectangleU hd = rd;
@@ -68,7 +68,7 @@ void Tree::CheckDeath()
         RectToMidBottom(hitbox, GetRectMidBottom(rect));
         alive = false;
 
-#ifndef NDEBUG
+#ifdef SHOW_HITBOX
         const RectangleU rd = {0, 0, rect.size};
         rg::DrawRect(image, RED, rd, 2);
         RectangleU hd = rd;

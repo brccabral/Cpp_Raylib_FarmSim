@@ -29,7 +29,7 @@ void CameraGroup::CustomDraw(const Player *player)
                 display_surface->Blit(sprite->image, offset_rect.pos);
 
                 // debug
-#ifndef NDEBUG
+#ifdef SHOW_HITBOX
                 if (sprite == player)
                 {
                     Vector2 target_pos = GetRectCenter(offset_rect) + PLAYER_TOOL_OFFSET[player->direction_status];

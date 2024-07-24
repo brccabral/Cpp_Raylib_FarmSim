@@ -32,6 +32,10 @@ else ()
     target_compile_options(${PROJECT_NAME} PRIVATE "-Werror" "-Wreturn-type")
 endif ()
 
+if (SHOW_HITBOX)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE SHOW_HITBOX)
+endif ()
+
 # copy resources to Build folder for debugging
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/resources $<TARGET_FILE_DIR:${PROJECT_NAME}>/resources

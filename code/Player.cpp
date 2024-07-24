@@ -267,7 +267,7 @@ void Player::ImportAssets()
         std::string path = "resources/graphics/character/" + key;
         surfaces = ImportFolder(path.c_str());
 
-#ifndef NDEBUG
+#ifdef SHOW_HITBOX
         for (const auto *surface: surfaces)
         {
             const RectangleU rd = surface->GetRect();
