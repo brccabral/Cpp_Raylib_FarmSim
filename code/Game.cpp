@@ -4,7 +4,7 @@
 
 Game::Game(const int width, const int height)
 {
-    SetTraceLogLevel(rl::LOG_WARNING);
+    rg::Init();
     rl::InitWindow(width, height, "Sprout Land");
     rl::SetTargetFPS(60);
     rl::SetRandomSeed(std::time(nullptr));
