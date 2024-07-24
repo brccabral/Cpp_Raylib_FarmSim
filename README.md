@@ -22,4 +22,6 @@ This project is similar to **Stardew Valley**.
 
 ### Resources
 
-- Get game assets from tutorial project code https://github.com/clear-code-projects/PyDew-Valley  
+- Get game assets from tutorial project code https://github.com/clear-code-projects/PyDew-Valley
+  - In `graphics/stumps`, I renamed the images to `Small.png` and `Large.png`.   
+

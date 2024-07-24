@@ -10,10 +10,12 @@ public:
     ~Tree() override;
     void LeaveOtherGroups(const SpriteGroup *sprite_group) override;
     void Damage();
+    void Update(float deltaTime) override;
 
 private:
 
     void CreateFruit();
+    void CheckDeath();
 
     std::string name_;
 

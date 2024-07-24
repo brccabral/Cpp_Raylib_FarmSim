@@ -7,11 +7,26 @@ Tree::Tree(const Vector2 pos, Surface *surf, const std::vector<SpriteGroup *> &g
 {
     apple_pos = APPLE_POS[name_];
     CreateFruit();
+
+    const std::string path = "resources/graphics/stumps/" + name_ + ".png";
+    stump_surf = Surface::Load(path.c_str());
+
+#ifndef NDEBUG
+    const RectangleU rd = {0, 0, rect.size};
+    RectangleU hd = rd;
+    RectInflate(hd, -rect.width * 0.2f, -rect.height * 0.75f);
+    rg::DrawRect(image, RED, rd, 2);
+    rg::DrawRect(image, GREEN, hd, 2);
+#endif
 }
 
 Tree::~Tree()
 {
     apple_sprites.DeleteAll();
+    if (alive)
+    {
+        delete stump_surf;
+    }
 }
 
 void Tree::LeaveOtherGroups(const SpriteGroup *sprite_group)
@@ -38,6 +53,30 @@ void Tree::CreateFruit()
     }
 }
 
+void Tree::CheckDeath()
+{
+    if (health <= 0)
+    {
+        delete image;
+        image = stump_surf;
+        const Vector2 oldMidBottom = GetRectMidBottom(rect);
+        rect = image->GetRect();
+        RectToMidBottom(rect, oldMidBottom);
+        rect.pos.y -= 5;
+        hitbox = rect;
+        RectInflate(hitbox, -10, -rect.height * 0.6f);
+        alive = false;
+
+#ifndef NDEBUG
+        const RectangleU rd = {0, 0, rect.size};
+        RectangleU hd = rd;
+        RectInflate(hd, -10, -rect.height * 0.6f);
+        rg::DrawRect(image, RED, rd, 2);
+        rg::DrawRect(image, GREEN, hd, 2);
+#endif
+    }
+}
+
 void Tree::Damage()
 {
     // damaging tree
@@ -48,5 +87,13 @@ void Tree::Damage()
     {
         const int random_apple = GetRandomValue(0, apple_sprites.sprites.size() - 1); // GetRandomValue includes `max`
         apple_sprites.sprites[random_apple]->Kill();
+    }
+}
+
+void Tree::Update(float deltaTime)
+{
+    if (alive)
+    {
+        CheckDeath();
     }
 }
