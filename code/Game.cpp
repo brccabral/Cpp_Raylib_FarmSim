@@ -5,12 +5,11 @@
 Game::Game(const int width, const int height)
 {
     rg::Init();
-    rl::InitWindow(width, height, "Sprout Land");
+    rg::display::SetMode(width, height);
+    rg::display::SetCaption("Sprout Land");
     rl::SetTargetFPS(60);
     rl::SetRandomSeed(std::time(nullptr));
     rl::InitAudioDevice();
-
-    rg::display_surface = new rg::Surface(width, height);
 
     // need to init level after InitWindow()
     level = new Level();
