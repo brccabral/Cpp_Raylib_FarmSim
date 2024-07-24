@@ -4,11 +4,11 @@
 #include <raylib_utils.h>
 
 
-class Player : public SimpleSprite
+class Player : public rg::SimpleSprite
 {
 public:
 
-    Player(Vector2 pos, SpriteGroup &group, SpriteGroup *collisionSprites, SpriteGroup *treeSprites);
+    Player(rl::Vector2 pos, rg::SpriteGroup &group, rg::SpriteGroup *collisionSprites, rg::SpriteGroup *treeSprites);
     ~Player() override;
     void Update(float deltaTime) override;
 
@@ -20,7 +20,7 @@ public:
     std::vector<std::string> seeds = {"corn", "tomato"};
     std::string selected_seed = "corn";
 
-    RectangleU hitbox{};
+    rg::RectangleU hitbox{};
 
 private:
 
@@ -31,13 +31,13 @@ private:
     void UpdateStatus();
     void UseTool();
     void UseSeed();
-    void Collision(Axis axis);
+    void Collision(rg::Axis axis);
     void GetTargetPos();
 
-    Vector2 direction{};
+    rl::Vector2 direction{};
     float speed = 200.0f;
 
-    std::map<std::string, std::vector<Surface *>> animations;
+    std::map<std::string, std::vector<rg::Surface *>> animations;
     std::string status = "down_idle";
     std::string animation_status = "_idle";
     float frame_index = 0.0f;
@@ -45,10 +45,10 @@ private:
     unsigned int tool_index = 0;
     unsigned int seed_index = 0;
 
-    std::map<std::string, Timer> timers;
+    std::map<std::string, rg::Timer> timers;
 
-    SpriteGroup *collisionSprites = nullptr;
-    SpriteGroup *treeSprites = nullptr;
+    rg::SpriteGroup *collisionSprites = nullptr;
+    rg::SpriteGroup *treeSprites = nullptr;
 
-    Vector2 target_pos{};
+    rl::Vector2 target_pos{};
 };

@@ -3,7 +3,7 @@
 #include "Player.h"
 
 
-class CameraGroup : public SpriteGroup
+class CameraGroup : public rg::SpriteGroup
 {
 public:
 
@@ -11,5 +11,5 @@ public:
 
 private:
 
-    Vector2 offset{};
+    rl::Vector2 offset{};
 };

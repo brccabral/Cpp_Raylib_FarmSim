@@ -1,11 +1,13 @@
+#include <cstdio>
 #include <cstring>
 #include "Player.h"
-#include <raymath.h>
 #include "Settings.h"
 #include "Sprites/GenericSprite.h"
 #include "Sprites/Tree.h"
 
-Player::Player(const Vector2 pos, SpriteGroup &group, SpriteGroup *collisionSprites, SpriteGroup *treeSprites)
+
+Player::Player(
+        const rl::Vector2 pos, rg::SpriteGroup &group, rg::SpriteGroup *collisionSprites, rg::SpriteGroup *treeSprites)
     : SimpleSprite(group), collisionSprites(collisionSprites), treeSprites(treeSprites)
 {
     ImportAssets();
@@ -13,14 +15,14 @@ Player::Player(const Vector2 pos, SpriteGroup &group, SpriteGroup *collisionSpri
     image = animations[status][frame_index];
 
     rect = image->GetRect();
-    RectToCenter(rect, pos);
+    rg::RectToCenter(rect, pos);
 
     z = LAYERS["main"];
 
-    timers["tool use"] = Timer(0.350f, false, false, [this] { UseTool(); });
-    timers["tool switch"] = Timer(0.2f);
-    timers["seed use"] = Timer(0.350f, false, false, [this] { UseSeed(); });
-    timers["seed switch"] = Timer(0.2f);
+    timers["tool use"] = rg::Timer(0.350f, false, false, [this] { UseTool(); });
+    timers["tool switch"] = rg::Timer(0.2f);
+    timers["seed use"] = rg::Timer(0.350f, false, false, [this] { UseSeed(); });
+    timers["seed switch"] = rg::Timer(0.2f);
 
     hitbox = rect;
     RectInflate(hitbox, -126, -70);
@@ -48,12 +50,12 @@ void Player::Input()
     {
         return;
     }
-    if (IsKeyDown(KEY_UP))
+    if (IsKeyDown(rl::KEY_UP))
     {
         direction.y = -1;
         direction_status = "up";
     }
-    else if (IsKeyDown(KEY_DOWN))
+    else if (IsKeyDown(rl::KEY_DOWN))
     {
         direction.y = 1;
         direction_status = "down";
@@ -63,12 +65,12 @@ void Player::Input()
         direction.y = 0;
     }
 
-    if (IsKeyDown(KEY_RIGHT))
+    if (IsKeyDown(rl::KEY_RIGHT))
     {
         direction.x = 1;
         direction_status = "right";
     }
-    else if (IsKeyDown(KEY_LEFT))
+    else if (IsKeyDown(rl::KEY_LEFT))
     {
         direction.x = -1;
         direction_status = "left";
@@ -79,7 +81,7 @@ void Player::Input()
     }
 
     // tool use
-    if (IsKeyPressed(KEY_SPACE))
+    if (IsKeyPressed(rl::KEY_SPACE))
     {
         timers["tool use"].Activate();
         direction = {};
@@ -89,7 +91,7 @@ void Player::Input()
     // change tool
     // the timer is not needed in here because we are using IsKeyReleased, but it is here to be
     // compliant with the tutorial
-    if (IsKeyReleased(KEY_Q) && !timers["tool switch"].active)
+    if (IsKeyReleased(rl::KEY_Q) && !timers["tool switch"].active)
     {
         timers["tool switch"].Activate();
         tool_index += 1;
@@ -98,7 +100,7 @@ void Player::Input()
     }
 
     // seed use
-    if (IsKeyPressed(KEY_LEFT_CONTROL))
+    if (IsKeyPressed(rl::KEY_LEFT_CONTROL))
     {
         timers["seed use"].Activate();
         direction = {};
@@ -108,7 +110,7 @@ void Player::Input()
     // change seed
     // the timer is not needed in here because we are using IsKeyReleased, but it is here to be
     // compliant with the tutorial
-    if (IsKeyReleased(KEY_E) && !timers["seed switch"].active)
+    if (IsKeyReleased(rl::KEY_E) && !timers["seed switch"].active)
     {
         timers["seed switch"].Activate();
         seed_index += 1;
@@ -154,7 +156,7 @@ void Player::UpdateStatus()
 
     if (timers["tool use"].active)
     {
-        animation_status = "_" + selected_tool;
+        animation_status = "_idle";
     }
     status = direction_status + animation_status;
 }
@@ -163,9 +165,9 @@ void Player::UseTool()
 {
     if (strcmp(selected_tool.c_str(), "axe") == 0)
     {
-        for (auto treeSprite: treeSprites->sprites)
+        for (const auto treeSprite: treeSprites->sprites)
         {
-            auto tree = (Tree *) treeSprite;
+            const auto tree = (Tree *) treeSprite;
             if (CheckCollisionPointRec(target_pos, tree->rect.rectangle))
             {
                 tree->Damage();
@@ -176,10 +178,10 @@ void Player::UseTool()
 
 void Player::UseSeed()
 {
-    std::string seed = selected_seed;
+    // const char *seed = selected_seed;
 }
 
-void Player::Collision(const Axis axis)
+void Player::Collision(const rg::Axis axis)
 {
     // only GenericSprite should be added to collisionSprites as collisionSprites has hitbox
     for (auto *sprite: collisionSprites->sprites)
@@ -187,7 +189,7 @@ void Player::Collision(const Axis axis)
         const auto *generic_sprite = (GenericSprite *) sprite;
         if (CheckCollisionRecs(generic_sprite->hitbox.rectangle, hitbox.rectangle))
         {
-            if (axis == HORIZONTAL)
+            if (axis == rg::HORIZONTAL)
             {
                 if (direction.x > 0) // player moving right
                 {
@@ -209,7 +211,7 @@ void Player::Collision(const Axis axis)
                     hitbox.y = generic_sprite->hitbox.y + generic_sprite->hitbox.height;
                 }
             }
-            Vector2 newPos = GetRectCenter(hitbox);
+            rl::Vector2 newPos = GetRectCenter(hitbox);
             newPos.y -= 20;
             RectToCenter(rect, newPos);
         }
@@ -230,13 +232,13 @@ void Player::Move(const float dt)
     rect.pos.x += direction.x * speed * dt;
     RectToCenter(hitbox, GetRectCenter(rect));
     hitbox.y += 20;
-    Collision(HORIZONTAL);
+    Collision(rg::HORIZONTAL);
 
     // vertical movement
     rect.pos.y += direction.y * speed * dt;
     RectToCenter(hitbox, GetRectCenter(rect));
     hitbox.y += 20;
-    Collision(VERTICAL);
+    Collision(rg::VERTICAL);
 }
 
 void Player::ImportAssets()
@@ -265,7 +267,7 @@ void Player::ImportAssets()
     for (auto &[key, surfaces]: animations)
     {
         std::string path = "resources/graphics/character/" + key;
-        surfaces = ImportFolder(path.c_str());
+        surfaces = rg::ImportFolder(path.c_str());
 
 #ifdef SHOW_HITBOX
         for (const auto *surface: surfaces)

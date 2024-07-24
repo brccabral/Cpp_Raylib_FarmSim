@@ -6,9 +6,9 @@ class Tree : public GenericSprite
 {
 public:
 
-    Tree(Vector2 pos, Surface *surf, const std::vector<SpriteGroup *> &groups, std::string name);
+    Tree(rl::Vector2 pos, rg::Surface *surf, const std::vector<rg::SpriteGroup *> &groups, const char *name);
     ~Tree() override;
-    void LeaveOtherGroups(const SpriteGroup *sprite_group) override;
+    void LeaveOtherGroups(const rg::SpriteGroup *sprite_group) override;
     void Damage();
     void Update(float deltaTime) override;
 
@@ -19,12 +19,12 @@ private:
 
     std::string name_;
 
-    std::vector<Vector2> apple_pos{};
-    SpriteGroup apple_sprites{};
+    std::vector<rl::Vector2> apple_pos{};
+    rg::SpriteGroup apple_sprites{};
 
     int health = 5;
     bool alive = true;
-    Surface *stump_surf = nullptr;
+    rg::Surface *stump_surf = nullptr;
 
-    Timer invul_timer = Timer(0.2f);
+    rg::Timer invul_timer = rg::Timer(0.2f);
 };

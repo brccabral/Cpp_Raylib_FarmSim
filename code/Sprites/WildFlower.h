@@ -7,5 +7,5 @@ class WildFlower : public GenericSprite
 {
 public:
 
-    WildFlower(Vector2 pos, Surface *surf, const std::vector<SpriteGroup *> &groups);
+    WildFlower(rl::Vector2 pos, rg::Surface *surf, const std::vector<rg::SpriteGroup *> &groups);
 };

@@ -1,6 +1,7 @@
 #include "GenericSprite.h"
 
-GenericSprite::GenericSprite(const Vector2 pos, Surface *surf, const std::vector<SpriteGroup *> &groups, unsigned int z)
+GenericSprite::GenericSprite(
+        const rl::Vector2 pos, rg::Surface *surf, const std::vector<rg::SpriteGroup *> &groups, const unsigned int z)
     : SimpleSprite(groups)
 {
     image = surf;

@@ -1,6 +1,8 @@
 #include "Water.h"
 
-Water::Water(const Vector2 pos, const std::vector<Surface *> &frames, const std::vector<SpriteGroup *> &sprite_groups)
+Water::Water(
+        const rl::Vector2 pos, const std::vector<rg::Surface *> &frames,
+        const std::vector<rg::SpriteGroup *> &sprite_groups)
     : GenericSprite(pos, frames[0], sprite_groups, LAYERS["water"]), frames(frames)
 {}
 

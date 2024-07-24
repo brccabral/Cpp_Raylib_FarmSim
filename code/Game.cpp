@@ -4,13 +4,13 @@
 
 Game::Game(const int width, const int height)
 {
-    SetTraceLogLevel(LOG_WARNING);
-    InitWindow(width, height, "Sprout Land");
-    SetTargetFPS(60);
-    SetRandomSeed(std::time(nullptr));
-    InitAudioDevice();
+    SetTraceLogLevel(rl::LOG_WARNING);
+    rl::InitWindow(width, height, "Sprout Land");
+    rl::SetTargetFPS(60);
+    rl::SetRandomSeed(std::time(nullptr));
+    rl::InitAudioDevice();
 
-    display_surface = new Surface(width, height);
+    rg::display_surface = new rg::Surface(width, height);
 
     // need to init level after InitWindow()
     level = new Level();
@@ -19,14 +19,14 @@ Game::Game(const int width, const int height)
 Game::~Game()
 {
     UnloadResources();
-    CloseWindow();
+    rl::CloseWindow();
 }
 
 void Game::run()
 {
-    while (!WindowShouldClose())
+    while (!rl::WindowShouldClose())
     {
-        level->run(GetFrameTime());
+        level->run(rl::GetFrameTime());
         DisplayUpdate();
     }
 }
@@ -34,18 +34,18 @@ void Game::run()
 void Game::UnloadResources()
 {
     delete level;
-    CloseAudioDevice();
+    rl::CloseAudioDevice();
 }
 
 void Game::DisplayUpdate() const
 {
-    BeginDrawingC(BLACK);
+    rg::BeginDrawingC(rl::BLACK);
 
     // RenderTexture renders things flipped in Y axis, we draw it "unflipped"
     // https://github.com/raysan5/raylib/issues/3803
     DrawTextureRec(
-            *display_surface->Texture(),
-            {0, 0, (float) display_surface->Texture()->width, (float) -display_surface->Texture()->height}, {0, 0},
-            WHITE);
-    EndDrawing();
+            *rg::display_surface->Texture(),
+            {0, 0, (float) rg::display_surface->Texture()->width, (float) -rg::display_surface->Texture()->height},
+            {0, 0}, rl::WHITE);
+    rl::EndDrawing();
 }

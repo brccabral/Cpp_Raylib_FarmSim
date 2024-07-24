@@ -1,6 +1,6 @@
 #include "WildFlower.h"
 
-WildFlower::WildFlower(const Vector2 pos, Surface *surf, const std::vector<SpriteGroup *> &groups)
+WildFlower::WildFlower(const rl::Vector2 pos, rg::Surface *surf, const std::vector<rg::SpriteGroup *> &groups)
     : GenericSprite(pos, surf, groups)
 {
     hitbox = rect;

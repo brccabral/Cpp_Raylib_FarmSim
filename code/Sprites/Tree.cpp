@@ -1,15 +1,14 @@
-#include <utility>
 #include "Tree.h"
 
 
-Tree::Tree(const Vector2 pos, Surface *surf, const std::vector<SpriteGroup *> &groups, std::string name)
-    : GenericSprite(pos, surf, groups), name_(std::move(name))
+Tree::Tree(const rl::Vector2 pos, rg::Surface *surf, const std::vector<rg::SpriteGroup *> &groups, const char *name)
+    : GenericSprite(pos, surf, groups), name_(name)
 {
     apple_pos = APPLE_POS[name_];
     CreateFruit();
 
     const std::string path = "resources/graphics/stumps/" + name_ + ".png";
-    stump_surf = Surface::Load(path.c_str());
+    stump_surf = rg::Surface::Load(path.c_str());
 
 #ifdef SHOW_HITBOX
     const RectangleU rd = {0, 0, rect.size};
@@ -30,7 +29,7 @@ Tree::~Tree()
     }
 }
 
-void Tree::LeaveOtherGroups(const SpriteGroup *sprite_group)
+void Tree::LeaveOtherGroups(const rg::SpriteGroup *sprite_group)
 {
     // if there is any apple in this tree, make sure to leave all
     // groups together with the tree, before the tree is deleted
@@ -45,10 +44,10 @@ void Tree::CreateFruit()
 {
     for (const auto position: apple_pos)
     {
-        if (GetRandomValue(0, 9) < 2) // 20%
+        if (rl::GetRandomValue(0, 9) < 2) // 20%
         {
-            Surface *apple_surf = Surface::Load("resources/graphics/fruit/apple.png");
-            const Vector2 pos = rect.pos + position;
+            rg::Surface *apple_surf = rg::Surface::Load("resources/graphics/fruit/apple.png");
+            const rl::Vector2 pos = rect.pos + position;
             new GenericSprite(pos, apple_surf, {&apple_sprites, groups[0]}, LAYERS["fruit"]);
         }
     }
@@ -60,7 +59,7 @@ void Tree::CheckDeath()
     {
         delete image;
         image = stump_surf;
-        const Vector2 oldMidBottom = GetRectMidBottom(rect);
+        const rl::Vector2 oldMidBottom = GetRectMidBottom(rect);
         rect = image->GetRect();
         RectToMidBottom(rect, oldMidBottom);
         hitbox = rect;
@@ -87,7 +86,8 @@ void Tree::Damage()
     // remove an apple
     if (!apple_sprites.sprites.empty())
     {
-        const int random_apple = GetRandomValue(0, apple_sprites.sprites.size() - 1); // GetRandomValue includes `max`
+        const int random_apple =
+                rl::GetRandomValue(0, apple_sprites.sprites.size() - 1); // GetRandomValue includes `max`
         apple_sprites.sprites[random_apple]->Kill();
     }
 }

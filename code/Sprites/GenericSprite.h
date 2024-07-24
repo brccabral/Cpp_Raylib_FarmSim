@@ -3,12 +3,13 @@
 #include "../Settings.h"
 
 
-class GenericSprite : public SimpleSprite
+class GenericSprite : public rg::SimpleSprite
 {
 public:
 
     GenericSprite(
-            Vector2 pos, Surface *surf, const std::vector<SpriteGroup *> &groups, unsigned int z = LAYERS["main"]);
+            rl::Vector2 pos, rg::Surface *surf, const std::vector<rg::SpriteGroup *> &groups,
+            unsigned int z = LAYERS["main"]);
 
-    RectangleU hitbox{};
+    rg::RectangleU hitbox{};
 };

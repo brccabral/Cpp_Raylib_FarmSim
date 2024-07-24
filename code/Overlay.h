@@ -14,6 +14,6 @@ private:
 
     Player *player;
 
-    std::map<std::string, Surface *> tools_surfaces;
-    std::map<std::string, Surface *> seeds_surfaces;
+    std::map<std::string, rg::Surface *> tools_surfaces;
+    std::map<std::string, rg::Surface *> seeds_surfaces;
 };

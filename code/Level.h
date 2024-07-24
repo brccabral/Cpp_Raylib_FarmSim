@@ -16,11 +16,11 @@ public:
 private:
 
     CameraGroup all_sprites{};
-    SpriteGroup collisionSprites{};
-    SpriteGroup treeSprites{};
+    rg::SpriteGroup collisionSprites{};
+    rg::SpriteGroup treeSprites{};
     Player *player = nullptr;
     Overlay *overlay = nullptr;
 
-    tmx_map *tmx_data = nullptr;
-    std::vector<Surface *> water_frames;
+    rl::tmx_map *tmx_data = nullptr;
+    std::vector<rg::Surface *> water_frames;
 };

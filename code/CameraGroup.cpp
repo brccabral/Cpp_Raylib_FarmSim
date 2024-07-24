@@ -4,14 +4,14 @@
 
 void CameraGroup::CustomDraw(const Player *player)
 {
-    offset = GetRectCenter(player->rect);
+    offset = rg::GetRectCenter(player->rect);
     offset.x -= SCREEN_WIDTH / 2.0f;
     offset.y -= SCREEN_HEIGHT / 2.0f;
 
     // stable_sort keeps original order in case of equality
     std::stable_sort(
             sprites.begin(), sprites.end(),
-            [](const SimpleSprite *l, const SimpleSprite *r)
+            [](const rg::SimpleSprite *l, const rg::SimpleSprite *r)
             {
                 const float yl = GetRectCenter(l->rect).y;
                 const float yr = GetRectCenter(r->rect).y;
@@ -23,10 +23,10 @@ void CameraGroup::CustomDraw(const Player *player)
         {
             if (sprite->z == order)
             {
-                RectangleU offset_rect = sprite->rect;
+                rg::RectangleU offset_rect = sprite->rect;
                 offset_rect.pos -= offset;
 
-                display_surface->Blit(sprite->image, offset_rect.pos);
+                rg::display_surface->Blit(sprite->image, offset_rect.pos);
 
                 // debug
 #ifdef SHOW_HITBOX

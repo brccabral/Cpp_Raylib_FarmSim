@@ -1,12 +1,12 @@
 #pragma once
 #include <map>
 #include <string>
-#include <raylib.h>
+#include <raylib_utils.h>
 
 constexpr int SCREEN_WIDTH = 1280;
 constexpr int SCREEN_HEIGHT = 720;
 
-inline std::map<std::string, Vector2> OVERLAY_POSITIONS = {
+inline std::map<std::string, rl::Vector2> OVERLAY_POSITIONS = {
         {"tool", {40, SCREEN_HEIGHT - 15}}, //
         {"seed", {70, SCREEN_HEIGHT - 5}}, //
 };
@@ -27,12 +27,12 @@ inline InsertOrderMap<std::string, unsigned int> LAYERS = {
         {"rain drops", 12}, //
 };
 
-inline InsertOrderMap<std::string, std::vector<Vector2>> APPLE_POS = {
+inline InsertOrderMap<std::string, std::vector<rl::Vector2>> APPLE_POS = {
         {"Small", {{18, 17}, {30, 37}, {12, 50}, {30, 45}, {20, 30}, {30, 10}}},
         {"Large", {{30, 24}, {60, 65}, {50, 50}, {16, 40}, {45, 50}, {42, 70}}},
 };
 
-inline std::map<std::string, Vector2> PLAYER_TOOL_OFFSET = {
+inline std::map<std::string, rl::Vector2> PLAYER_TOOL_OFFSET = {
         {"left", {-50, 40}}, //
         {"right", {50, 40}}, //
         {"up", {0, -10}}, //
