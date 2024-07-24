@@ -13,9 +13,10 @@ Tree::Tree(const Vector2 pos, Surface *surf, const std::vector<SpriteGroup *> &g
 
 #ifndef NDEBUG
     const RectangleU rd = {0, 0, rect.size};
+    rg::DrawRect(image, RED, rd, 2);
     RectangleU hd = rd;
     RectInflate(hd, -rect.width * 0.2f, -rect.height * 0.75f);
-    rg::DrawRect(image, RED, rd, 2);
+    RectToMidBottom(hd, GetRectMidBottom(rd));
     rg::DrawRect(image, GREEN, hd, 2);
 #endif
 }
@@ -62,16 +63,17 @@ void Tree::CheckDeath()
         const Vector2 oldMidBottom = GetRectMidBottom(rect);
         rect = image->GetRect();
         RectToMidBottom(rect, oldMidBottom);
-        rect.pos.y -= 5;
         hitbox = rect;
         RectInflate(hitbox, -10, -rect.height * 0.6f);
+        RectToMidBottom(hitbox, GetRectMidBottom(rect));
         alive = false;
 
 #ifndef NDEBUG
         const RectangleU rd = {0, 0, rect.size};
+        rg::DrawRect(image, RED, rd, 2);
         RectangleU hd = rd;
         RectInflate(hd, -10, -rect.height * 0.6f);
-        rg::DrawRect(image, RED, rd, 2);
+        RectToMidBottom(hd, GetRectMidBottom(rd));
         rg::DrawRect(image, GREEN, hd, 2);
 #endif
     }

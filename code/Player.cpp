@@ -24,6 +24,7 @@ Player::Player(const Vector2 pos, SpriteGroup &group, SpriteGroup *collisionSpri
 
     hitbox = rect;
     RectInflate(hitbox, -126, -70);
+    hitbox.y += 20;
 }
 
 Player::~Player()
@@ -208,7 +209,9 @@ void Player::Collision(const Axis axis)
                     hitbox.y = generic_sprite->hitbox.y + generic_sprite->hitbox.height;
                 }
             }
-            RectToCenter(rect, GetRectCenter(hitbox));
+            Vector2 newPos = GetRectCenter(hitbox);
+            newPos.y -= 20;
+            RectToCenter(rect, newPos);
         }
     }
 }
@@ -226,11 +229,13 @@ void Player::Move(const float dt)
     // horizontal movement
     rect.pos.x += direction.x * speed * dt;
     RectToCenter(hitbox, GetRectCenter(rect));
+    hitbox.y += 20;
     Collision(HORIZONTAL);
 
     // vertical movement
     rect.pos.y += direction.y * speed * dt;
     RectToCenter(hitbox, GetRectCenter(rect));
+    hitbox.y += 20;
     Collision(VERTICAL);
 }
 
@@ -261,5 +266,17 @@ void Player::ImportAssets()
     {
         std::string path = "resources/graphics/character/" + key;
         surfaces = ImportFolder(path.c_str());
+
+#ifndef NDEBUG
+        for (const auto *surface: surfaces)
+        {
+            const RectangleU rd = surface->GetRect();
+            rg::DrawRect(surface, RED, rd, 2);
+            RectangleU hd = rd;
+            RectInflate(hd, -126, -70);
+            hd.y += 20;
+            rg::DrawRect(surface, GREEN, hd, 2);
+        }
+#endif
     }
 }
