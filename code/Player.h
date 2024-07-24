@@ -12,6 +12,8 @@ public:
     ~Player() override;
     void Update(float deltaTime) override;
 
+    std::string direction_status = "down";
+
     std::vector<std::string> tools = {"hoe", "axe", "water"};
     std::string selected_tool = "hoe";
 
@@ -36,7 +38,6 @@ private:
 
     std::map<std::string, std::vector<Surface *>> animations;
     std::string status = "down_idle";
-    std::string direction_status = "down";
     std::string animation_status = "_idle";
     float frame_index = 0.0f;
 

@@ -27,6 +27,19 @@ void CameraGroup::CustomDraw(const Player *player)
                 offset_rect.pos -= offset;
 
                 display_surface->Blit(sprite->image, offset_rect.pos);
+
+                // debug
+#ifndef NDEBUG
+                if (sprite == player)
+                {
+                    rg::DrawRect(display_surface, RED, offset_rect, 5);
+                    RectangleU hitbox_rect = player->hitbox;
+                    RectToCenter(hitbox_rect, GetRectCenter(offset_rect));
+                    rg::DrawRect(display_surface, GREEN, hitbox_rect, 5);
+                    Vector2 target_pos = GetRectCenter(offset_rect) + PLAYER_TOOL_OFFSET[player->direction_status];
+                    rg::DrawCirc(display_surface, BLUE, target_pos, 5);
+                }
+#endif
             }
         }
     }
