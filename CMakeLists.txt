@@ -20,6 +20,7 @@ add_executable(${PROJECT_NAME} code/main.cpp
         code/Sprites/Water.cpp
         code/Sprites/WildFlower.cpp
         code/Sprites/Tree.cpp
+        code/Particle.cpp
 )
 target_link_libraries(${PROJECT_NAME} raylib raylib_utils tmx raylib-tmx)
 
