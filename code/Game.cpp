@@ -15,8 +15,8 @@ Game::Game(const int width, const int height)
 
 Game::~Game()
 {
-    UnloadResources();
-    rl::CloseWindow();
+    delete level;
+    rg::Quit();
 }
 
 void Game::run()
@@ -26,10 +26,4 @@ void Game::run()
         level->run(rl::GetFrameTime());
         rg::display::Update();
     }
-}
-
-void Game::UnloadResources()
-{
-    delete level;
-    rl::CloseAudioDevice();
 }
