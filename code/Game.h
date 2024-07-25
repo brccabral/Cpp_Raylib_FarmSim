@@ -13,7 +13,6 @@ public:
 private:
 
     void UnloadResources();
-    void DisplayUpdate() const;
 
     Level *level = nullptr;
 };

@@ -15,6 +15,8 @@ public:
 
 private:
 
+    rg::Surface *display_surface = nullptr;
+
     CameraGroup all_sprites{};
     rg::SpriteGroup collisionSprites{};
     rg::SpriteGroup treeSprites{};

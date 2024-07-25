@@ -8,7 +8,8 @@ Game::Game(const int width, const int height)
     rg::display::SetCaption("Sprout Land");
     rl::InitAudioDevice();
 
-    // need to init level after InitWindow()
+    // need to init level after rg::display::SetMode as it calls rl::InitWindow()
+    // and InitWindow starts raylib resources that are needed in Level()
     level = new Level();
 }
 
@@ -23,7 +24,7 @@ void Game::run()
     while (!rl::WindowShouldClose())
     {
         level->run(rl::GetFrameTime());
-        DisplayUpdate();
+        rg::display::Update();
     }
 }
 
@@ -31,17 +32,4 @@ void Game::UnloadResources()
 {
     delete level;
     rl::CloseAudioDevice();
-}
-
-void Game::DisplayUpdate() const
-{
-    rg::BeginDrawingC(rl::BLACK);
-
-    // RenderTexture renders things flipped in Y axis, we draw it "unflipped"
-    // https://github.com/raysan5/raylib/issues/3803
-    DrawTextureRec(
-            *rg::display_surface->Texture(),
-            {0, 0, (float) rg::display_surface->Texture()->width, (float) -rg::display_surface->Texture()->height},
-            {0, 0}, rl::WHITE);
-    rl::EndDrawing();
 }

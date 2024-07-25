@@ -7,9 +7,12 @@ class CameraGroup : public rg::SpriteGroup
 {
 public:
 
+    CameraGroup();
+
     void CustomDraw(const Player *player);
 
 private:
 
+    rg::Surface *display_surface = nullptr;
     rl::Vector2 offset{};
 };

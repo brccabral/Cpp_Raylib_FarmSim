@@ -8,6 +8,8 @@
 
 Level::Level()
 {
+    display_surface = rg::display::GetSurface();
+
     Setup();
     overlay = new Overlay(player);
 }
@@ -30,12 +32,12 @@ Level::~Level()
     treeSprites.DeleteAll(); // all trees should be in allSprites, but just in case we missed any
 
     delete overlay;
-    rl::UnloadTMX(tmx_data);
+    UnloadTMX(tmx_data);
 }
 
 void Level::run(const float dt)
 {
-    rg::display_surface->Fill(rl::BLACK);
+    display_surface->Fill(rl::BLACK);
     all_sprites.CustomDraw(player);
     all_sprites.Update(dt);
     overlay->Display();

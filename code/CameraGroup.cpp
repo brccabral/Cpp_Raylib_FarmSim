@@ -2,6 +2,11 @@
 #include "Settings.h"
 
 
+CameraGroup::CameraGroup()
+{
+    display_surface = rg::display::GetSurface();
+}
+
 void CameraGroup::CustomDraw(const Player *player)
 {
     offset = rg::GetRectCenter(player->rect);
@@ -26,7 +31,7 @@ void CameraGroup::CustomDraw(const Player *player)
                 rg::RectangleU offset_rect = sprite->rect;
                 offset_rect.pos -= offset;
 
-                rg::display_surface->Blit(sprite->image, offset_rect.pos);
+                display_surface->Blit(sprite->image, offset_rect.pos);
 
                 // debug
 #ifdef SHOW_HITBOX
