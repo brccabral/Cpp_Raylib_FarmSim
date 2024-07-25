@@ -18,8 +18,8 @@ private:
     rg::Surface *display_surface = nullptr;
 
     CameraGroup all_sprites{};
-    rg::sprite::SpriteGroup collisionSprites{};
-    rg::sprite::SpriteGroup treeSprites{};
+    rg::sprite::Group collisionSprites{};
+    rg::sprite::Group treeSprites{};
     Player *player = nullptr;
     Overlay *overlay = nullptr;
 

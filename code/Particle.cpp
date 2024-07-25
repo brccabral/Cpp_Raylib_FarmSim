@@ -1,7 +1,7 @@
 #include "Particle.h"
 
 Particle::Particle(
-        const rl::Vector2 pos, rg::Surface *surf, const std::vector<rg::sprite::SpriteGroup *> &groups,
+        const rl::Vector2 pos, rg::Surface *surf, const std::vector<rg::sprite::Group *> &groups,
         const unsigned int z, const float duration)
     : GenericSprite(pos, surf, groups, z), duration(duration)
 {

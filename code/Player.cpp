@@ -7,9 +7,9 @@
 
 
 Player::Player(
-        const rl::Vector2 pos, rg::sprite::SpriteGroup &group, rg::sprite::SpriteGroup *collisionSprites,
-        rg::sprite::SpriteGroup *treeSprites)
-    : SimpleSprite(group), collisionSprites(collisionSprites), treeSprites(treeSprites)
+        const rl::Vector2 pos, rg::sprite::Group &group, rg::sprite::Group *collisionSprites,
+        rg::sprite::Group *treeSprites)
+    : Sprite(group), collisionSprites(collisionSprites), treeSprites(treeSprites)
 {
     ImportAssets();
 
@@ -40,7 +40,7 @@ Player::~Player()
         };
     }
     // image is a pointer to one of the animations
-    // but it is also deleted in the SimpleSprite parent class
+    // but it is also deleted in the Sprite parent class
     image = nullptr;
 }
 

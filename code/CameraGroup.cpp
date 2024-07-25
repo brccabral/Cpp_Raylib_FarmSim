@@ -16,7 +16,7 @@ void CameraGroup::CustomDraw(const Player *player)
     // stable_sort keeps original order in case of equality
     std::stable_sort(
             sprites.begin(), sprites.end(),
-            [](const rg::sprite::SimpleSprite *l, const rg::sprite::SimpleSprite *r)
+            [](const rg::sprite::Sprite *l, const rg::sprite::Sprite *r)
             {
                 const float yl = GetRectCenter(l->rect).y;
                 const float yr = GetRectCenter(r->rect).y;

@@ -2,7 +2,7 @@
 
 Water::Water(
         const rl::Vector2 pos, const std::vector<rg::Surface *> &frames,
-        const std::vector<rg::sprite::SpriteGroup *> &sprite_groups)
+        const std::vector<rg::sprite::Group *> &sprite_groups)
     : GenericSprite(pos, frames[0], sprite_groups, LAYERS["water"]), frames(frames)
 {}
 
@@ -10,7 +10,7 @@ Water::~Water()
 {
     // image is a pointer to one of the frames
     // but the frames are deleted in the Level class
-    // and the image is deleted in the SimpleSprite parent
+    // and the image is deleted in the Sprite parent
     image = nullptr;
 }
 
