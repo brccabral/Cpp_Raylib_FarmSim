@@ -12,6 +12,7 @@ Particle::Particle(
     // we don't need to delete it because it will be deleted with the apple
     const auto mask_surf = rg::mask::FromSurface(image);
     const auto new_surf = mask_surf.ToSurface();
+    new_surf->SetColorKey(rl::BLACK);
     image = new_surf;
 }
 
