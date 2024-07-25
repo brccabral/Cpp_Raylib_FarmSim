@@ -1,7 +1,9 @@
 #include "Tree.h"
 
 
-Tree::Tree(const rl::Vector2 pos, rg::Surface *surf, const std::vector<rg::SpriteGroup *> &groups, const char *name)
+Tree::Tree(
+        const rl::Vector2 pos, rg::Surface *surf, const std::vector<rg::sprite::SpriteGroup *> &groups,
+        const char *name)
     : GenericSprite(pos, surf, groups), name_(name)
 {
     apple_pos = APPLE_POS[name_];
@@ -29,7 +31,7 @@ Tree::~Tree()
     }
 }
 
-void Tree::LeaveOtherGroups(const rg::SpriteGroup *sprite_group)
+void Tree::LeaveOtherGroups(const rg::sprite::SpriteGroup *sprite_group)
 {
     // if there is any apple in this tree, make sure to leave all
     // groups together with the tree, before the tree is deleted

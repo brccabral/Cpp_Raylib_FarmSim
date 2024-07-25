@@ -3,7 +3,7 @@
 #include "Player.h"
 
 
-class CameraGroup : public rg::SpriteGroup
+class CameraGroup : public rg::sprite::SpriteGroup
 {
 public:
 

@@ -2,7 +2,7 @@
 
 Water::Water(
         const rl::Vector2 pos, const std::vector<rg::Surface *> &frames,
-        const std::vector<rg::SpriteGroup *> &sprite_groups)
+        const std::vector<rg::sprite::SpriteGroup *> &sprite_groups)
     : GenericSprite(pos, frames[0], sprite_groups, LAYERS["water"]), frames(frames)
 {}
 

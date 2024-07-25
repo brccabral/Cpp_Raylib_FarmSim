@@ -4,11 +4,12 @@
 #include <raylib_utils.h>
 
 
-class Player : public rg::SimpleSprite
+class Player : public rg::sprite::SimpleSprite
 {
 public:
 
-    Player(rl::Vector2 pos, rg::SpriteGroup &group, rg::SpriteGroup *collisionSprites, rg::SpriteGroup *treeSprites);
+    Player(rl::Vector2 pos, rg::sprite::SpriteGroup &group, rg::sprite::SpriteGroup *collisionSprites,
+           rg::sprite::SpriteGroup *treeSprites);
     ~Player() override;
     void Update(float deltaTime) override;
 
@@ -47,8 +48,8 @@ private:
 
     std::map<std::string, rg::Timer> timers;
 
-    rg::SpriteGroup *collisionSprites = nullptr;
-    rg::SpriteGroup *treeSprites = nullptr;
+    rg::sprite::SpriteGroup *collisionSprites = nullptr;
+    rg::sprite::SpriteGroup *treeSprites = nullptr;
 
     rl::Vector2 target_pos{};
 };

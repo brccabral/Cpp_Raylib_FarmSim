@@ -9,7 +9,7 @@ public:
     // Quickly shows an image on screen and self destroys
     // duration = in seconds
     Particle(
-            rl::Vector2 pos, rg::Surface *surf, const std::vector<rg::SpriteGroup *> &groups, unsigned int z,
+            rl::Vector2 pos, rg::Surface *surf, const std::vector<rg::sprite::SpriteGroup *> &groups, unsigned int z,
             float duration = 0.2f);
     void Update(float deltaTime) override;
 

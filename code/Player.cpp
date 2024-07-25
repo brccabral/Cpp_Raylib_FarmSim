@@ -7,7 +7,8 @@
 
 
 Player::Player(
-        const rl::Vector2 pos, rg::SpriteGroup &group, rg::SpriteGroup *collisionSprites, rg::SpriteGroup *treeSprites)
+        const rl::Vector2 pos, rg::sprite::SpriteGroup &group, rg::sprite::SpriteGroup *collisionSprites,
+        rg::sprite::SpriteGroup *treeSprites)
     : SimpleSprite(group), collisionSprites(collisionSprites), treeSprites(treeSprites)
 {
     ImportAssets();

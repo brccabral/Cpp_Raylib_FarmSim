@@ -7,7 +7,7 @@ class Water : public GenericSprite
 public:
 
     Water(rl::Vector2 pos, const std::vector<rg::Surface *> &frames,
-          const std::vector<rg::SpriteGroup *> &sprite_groups);
+          const std::vector<rg::sprite::SpriteGroup *> &sprite_groups);
     ~Water() override;
     void Update(float deltaTime) override;
 
