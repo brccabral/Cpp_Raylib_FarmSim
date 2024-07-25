@@ -157,7 +157,7 @@ void Player::UpdateStatus()
 
     if (timers["tool use"].active)
     {
-        animation_status = "_idle";
+        animation_status = "_" + selected_tool;
     }
     status = direction_status + animation_status;
 }
