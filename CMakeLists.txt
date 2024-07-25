@@ -20,7 +20,7 @@ add_executable(${PROJECT_NAME} code/main.cpp
         code/Sprites/Water.cpp
         code/Sprites/WildFlower.cpp
         code/Sprites/Tree.cpp
-        code/Particle.cpp
+        code/Sprites/Particle.cpp
 )
 target_link_libraries(${PROJECT_NAME} raylib raylib_utils tmx raylib-tmx)
 
@@ -42,9 +42,12 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/resources $<TARGET_FILE_DIR:${PROJECT_NAME}>/resources
 )
 
-install(TARGETS ${PROJECT_NAME})
-# copy resources to Install location
-install(DIRECTORY
-        ${PROJECT_SOURCE_DIR}/resources
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}
-)
+option(INSTALL_GAME "Whether or not to install the game" OFF)
+if (INSTALL_GAME)
+    install(TARGETS ${PROJECT_NAME})
+    # copy resources to Install location
+    install(DIRECTORY
+            ${PROJECT_SOURCE_DIR}/resources
+            DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}
+    )
+endif ()

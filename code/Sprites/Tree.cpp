@@ -1,4 +1,5 @@
 #include "Tree.h"
+#include "Particle.h"
 
 
 Tree::Tree(const rl::Vector2 pos, rg::Surface *surf, const std::vector<rg::sprite::Group *> &groups, const char *name)
@@ -88,7 +89,9 @@ void Tree::Damage()
     {
         const int random_apple =
                 rl::GetRandomValue(0, apple_sprites.sprites.size() - 1); // GetRandomValue includes `max`
-        apple_sprites.sprites[random_apple]->Kill();
+        const auto apple = apple_sprites.sprites[random_apple];
+        new Particle(apple->rect.pos, apple->image, {groups[0]}, LAYERS["fruit"]);
+        apple->Kill();
     }
 }
 

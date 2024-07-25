@@ -1,5 +1,5 @@
 #pragma once
-#include "Sprites/GenericSprite.h"
+#include "GenericSprite.h"
 
 
 class Particle : public GenericSprite
