@@ -15,6 +15,8 @@ public:
 
 private:
 
+    void PlayerAdd(const std::string &item);
+
     rg::Surface *display_surface = nullptr;
 
     CameraGroup all_sprites{};

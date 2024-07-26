@@ -23,6 +23,13 @@ public:
 
     rg::RectangleU hitbox{};
 
+    std::map<std::string, unsigned int> item_inventory = {
+            {"wood", 0}, //
+            {"apple", 0}, //
+            {"corn", 0}, //
+            {"tomato", 0} //
+    };
+
 private:
 
     void Move(float dt);

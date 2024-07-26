@@ -1,10 +1,10 @@
+#include <cstring>
 #include "Level.h"
 #include "Sprites/GenericSprite.h"
 #include "Sprites/Tree.h"
 #include "Sprites/Water.h"
 #include "Sprites/WildFlower.h"
 
-#include <cstring>
 
 Level::Level()
 {
@@ -109,7 +109,8 @@ void Level::Setup()
             auto *surf = rg::GetTMXTileSurface(tmx_data->tiles[gid]);
             new Tree(
                     {(float) tree->x, (float) (tree->y - tree->height)}, surf,
-                    {&all_sprites, &collisionSprites, &treeSprites}, tree->name);
+                    {&all_sprites, &collisionSprites, &treeSprites}, tree->name,
+                    [this](const std::string &item) { this->PlayerAdd(item); });
         }
         tree = tree->next;
     }
@@ -141,4 +142,9 @@ void Level::Setup()
     new GenericSprite(
             {0, 0}, surface, {&all_sprites},
             LAYERS["ground"]); // GenericSprite will be deleted in ~Level.all_sprites
+}
+
+void Level::PlayerAdd(const std::string &item)
+{
+    player->item_inventory[item] += 1;
 }
