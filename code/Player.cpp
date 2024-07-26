@@ -124,14 +124,18 @@ void Player::Input()
     }
 }
 
-void Player::Update(const float deltaTime)
+void Player::UpdateTimers()
 {
     for (auto &[key, timer]: timers)
     {
         timer.Update();
     }
+}
+void Player::Update(const float deltaTime)
+{
     Input();
     UpdateStatus();
+    UpdateTimers();
     GetTargetPos();
 
     Move(deltaTime);

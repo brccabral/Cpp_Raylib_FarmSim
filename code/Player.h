@@ -35,6 +35,7 @@ private:
     void Move(float dt);
     void ImportAssets();
     void Input();
+    void UpdateTimers();
     void Animate(float dt);
     void UpdateStatus();
     void UseTool();
