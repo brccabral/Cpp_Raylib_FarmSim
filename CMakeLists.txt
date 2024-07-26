@@ -25,6 +25,7 @@ add_executable(${PROJECT_NAME} code/main.cpp
         code/Transition.cpp
         code/SoilLayer.cpp
         code/Sprites/SoilTile.cpp
+        code/Sprites/WaterTile.cpp
 )
 target_link_libraries(${PROJECT_NAME} raylib raylib_utils tmx raylib-tmx)
 

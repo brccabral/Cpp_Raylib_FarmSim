@@ -2,10 +2,12 @@
 
 #include "Settings.h"
 #include "Sprites/SoilTile.h"
+#include "Sprites/WaterTile.h"
 
 SoilLayer::SoilLayer(rg::sprite::Group *all_sprites) : all_sprites(all_sprites)
 {
     soil_surfs = rg::assets::ImportFolderDict("resources/graphics/soil");
+    water_surfs = rg::assets::ImportFolder("resources/graphics/soil_water");
 
     CreateSoilGrid();
     CreateHitRects();
@@ -14,6 +16,10 @@ SoilLayer::SoilLayer(rg::sprite::Group *all_sprites) : all_sprites(all_sprites)
 SoilLayer::~SoilLayer()
 {
     for (auto &[key, surf]: soil_surfs)
+    {
+        delete surf;
+    }
+    for (const auto *surf: water_surfs)
     {
         delete surf;
     }
@@ -32,6 +38,24 @@ void SoilLayer::GetHit(const rl::Vector2 point)
                 grid[y][x].emplace_back("X");
                 CreateSoilTiles();
             }
+        }
+    }
+}
+
+void SoilLayer::Water(const rl::Vector2 point)
+{
+    // only if it is a SoilSprite (is in group soil_sprites)
+    for (const auto *sprite: soil_sprites.sprites)
+    {
+        if (CheckCollisionPointRec(point, sprite->rect.rectangle))
+        {
+            const unsigned int x = sprite->rect.x / TILE_SIZE;
+            const unsigned int y = sprite->rect.y / TILE_SIZE;
+            grid[y][x].emplace_back("W");
+
+            const unsigned int random_water = rl::GetRandomValue(0, water_surfs.size() - 1);
+            new WaterTile(
+                    sprite->rect.pos, water_surfs[random_water], {all_sprites, &water_sprites});
         }
     }
 }

@@ -187,12 +187,11 @@ void Player::UpdateStatus()
 
 void Player::UseTool()
 {
-    if (strcmp(selected_tool.c_str(), "hoe") == 0)
+    if (!strcmp(selected_tool.c_str(), "hoe"))
     {
         soil_layer->GetHit(target_pos);
     }
-
-    if (strcmp(selected_tool.c_str(), "axe") == 0)
+    else if (!strcmp(selected_tool.c_str(), "axe"))
     {
         for (const auto treeSprite: treeSprites->sprites)
         {
@@ -202,6 +201,10 @@ void Player::UseTool()
                 tree->Damage();
             }
         }
+    }
+    else if (!strcmp(selected_tool.c_str(), "water"))
+    {
+        soil_layer->Water(target_pos);
     }
 }
 
