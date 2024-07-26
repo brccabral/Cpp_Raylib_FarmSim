@@ -210,7 +210,7 @@ void Player::UseTool()
 
 void Player::UseSeed()
 {
-    // const char *seed = selected_seed;
+    soil_layer->PlantSeed(target_pos, selected_seed);
 }
 
 void Player::Collision(const rg::Axis axis)

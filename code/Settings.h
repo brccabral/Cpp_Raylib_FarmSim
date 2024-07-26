@@ -39,3 +39,8 @@ inline std::map<std::string, rl::Vector2> PLAYER_TOOL_OFFSET = {
         {"up", {0, -10}}, //
         {"down", {0, 50}}, //
 };
+
+inline std::map<std::string, float> GROW_SPEED = {
+        {"corn", 1.0f}, //
+        {"tomato", 0.7f}, //
+};

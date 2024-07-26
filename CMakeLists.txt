@@ -28,6 +28,7 @@ add_executable(${PROJECT_NAME} code/main.cpp
         code/Sprites/WaterTile.cpp
         code/Rain.cpp
         code/Sprites/Drop.cpp
+        code/Sprites/Plant.cpp
 )
 target_link_libraries(${PROJECT_NAME} raylib rygame tmx raylib-tmx)
 

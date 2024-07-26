@@ -17,6 +17,8 @@ public:
     void RemoveWater();
     // When it rains, all available soil will be watered
     void WaterAll();
+    //
+    void PlantSeed(rl::Vector2 pos, const std::string &seed);
 
     bool raining{};
 
@@ -26,13 +28,15 @@ private:
     void CreateHitRects();
     void CreateSoilTiles();
     void CreateWaterTile(rl::Vector2 pos);
-    static bool IsFarmable(std::vector<char> cell);
-    static bool IsHit(std::vector<char> cell);
-    static bool IsWater(std::vector<char> cell);
+    static bool IsFarmable(const std::vector<char> &cell);
+    static bool IsHit(const std::vector<char> &cell);
+    static bool IsWater(const std::vector<char> &cell);
+    static bool IsPlant(const std::vector<char> &cell);
 
     rg::sprite::Group *all_sprites = nullptr;
     rg::sprite::Group soil_sprites{};
     rg::sprite::Group water_sprites{};
+    rg::sprite::Group plant_sprites{};
 
     std::map<std::string, rg::Surface *> soil_surfs{};
     std::vector<rg::Surface *> water_surfs{};

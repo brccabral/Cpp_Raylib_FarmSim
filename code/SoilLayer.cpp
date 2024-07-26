@@ -1,6 +1,7 @@
 #include "SoilLayer.h"
 
 #include "Settings.h"
+#include "Sprites/Plant.h"
 #include "Sprites/SoilTile.h"
 #include "Sprites/WaterTile.h"
 
@@ -90,6 +91,24 @@ void SoilLayer::WaterAll()
                 const float x = index_col * TILE_SIZE;
                 const float y = index_row * TILE_SIZE;
                 CreateWaterTile({x, y});
+            }
+        }
+    }
+}
+
+void SoilLayer::PlantSeed(const rl::Vector2 pos, const std::string &seed)
+{
+    for (const auto *soil_sprite: soil_sprites.sprites)
+    {
+        if (CheckCollisionPointRec(pos, soil_sprite->rect.rectangle))
+        {
+            const unsigned int x = soil_sprite->rect.x / TILE_SIZE;
+            const unsigned int y = soil_sprite->rect.y / TILE_SIZE;
+
+            if (!IsPlant(grid[y][x]))
+            {
+                grid[y][x].emplace_back('P');
+                new Plant(GetRectMidBottom(soil_sprite->rect), {all_sprites, &plant_sprites}, seed);
             }
         }
     }
@@ -250,17 +269,22 @@ void SoilLayer::CreateWaterTile(const rl::Vector2 pos)
     new WaterTile(pos, water_surfs[random_water], {all_sprites, &water_sprites});
 }
 
-bool SoilLayer::IsFarmable(std::vector<char> cell)
+bool SoilLayer::IsFarmable(const std::vector<char> &cell)
 {
     return std::find(cell.begin(), cell.end(), 'F') != cell.end();
 }
 
-bool SoilLayer::IsHit(std::vector<char> cell)
+bool SoilLayer::IsHit(const std::vector<char> &cell)
 {
     return std::find(cell.begin(), cell.end(), 'X') != cell.end();
 }
 
-bool SoilLayer::IsWater(std::vector<char> cell)
+bool SoilLayer::IsWater(const std::vector<char> &cell)
 {
     return std::find(cell.begin(), cell.end(), 'W') != cell.end();
+}
+
+bool SoilLayer::IsPlant(const std::vector<char> &cell)
+{
+    return std::find(cell.begin(), cell.end(), 'P') != cell.end();
 }
