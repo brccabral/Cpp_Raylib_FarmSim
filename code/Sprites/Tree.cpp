@@ -25,7 +25,6 @@ Tree::Tree(
 
 Tree::~Tree()
 {
-    apple_sprites.DeleteAll();
     if (alive)
     {
         delete stump_surf;

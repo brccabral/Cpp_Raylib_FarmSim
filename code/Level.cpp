@@ -23,14 +23,6 @@ Level::~Level()
         delete surface;
     }
 
-    // deletes player and all sprites
-    all_sprites.DeleteAll();
-    // some sprites might be in collisionSprites, but not in all_sprites
-    // those that are in both, when they are deleted from all_sprites, they are
-    // removed from collisionSprites to avoid double free
-    collisionSprites.DeleteAll();
-    treeSprites.DeleteAll(); // all trees should be in allSprites, but just in case we missed any
-
     delete overlay;
     UnloadTMX(tmx_data);
 }
