@@ -15,7 +15,9 @@ private:
 
     void CreateSoilGrid();
     void CreateHitRects();
+    void CreateSoilTiles();
     static bool IsFarmable(std::vector<std::string> cell);
+    static bool IsHit(std::vector<std::string> cell);
 
     rg::sprite::Group *all_sprites = nullptr;
     rg::sprite::Group soil_sprites{};

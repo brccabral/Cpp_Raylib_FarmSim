@@ -1,6 +1,7 @@
 #include "SoilLayer.h"
 
 #include "Settings.h"
+#include "Sprites/SoilTile.h"
 
 SoilLayer::SoilLayer(rg::sprite::Group *all_sprites) : all_sprites(all_sprites)
 {
@@ -26,6 +27,7 @@ void SoilLayer::GetHit(const rl::Vector2 point)
             if (IsFarmable(grid[y][x]))
             {
                 grid[y][x].emplace_back("X");
+                CreateSoilTiles();
             }
         }
     }
@@ -80,7 +82,30 @@ void SoilLayer::CreateHitRects()
     }
 }
 
+void SoilLayer::CreateSoilTiles()
+{
+    soil_sprites.empty();
+    for (int index_row = 0; index_row < grid.size(); ++index_row)
+    {
+        for (int index_col = 0; index_col < grid[index_row].size(); ++index_col)
+        {
+            if (IsHit(grid[index_row][index_col]))
+            {
+                const float x = index_col * TILE_SIZE;
+                const float y = index_row * TILE_SIZE;
+                // TODO: this is adding the same x,y to all_sprites
+                new SoilTile({x, y}, soil_surf, {all_sprites, &soil_sprites});
+            }
+        }
+    }
+}
+
 bool SoilLayer::IsFarmable(std::vector<std::string> cell)
 {
     return std::find(cell.begin(), cell.end(), "F") != cell.end();
+}
+
+bool SoilLayer::IsHit(std::vector<std::string> cell)
+{
+    return std::find(cell.begin(), cell.end(), "X") != cell.end();
 }
