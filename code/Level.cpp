@@ -121,10 +121,7 @@ void Level::Setup()
             new Tree(
                     {(float) tree->x, (float) (tree->y - tree->height)}, surf,
                     {&all_sprites, &collisionSprites, &treeSprites}, tree->name,
-                    [this](const std::string &item)
-                    {
-                        this->PlayerAdd(item);
-                    });
+                    [this](const std::string &item) { this->PlayerAdd(item); });
         }
         tree = tree->next;
     }
@@ -146,7 +143,7 @@ void Level::Setup()
         if (!strcmp(playerObj->name, "Start"))
         {
             player = new Player(
-                    {(float) playerObj->x, (float) playerObj->y}, all_sprites, &collisionSprites,
+                    {(float) playerObj->x, (float) playerObj->y}, &all_sprites, &collisionSprites,
                     &treeSprites, &interactionSprites, soil_layer);
         }
         if (!strcmp(playerObj->name, "Bed"))

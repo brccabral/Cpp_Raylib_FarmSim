@@ -11,7 +11,7 @@ class Player : public rg::sprite::Sprite
 {
 public:
 
-    Player(rl::Vector2 pos, rg::sprite::Group &group, rg::sprite::Group *collisionSprites,
+    Player(rl::Vector2 pos, rg::sprite::Group *group, rg::sprite::Group *collisionSprites,
            rg::sprite::Group *treeSprites, rg::sprite::Group *interactionSprites,
            SoilLayer *soil_layer);
     ~Player() override;

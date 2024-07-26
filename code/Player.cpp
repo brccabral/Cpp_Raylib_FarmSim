@@ -8,7 +8,7 @@
 
 
 Player::Player(
-        const rl::Vector2 pos, rg::sprite::Group &group, rg::sprite::Group *collisionSprites,
+        const rl::Vector2 pos, rg::sprite::Group *group, rg::sprite::Group *collisionSprites,
         rg::sprite::Group *treeSprites, rg::sprite::Group *interactionSprites,
         SoilLayer *soil_layer)
     : Sprite(group), collisionSprites(collisionSprites), treeSprites(treeSprites),
