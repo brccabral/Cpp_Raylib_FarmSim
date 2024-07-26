@@ -9,9 +9,9 @@
 
 Player::Player(
         const rl::Vector2 pos, rg::sprite::Group &group, rg::sprite::Group *collisionSprites,
-        rg::sprite::Group *treeSprites, rg::sprite::Group *interactionSprites)
+        rg::sprite::Group *treeSprites, rg::sprite::Group *interactionSprites, SoilLayer *soil_layer)
     : Sprite(group), collisionSprites(collisionSprites), treeSprites(treeSprites),
-      interactionSprites(interactionSprites)
+      interactionSprites(interactionSprites), soil_layer(soil_layer)
 {
     ImportAssets();
 
@@ -186,6 +186,11 @@ void Player::UpdateStatus()
 
 void Player::UseTool()
 {
+    if (strcmp(selected_tool.c_str(), "hoe") == 0)
+    {
+        soil_layer->GetHit(target_pos);
+    }
+
     if (strcmp(selected_tool.c_str(), "axe") == 0)
     {
         for (const auto treeSprite: treeSprites->sprites)

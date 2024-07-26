@@ -1,4 +1,7 @@
 #pragma once
+#include "SoilLayer.h"
+
+
 #include <map>
 #include <string>
 #include <raylib_utils.h>
@@ -9,7 +12,7 @@ class Player : public rg::sprite::Sprite
 public:
 
     Player(rl::Vector2 pos, rg::sprite::Group &group, rg::sprite::Group *collisionSprites,
-           rg::sprite::Group *treeSprites, rg::sprite::Group *interactionSprites);
+           rg::sprite::Group *treeSprites, rg::sprite::Group *interactionSprites, SoilLayer *soil_layer);
     ~Player() override;
     void Update(float deltaTime) override;
 
@@ -61,6 +64,7 @@ private:
     rg::sprite::Group *collisionSprites = nullptr;
     rg::sprite::Group *treeSprites = nullptr;
     rg::sprite::Group *interactionSprites = nullptr;
+    SoilLayer *soil_layer = nullptr;
 
     rl::Vector2 target_pos{};
 };

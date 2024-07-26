@@ -11,10 +11,10 @@ Level::Level()
 {
     display_surface = rg::display::GetSurface();
 
+    soil_layer = new SoilLayer(&all_sprites);
     Setup();
     overlay = new Overlay(player);
     transition = new Transition([this] { Reset(); }, player);
-    soil_layer = new SoilLayer(&all_sprites, tmx_data);
 }
 
 Level::~Level()
@@ -134,7 +134,7 @@ void Level::Setup()
         {
             player = new Player(
                     {(float) playerObj->x, (float) playerObj->y}, all_sprites, &collisionSprites, &treeSprites,
-                    &interactionSprites);
+                    &interactionSprites, soil_layer);
         }
         if (!strcmp(playerObj->name, "Bed"))
         {
