@@ -5,7 +5,7 @@
 
 SoilLayer::SoilLayer(rg::sprite::Group *all_sprites) : all_sprites(all_sprites)
 {
-    soil_surf = rg::Surface::Load("resources/graphics/soil/o.png");
+    soil_surfs = rg::assets::ImportFolderDict("resources/graphics/soil");
 
     CreateSoilGrid();
     CreateHitRects();
@@ -13,7 +13,10 @@ SoilLayer::SoilLayer(rg::sprite::Group *all_sprites) : all_sprites(all_sprites)
 
 SoilLayer::~SoilLayer()
 {
-    delete soil_surf;
+    for (auto &[key, surf]: soil_surfs)
+    {
+        delete surf;
+    }
 }
 
 void SoilLayer::GetHit(const rl::Vector2 point)
@@ -57,6 +60,7 @@ void SoilLayer::CreateSoilGrid()
         const unsigned int x = position.x / TILE_SIZE;
         const unsigned int y = position.y / TILE_SIZE;
         grid[y][x].emplace_back("F");
+        // ReSharper disable once CppDFADeletedPointer
         delete surface;
     }
 
@@ -91,10 +95,87 @@ void SoilLayer::CreateSoilTiles()
         {
             if (IsHit(grid[index_row][index_col]))
             {
+                // top, bottom, right, left
+                const bool t = IsHit(grid[index_row - 1][index_col]);
+                const bool b = IsHit(grid[index_row + 1][index_col]);
+                const bool r = IsHit(grid[index_row][index_col + 1]);
+                const bool l = IsHit(grid[index_row][index_col - 1]);
+
+                std::string tyle_type = "o";
+
+                // all sides
+                if (t && b && r && l)
+                {
+                    tyle_type = "x";
+                }
+                // horizontal tiles only
+                if (l && !t && !r && !b) // left only
+                {
+                    tyle_type = "r";
+                }
+                if (r && !t && !l && !b) // right only
+                {
+                    tyle_type = "l";
+                }
+                if (r && l && !t && !b) // left and right
+                {
+                    tyle_type = "lr";
+                }
+
+                // vertical tiles only
+                if (t && !r && !l && !b) // top only
+                {
+                    tyle_type = "b";
+                }
+                if (b && !r && !l && !t) // bottom only
+                {
+                    tyle_type = "t";
+                }
+                if (b && t && !r && !l) // top and bottom
+                {
+                    tyle_type = "tb";
+                }
+
+                // corners
+                if (l && b && !t && !r) // left and bottom
+                {
+                    tyle_type = "tr";
+                }
+                if (r && b && !t && !l) // right and bottom
+                {
+                    tyle_type = "tl";
+                }
+                if (l && t && !b && !r) // left and top
+                {
+                    tyle_type = "br";
+                }
+                if (r && t && !b && !l) // right and top
+                {
+                    tyle_type = "bl";
+                }
+
+                // T shapes
+                if (t && b && r && !l) // T right
+                {
+                    tyle_type = "tbr";
+                }
+                if (t && b && l && !r) // T left
+                {
+                    tyle_type = "tbl";
+                }
+                if (l && r && t && !b) // T up
+                {
+                    tyle_type = "lrb";
+                }
+                if (l && r && b && !t) // T down
+                {
+                    tyle_type = "lrt";
+                }
+
                 const float x = index_col * TILE_SIZE;
                 const float y = index_row * TILE_SIZE;
                 // TODO: this is adding the same x,y to all_sprites
-                new SoilTile({x, y}, soil_surf, {all_sprites, &soil_sprites});
+                new SoilTile({x, y}, soil_surfs[tyle_type], {all_sprites, &soil_sprites});
             }
         }
     }

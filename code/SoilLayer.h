@@ -22,7 +22,7 @@ private:
     rg::sprite::Group *all_sprites = nullptr;
     rg::sprite::Group soil_sprites{};
 
-    rg::Surface *soil_surf = nullptr;
+    std::map<std::string, rg::Surface *> soil_surfs{};
 
     std::vector<std::vector<std::vector<std::string>>> grid;
     std::vector<rg::RectangleU> hit_rects{};
