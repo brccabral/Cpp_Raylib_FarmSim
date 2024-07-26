@@ -35,7 +35,7 @@ void SoilLayer::GetHit(const rl::Vector2 point)
             const unsigned int y = rect.y / TILE_SIZE;
             if (IsFarmable(grid[y][x]))
             {
-                grid[y][x].emplace_back("X");
+                grid[y][x].emplace_back('X');
                 CreateSoilTiles();
             }
         }
@@ -51,7 +51,7 @@ void SoilLayer::Water(const rl::Vector2 point)
         {
             const unsigned int x = sprite->rect.x / TILE_SIZE;
             const unsigned int y = sprite->rect.y / TILE_SIZE;
-            grid[y][x].emplace_back("W");
+            grid[y][x].emplace_back('W');
 
             CreateWaterTile(sprite->rect.pos);
         }
@@ -71,7 +71,7 @@ void SoilLayer::RemoveWater()
         {
             if (IsWater(cell))
             {
-                cell.erase(remove(cell.begin(), cell.end(), "W"), cell.end());
+                cell.erase(remove(cell.begin(), cell.end(), 'W'), cell.end());
             }
         }
     }
@@ -86,7 +86,7 @@ void SoilLayer::WaterAll()
             const auto cell = &grid[index_row][index_col];
             if (IsHit(*cell) && !IsWater(*cell))
             {
-                cell->emplace_back("W");
+                cell->emplace_back('W');
                 const float x = index_col * TILE_SIZE;
                 const float y = index_row * TILE_SIZE;
                 CreateWaterTile({x, y});
@@ -118,7 +118,7 @@ void SoilLayer::CreateSoilGrid()
     {
         const unsigned int x = position.x / TILE_SIZE;
         const unsigned int y = position.y / TILE_SIZE;
-        grid[y][x].emplace_back("F");
+        grid[y][x].emplace_back('F');
         // ReSharper disable once CppDFADeletedPointer
         delete surface;
     }
@@ -250,17 +250,17 @@ void SoilLayer::CreateWaterTile(const rl::Vector2 pos)
     new WaterTile(pos, water_surfs[random_water], {all_sprites, &water_sprites});
 }
 
-bool SoilLayer::IsFarmable(std::vector<std::string> cell)
+bool SoilLayer::IsFarmable(std::vector<char> cell)
 {
-    return std::find(cell.begin(), cell.end(), "F") != cell.end();
+    return std::find(cell.begin(), cell.end(), 'F') != cell.end();
 }
 
-bool SoilLayer::IsHit(std::vector<std::string> cell)
+bool SoilLayer::IsHit(std::vector<char> cell)
 {
-    return std::find(cell.begin(), cell.end(), "X") != cell.end();
+    return std::find(cell.begin(), cell.end(), 'X') != cell.end();
 }
 
-bool SoilLayer::IsWater(std::vector<std::string> cell)
+bool SoilLayer::IsWater(std::vector<char> cell)
 {
-    return std::find(cell.begin(), cell.end(), "W") != cell.end();
+    return std::find(cell.begin(), cell.end(), 'W') != cell.end();
 }
