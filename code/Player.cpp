@@ -16,7 +16,7 @@ Player::Player(
     image = animations[status][frame_index];
 
     rect = image->GetRect();
-    rg::RectToCenter(rect, pos);
+    RectToCenter(rect, pos);
 
     z = LAYERS["main"];
 
@@ -55,11 +55,13 @@ void Player::Input()
     {
         direction.y = -1;
         direction_status = "up";
+        SetStatus("");
     }
     else if (IsKeyDown(rl::KEY_DOWN))
     {
         direction.y = 1;
         direction_status = "down";
+        SetStatus("");
     }
     else
     {
@@ -70,11 +72,13 @@ void Player::Input()
     {
         direction.x = 1;
         direction_status = "right";
+        SetStatus("");
     }
     else if (IsKeyDown(rl::KEY_LEFT))
     {
         direction.x = -1;
         direction_status = "left";
+        SetStatus("");
     }
     else
     {
@@ -148,18 +152,13 @@ void Player::UpdateStatus()
 {
     if (Vector2Length(direction) == 0)
     {
-        animation_status = "_idle";
-    }
-    else
-    {
-        animation_status = "";
+        SetStatus("_idle");
     }
 
     if (timers["tool use"].active)
     {
-        animation_status = "_" + selected_tool;
+        SetStatus("_" + selected_tool);
     }
-    status = direction_status + animation_status;
 }
 
 void Player::UseTool()
@@ -222,6 +221,11 @@ void Player::Collision(const rg::Axis axis)
 void Player::GetTargetPos()
 {
     target_pos = GetRectCenter(rect) + PLAYER_TOOL_OFFSET[direction_status];
+}
+
+void Player::SetStatus(const std::string &animation_status)
+{
+    status = direction_status + animation_status;
 }
 
 void Player::Move(const float dt)

@@ -41,13 +41,13 @@ private:
     void UseSeed();
     void Collision(rg::Axis axis);
     void GetTargetPos();
+    void SetStatus(const std::string &animation_status);
 
     rl::Vector2 direction{};
     float speed = 200.0f;
 
     std::map<std::string, std::vector<rg::Surface *>> animations;
     std::string status = "down_idle";
-    std::string animation_status = "_idle";
     float frame_index = 0.0f;
 
     unsigned int tool_index = 0;
