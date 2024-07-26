@@ -1,7 +1,8 @@
 #include "GenericSprite.h"
 
 GenericSprite::GenericSprite(
-        const rl::Vector2 pos, rg::Surface *surf, const std::vector<rg::sprite::Group *> &groups, const unsigned int z)
+        const rl::Vector2 pos, rg::Surface *surf, const std::vector<rg::sprite::Group *> &groups,
+        const unsigned int z)
     : Sprite(groups)
 {
     if (surf)

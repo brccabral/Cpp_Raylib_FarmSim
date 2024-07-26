@@ -2,7 +2,8 @@
 
 #include "Settings.h"
 
-Transition::Transition(const std::function<void()> &reset, Player *player) : reset(reset), player(player)
+Transition::Transition(const std::function<void()> &reset, Player *player)
+    : reset(reset), player(player)
 {
     display_surface = rg::display::GetSurface();
 

@@ -3,8 +3,8 @@
 
 
 Tree::Tree(
-        const rl::Vector2 pos, rg::Surface *surf, const std::vector<rg::sprite::Group *> &groups, const char *name,
-        const std::function<void(const std::string &item)> &player_add)
+        const rl::Vector2 pos, rg::Surface *surf, const std::vector<rg::sprite::Group *> &groups,
+        const char *name, const std::function<void(const std::string &item)> &player_add)
     : GenericSprite(pos, surf, groups), name_(name), player_add(player_add)
 {
     apple_pos = APPLE_POS[name_];
@@ -90,8 +90,8 @@ void Tree::Damage()
     // remove an apple
     if (!apple_sprites.sprites.empty())
     {
-        const int random_apple =
-                rl::GetRandomValue(0, apple_sprites.sprites.size() - 1); // GetRandomValue includes `max`
+        const int random_apple = rl::GetRandomValue(
+                0, apple_sprites.sprites.size() - 1); // GetRandomValue includes `max`
         const auto apple = apple_sprites.sprites[random_apple];
         new Particle(apple->rect.pos, apple->image, {groups[0]}, LAYERS["fruit"]);
         player_add("apple");

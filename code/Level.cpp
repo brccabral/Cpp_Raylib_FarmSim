@@ -94,7 +94,8 @@ void Level::Setup()
         {
             auto *surf = rg::GetTMXTileSurface(tmx_data->tiles[gid]);
             new WildFlower(
-                    {(float) decor->x, (float) (decor->y - decor->height)}, surf, {&all_sprites, &collisionSprites});
+                    {(float) decor->x, (float) (decor->y - decor->height)}, surf,
+                    {&all_sprites, &collisionSprites});
         }
         decor = decor->next;
     }
@@ -133,14 +134,15 @@ void Level::Setup()
         if (!strcmp(playerObj->name, "Start"))
         {
             player = new Player(
-                    {(float) playerObj->x, (float) playerObj->y}, all_sprites, &collisionSprites, &treeSprites,
-                    &interactionSprites, soil_layer);
+                    {(float) playerObj->x, (float) playerObj->y}, all_sprites, &collisionSprites,
+                    &treeSprites, &interactionSprites, soil_layer);
         }
         if (!strcmp(playerObj->name, "Bed"))
         {
             new Interaction(
-                    {(float) playerObj->x, (float) playerObj->y}, {(float) playerObj->width, (float) playerObj->height},
-                    {&interactionSprites}, playerObj->name);
+                    {(float) playerObj->x, (float) playerObj->y},
+                    {(float) playerObj->width, (float) playerObj->height}, {&interactionSprites},
+                    playerObj->name);
         }
         playerObj = playerObj->next;
     }

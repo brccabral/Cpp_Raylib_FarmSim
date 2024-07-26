@@ -8,8 +8,10 @@ class Tree : public GenericSprite
 public:
 
     Tree(
-            rl::Vector2 pos, rg::Surface *surf, const std::vector<rg::sprite::Group *> &groups, const char *name,
-            const std::function<void(const std::string &item)> &player_add = [](const std::string &_) {});
+            rl::Vector2 pos, rg::Surface *surf, const std::vector<rg::sprite::Group *> &groups,
+            const char *name,
+            const std::function<void(const std::string &item)> &player_add =
+                    [](const std::string &_) {});
     ~Tree() override;
     void LeaveOtherGroups(const rg::sprite::Group *sprite_group) override;
     void Damage();

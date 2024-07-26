@@ -1,8 +1,8 @@
 #include "Particle.h"
 
 Particle::Particle(
-        const rl::Vector2 pos, rg::Surface *surf, const std::vector<rg::sprite::Group *> &groups, const unsigned int z,
-        const double duration)
+        const rl::Vector2 pos, rg::Surface *surf, const std::vector<rg::sprite::Group *> &groups,
+        const unsigned int z, const double duration)
     : GenericSprite(pos, surf, groups, z), duration(duration)
 {
     start_time = rl::GetTime();

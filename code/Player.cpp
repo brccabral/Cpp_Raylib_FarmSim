@@ -9,7 +9,8 @@
 
 Player::Player(
         const rl::Vector2 pos, rg::sprite::Group &group, rg::sprite::Group *collisionSprites,
-        rg::sprite::Group *treeSprites, rg::sprite::Group *interactionSprites, SoilLayer *soil_layer)
+        rg::sprite::Group *treeSprites, rg::sprite::Group *interactionSprites,
+        SoilLayer *soil_layer)
     : Sprite(group), collisionSprites(collisionSprites), treeSprites(treeSprites),
       interactionSprites(interactionSprites), soil_layer(soil_layer)
 {
@@ -128,7 +129,7 @@ void Player::Input()
     // interation sprites
     if (IsKeyReleased(rl::KEY_ENTER))
     {
-        if (auto *collided_interation_sprite = rg::sprite::spritecollideany(this, interactionSprites))
+        if (auto *collided_interation_sprite = spritecollideany(this, interactionSprites))
         {
             const auto *interaction_sprite = (Interaction *) collided_interation_sprite;
             if (!strcmp(interaction_sprite->name.c_str(), "Trader"))
