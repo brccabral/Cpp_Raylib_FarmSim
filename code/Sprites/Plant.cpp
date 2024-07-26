@@ -1,11 +1,12 @@
 #include "Plant.h"
-
 #include "../Settings.h"
+
 
 Plant::Plant(
         const rl::Vector2 pos, const std::vector<rg::sprite::Group *> &groups,
-        const std::string &plant_type)
-    : Sprite(groups), plant_type(plant_type)
+        const std::string &plant_type,
+        const std::function<bool(rl::Vector2 target)> &check_watered = nullptr)
+    : Sprite(groups), plant_type(plant_type), check_watered(check_watered)
 {
     const std::string path = "resources/graphics/fruit/" + plant_type;
     frames = rg::assets::ImportFolder(path.c_str());
@@ -21,7 +22,7 @@ Plant::Plant(
     {
         y_offset = -8;
     }
-    image = frames[age];
+    image = frames[0];
     rect = image->GetRect();
     RectToMidBottom(rect, pos);
     rect.pos += {0, y_offset};
@@ -37,4 +38,20 @@ Plant::~Plant()
     }
     // avoid double delete in ~Sprite()
     image = nullptr;
+}
+
+void Plant::Grow()
+{
+    if (check_watered(GetRectCenter(rect)))
+    {
+        age += grow_speed;
+        if (age > max_age)
+        {
+            age = max_age;
+        }
+        const rl::Vector2 oldCenter = GetRectCenter(rect);
+        image = frames[int(age)];
+        rect = image->GetRect();
+        RectToCenter(rect, oldCenter);
+    }
 }

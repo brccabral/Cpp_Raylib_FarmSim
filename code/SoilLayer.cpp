@@ -108,10 +108,19 @@ void SoilLayer::PlantSeed(const rl::Vector2 pos, const std::string &seed)
             if (!IsPlant(grid[y][x]))
             {
                 grid[y][x].emplace_back('P');
-                new Plant(GetRectMidBottom(soil_sprite->rect), {all_sprites, &plant_sprites}, seed);
+                new Plant(
+                        GetRectMidBottom(soil_sprite->rect), {all_sprites, &plant_sprites}, seed,
+                        [this](const rl::Vector2 target) { return this->CheckWatered(target); });
             }
         }
     }
+}
+
+bool SoilLayer::CheckWatered(const rl::Vector2 pos) const
+{
+    const unsigned int x = pos.x / TILE_SIZE;
+    const unsigned int y = pos.y / TILE_SIZE;
+    return IsWater(grid[y][x]);
 }
 
 void SoilLayer::CreateSoilGrid()
@@ -287,4 +296,13 @@ bool SoilLayer::IsWater(const std::vector<char> &cell)
 bool SoilLayer::IsPlant(const std::vector<char> &cell)
 {
     return std::find(cell.begin(), cell.end(), 'P') != cell.end();
+}
+
+void SoilLayer::UpdatePlants()
+{
+    for (auto *sprite: plant_sprites.sprites)
+    {
+        const auto plant = (Plant *) sprite;
+        plant->Grow();
+    }
 }

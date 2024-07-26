@@ -170,6 +170,9 @@ void Level::PlayerAdd(const std::string &item)
 
 void Level::Reset()
 {
+    // plants
+    soil_layer->UpdatePlants(); // must call before RemoveWater
+
     // apples on the trees
     for (auto *treeSprite: treeSprites.sprites)
     {
