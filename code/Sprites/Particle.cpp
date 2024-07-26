@@ -2,10 +2,10 @@
 
 Particle::Particle(
         const rl::Vector2 pos, rg::Surface *surf, const std::vector<rg::sprite::Group *> &groups, const unsigned int z,
-        const float duration)
+        const double duration)
     : GenericSprite(pos, surf, groups, z), duration(duration)
 {
-    start_time = rl::GetFrameTime();
+    start_time = rl::GetTime();
 
     // the passed surf is the apple image
     // it is assigned to `this->image` in GenericSprite
@@ -18,7 +18,7 @@ Particle::Particle(
 
 void Particle::Update(float deltaTime)
 {
-    const float current_time = rl::GetFrameTime();
+    const double current_time = rl::GetTime();
     if (current_time - start_time > duration)
     {
         Kill();

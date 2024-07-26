@@ -10,11 +10,11 @@ public:
     // duration = in seconds
     Particle(
             rl::Vector2 pos, rg::Surface *surf, const std::vector<rg::sprite::Group *> &groups, unsigned int z,
-            float duration = 0.2f);
+            double duration = 0.2);
     void Update(float deltaTime) override;
 
 private:
 
-    float start_time = 0;
-    float duration = 0;
+    double start_time = 0;
+    double duration = 0;
 };
