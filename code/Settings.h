@@ -5,6 +5,7 @@
 
 constexpr int SCREEN_WIDTH = 1280;
 constexpr int SCREEN_HEIGHT = 720;
+constexpr int TILE_SIZE = 64;
 
 inline std::map<std::string, rl::Vector2> OVERLAY_POSITIONS = {
         {"tool", {40, SCREEN_HEIGHT - 15}}, //

@@ -14,6 +14,7 @@ Level::Level()
     Setup();
     overlay = new Overlay(player);
     transition = new Transition([this] { Reset(); }, player);
+    soil_layer = new SoilLayer(&all_sprites, tmx_data);
 }
 
 Level::~Level()
@@ -56,7 +57,7 @@ void Level::Setup()
     };
     for (auto &[layer_name, order]: layers)
     {
-        const rl::tmx_layer *layer = rl::tmx_find_layer_by_name(tmx_data, layer_name.c_str());
+        const rl::tmx_layer *layer = tmx_find_layer_by_name(tmx_data, layer_name.c_str());
         // can't draw as a single sprite because we need to sort them on Y before drawing
         auto tiles = rg::GetTMXTiles(tmx_data, layer);
         for (auto &[tilePos, tileSurf]: tiles)
@@ -66,7 +67,7 @@ void Level::Setup()
     }
 
     // fence
-    const rl::tmx_layer *fence_layer = rl::tmx_find_layer_by_name(tmx_data, "Fence");
+    const rl::tmx_layer *fence_layer = tmx_find_layer_by_name(tmx_data, "Fence");
     auto fence_tiles = rg::GetTMXTiles(tmx_data, fence_layer);
     for (auto &[fence_pos, fence_surf]: fence_tiles)
     {
@@ -75,7 +76,7 @@ void Level::Setup()
 
     // water
     water_frames = rg::ImportFolder("resources/graphics/water");
-    const rl::tmx_layer *water_layer = rl::tmx_find_layer_by_name(tmx_data, "Water");
+    const rl::tmx_layer *water_layer = tmx_find_layer_by_name(tmx_data, "Water");
     auto water_tiles = rg::GetTMXTiles(tmx_data, water_layer);
     for (auto &[water_pos, water_surf]: water_tiles)
     {
@@ -84,7 +85,7 @@ void Level::Setup()
     }
 
     // wildflowers
-    const rl::tmx_layer *decor_layer = rl::tmx_find_layer_by_name(tmx_data, "Decoration");
+    const rl::tmx_layer *decor_layer = tmx_find_layer_by_name(tmx_data, "Decoration");
     const auto *decor = decor_layer->content.objgr->head;
     while (decor)
     {
@@ -99,7 +100,7 @@ void Level::Setup()
     }
 
     // trees
-    const rl::tmx_layer *trees_layer = rl::tmx_find_layer_by_name(tmx_data, "Trees");
+    const rl::tmx_layer *trees_layer = tmx_find_layer_by_name(tmx_data, "Trees");
     const auto *tree = trees_layer->content.objgr->head;
     while (tree)
     {
@@ -116,7 +117,7 @@ void Level::Setup()
     }
 
     // collision tiles
-    const rl::tmx_layer *collision_layer = rl::tmx_find_layer_by_name(tmx_data, "Collision");
+    const rl::tmx_layer *collision_layer = tmx_find_layer_by_name(tmx_data, "Collision");
     auto collision_tiles = rg::GetTMXTiles(tmx_data, collision_layer);
     for (auto &[collision_pos, collision_surf]: collision_tiles)
     {
@@ -125,7 +126,7 @@ void Level::Setup()
 
 
     // Player
-    const rl::tmx_layer *player_layer = rl::tmx_find_layer_by_name(tmx_data, "Player");
+    const rl::tmx_layer *player_layer = tmx_find_layer_by_name(tmx_data, "Player");
     const auto *playerObj = player_layer->content.objgr->head;
     while (playerObj)
     {

@@ -2,6 +2,7 @@
 #include "CameraGroup.h"
 #include "Player.h"
 #include "Overlay.h"
+#include "SoilLayer.h"
 #include "Transition.h"
 
 
@@ -28,6 +29,7 @@ private:
     Player *player = nullptr;
     Overlay *overlay = nullptr;
     Transition *transition = nullptr;
+    SoilLayer *soil_layer = nullptr;
 
     rl::tmx_map *tmx_data = nullptr;
     std::vector<rg::Surface *> water_frames;
