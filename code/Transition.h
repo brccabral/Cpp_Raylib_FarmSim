@@ -20,5 +20,5 @@ private:
 
     rg::Surface *image = nullptr;
     float transparency = 255;
-    float speed = -2; // fade to black speed = -2
+    float speed = -5; // fade to black speed = -2
 };
