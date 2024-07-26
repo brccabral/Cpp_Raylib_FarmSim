@@ -49,7 +49,7 @@ Player::~Player()
 void Player::Input()
 {
     // player can't move when tool is in use
-    if (timers["tool use"].active)
+    if (timers["tool use"].active || sleep)
     {
         return;
     }
@@ -137,6 +137,7 @@ void Player::Input()
             {
                 direction_status = "left";
                 SetStatus("_idle");
+                sleep = true;
             }
         }
     }

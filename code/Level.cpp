@@ -13,6 +13,7 @@ Level::Level()
 
     Setup();
     overlay = new Overlay(player);
+    transition = new Transition([this] { Reset(); }, player);
 }
 
 Level::~Level()
@@ -25,6 +26,7 @@ Level::~Level()
     }
 
     delete overlay;
+    delete transition;
     UnloadTMX(tmx_data);
 }
 
@@ -34,6 +36,11 @@ void Level::run(const float dt)
     all_sprites.CustomDraw(player);
     all_sprites.Update(dt);
     overlay->Display();
+
+    if (player->sleep)
+    {
+        transition->Play();
+    }
 }
 
 void Level::Setup()
@@ -147,4 +154,18 @@ void Level::Setup()
 void Level::PlayerAdd(const std::string &item)
 {
     player->item_inventory[item] += 1;
+}
+
+void Level::Reset()
+{
+    // apples on the trees
+    for (auto *treeSprite: treeSprites.sprites)
+    {
+        auto *tree = (Tree *) treeSprite;
+        for (auto *apple: tree->apple_sprites.sprites)
+        {
+            apple->Kill();
+        }
+        tree->CreateFruit();
+    }
 }

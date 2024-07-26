@@ -14,16 +14,16 @@ public:
     void LeaveOtherGroups(const rg::sprite::Group *sprite_group) override;
     void Damage();
     void Update(float deltaTime) override;
+    void CreateFruit();
+    rg::sprite::Group apple_sprites{};
 
 private:
 
-    void CreateFruit();
     void CheckDeath();
 
     std::string name_;
 
     std::vector<rl::Vector2> apple_pos{};
-    rg::sprite::Group apple_sprites{};
 
     int health = 5;
     bool alive = true;

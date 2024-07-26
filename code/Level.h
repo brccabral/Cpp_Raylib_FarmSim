@@ -2,6 +2,7 @@
 #include "CameraGroup.h"
 #include "Player.h"
 #include "Overlay.h"
+#include "Transition.h"
 
 
 class Level
@@ -16,6 +17,7 @@ public:
 private:
 
     void PlayerAdd(const std::string &item);
+    void Reset();
 
     rg::Surface *display_surface = nullptr;
 
@@ -25,6 +27,7 @@ private:
     rg::sprite::Group interactionSprites{};
     Player *player = nullptr;
     Overlay *overlay = nullptr;
+    Transition *transition = nullptr;
 
     rl::tmx_map *tmx_data = nullptr;
     std::vector<rg::Surface *> water_frames;

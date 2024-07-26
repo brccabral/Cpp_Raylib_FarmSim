@@ -30,6 +30,8 @@ public:
             {"tomato", 0} //
     };
 
+    bool sleep = false; // flag if player is sleeping, new day reset level
+
 private:
 
     void Move(float dt);
