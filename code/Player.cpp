@@ -3,13 +3,15 @@
 #include "Player.h"
 #include "Settings.h"
 #include "Sprites/GenericSprite.h"
+#include "Sprites/Interaction.h"
 #include "Sprites/Tree.h"
 
 
 Player::Player(
         const rl::Vector2 pos, rg::sprite::Group &group, rg::sprite::Group *collisionSprites,
-        rg::sprite::Group *treeSprites)
-    : Sprite(group), collisionSprites(collisionSprites), treeSprites(treeSprites)
+        rg::sprite::Group *treeSprites, rg::sprite::Group *interactionSprites)
+    : Sprite(group), collisionSprites(collisionSprites), treeSprites(treeSprites),
+      interactionSprites(interactionSprites)
 {
     ImportAssets();
 
@@ -121,6 +123,22 @@ void Player::Input()
         seed_index += 1;
         seed_index %= seeds.size();
         selected_seed = seeds[seed_index];
+    }
+
+    // interation sprites
+    if (IsKeyReleased(rl::KEY_ENTER))
+    {
+        if (auto *collided_interation_sprite = rg::sprite::spritecollideany(this, interactionSprites))
+        {
+            const auto *interaction_sprite = (Interaction *) collided_interation_sprite;
+            if (!strcmp(interaction_sprite->name.c_str(), "Trader"))
+            {}
+            else
+            {
+                direction_status = "left";
+                SetStatus("_idle");
+            }
+        }
     }
 }
 

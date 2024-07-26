@@ -9,7 +9,7 @@ class Player : public rg::sprite::Sprite
 public:
 
     Player(rl::Vector2 pos, rg::sprite::Group &group, rg::sprite::Group *collisionSprites,
-           rg::sprite::Group *treeSprites);
+           rg::sprite::Group *treeSprites, rg::sprite::Group *interactionSprites);
     ~Player() override;
     void Update(float deltaTime) override;
 
@@ -58,6 +58,7 @@ private:
 
     rg::sprite::Group *collisionSprites = nullptr;
     rg::sprite::Group *treeSprites = nullptr;
+    rg::sprite::Group *interactionSprites = nullptr;
 
     rl::Vector2 target_pos{};
 };

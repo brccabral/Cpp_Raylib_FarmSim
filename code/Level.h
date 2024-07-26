@@ -22,6 +22,7 @@ private:
     CameraGroup all_sprites{};
     rg::sprite::Group collisionSprites{};
     rg::sprite::Group treeSprites{};
+    rg::sprite::Group interactionSprites{};
     Player *player = nullptr;
     Overlay *overlay = nullptr;
 

@@ -1,6 +1,7 @@
 #include <cstring>
 #include "Level.h"
 #include "Sprites/GenericSprite.h"
+#include "Sprites/Interaction.h"
 #include "Sprites/Tree.h"
 #include "Sprites/Water.h"
 #include "Sprites/WildFlower.h"
@@ -124,7 +125,14 @@ void Level::Setup()
         if (!strcmp(playerObj->name, "Start"))
         {
             player = new Player(
-                    {(float) playerObj->x, (float) playerObj->y}, all_sprites, &collisionSprites, &treeSprites);
+                    {(float) playerObj->x, (float) playerObj->y}, all_sprites, &collisionSprites, &treeSprites,
+                    &interactionSprites);
+        }
+        if (!strcmp(playerObj->name, "Bed"))
+        {
+            new Interaction(
+                    {(float) playerObj->x, (float) playerObj->y}, {(float) playerObj->width, (float) playerObj->height},
+                    {&interactionSprites}, playerObj->name);
         }
         playerObj = playerObj->next;
     }
