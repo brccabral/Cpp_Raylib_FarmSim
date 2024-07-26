@@ -20,7 +20,7 @@ Level::Level()
                 Reset();
             }, player);
     rain = new Rain(&all_sprites);
-    raining = true;
+    raining = rl::GetRandomValue(0, 10) > 3;
     soil_layer->raining = raining;
 }
 
@@ -192,6 +192,11 @@ void Level::Reset()
     soil_layer->RemoveWater();
 
     // randomize rain
+    raining = rl::GetRandomValue(0, 10) > 3;
     soil_layer->raining = raining;
+    if (raining)
+    {
+        soil_layer->WaterAll();
+    }
 
 }
