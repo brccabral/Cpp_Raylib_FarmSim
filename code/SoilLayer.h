@@ -25,6 +25,7 @@ public:
     void UpdatePlants();
 
     bool raining{};
+    rg::sprite::Group plant_sprites{};
 
 private:
 
@@ -41,7 +42,6 @@ private:
     rg::sprite::Group *collisionSprites = nullptr;
     rg::sprite::Group soil_sprites{};
     rg::sprite::Group water_sprites{};
-    rg::sprite::Group plant_sprites{};
 
     std::map<std::string, rg::Surface *> soil_surfs{};
     std::vector<rg::Surface *> water_surfs{};

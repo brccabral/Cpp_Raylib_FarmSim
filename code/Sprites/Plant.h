@@ -13,6 +13,8 @@ public:
     ~Plant() override;
     void Grow();
 
+    bool harvestable{};
+
 private:
 
     std::string plant_type;

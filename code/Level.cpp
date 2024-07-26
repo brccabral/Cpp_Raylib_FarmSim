@@ -2,6 +2,7 @@
 #include "Level.h"
 #include "Sprites/GenericSprite.h"
 #include "Sprites/Interaction.h"
+#include "Sprites/Plant.h"
 #include "Sprites/Tree.h"
 #include "Sprites/Water.h"
 #include "Sprites/WildFlower.h"
@@ -40,6 +41,8 @@ void Level::run(const float dt)
     display_surface->Fill(rl::BLACK);
     all_sprites.CustomDraw(player);
     all_sprites.Update(dt);
+    PlantCollision();
+
     overlay->Display();
 
     if (raining)
@@ -193,5 +196,31 @@ void Level::Reset()
     if (raining)
     {
         soil_layer->WaterAll();
+    }
+}
+
+void Level::PlantCollision()
+{
+    if (soil_layer->plant_sprites.sprites.empty())
+    {
+        return;
+    }
+    for (auto it = soil_layer->plant_sprites.sprites.begin();
+         it != soil_layer->plant_sprites.sprites.end();
+         /*no increment*/)
+    {
+        auto *plant = (Plant *) (*it);
+        if (plant->harvestable &&
+            CheckCollisionRecs(plant->rect.rectangle, player->hitbox.rectangle))
+        {
+            plant->Kill();
+            // Kill() invalidates the iterator because it removes plant from sprites vector
+            // we need to restart from begining
+            it = soil_layer->plant_sprites.sprites.begin();
+        }
+        else
+        {
+            ++it;
+        }
     }
 }

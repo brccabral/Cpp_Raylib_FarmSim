@@ -55,9 +55,10 @@ void Plant::Grow()
     if (check_watered(GetRectCenter(rect)))
     {
         age += grow_speed;
-        if (age > max_age)
+        if (age >= max_age)
         {
             age = max_age;
+            harvestable = true;
         }
         const rl::Vector2 oldCenter = GetRectCenter(rect);
         image = frames[int(age)];

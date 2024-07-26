@@ -2,7 +2,7 @@
 
 #include "Sprites/Drop.h"
 
-Rain::Rain(CameraGroup *all_sprites): all_sprites(all_sprites)
+Rain::Rain(CameraGroup *all_sprites) : all_sprites(all_sprites)
 {
     rain_drops = rg::assets::ImportFolder("resources/graphics/rain/drops");
     rain_floor = rg::assets::ImportFolder("resources/graphics/rain/floor");
