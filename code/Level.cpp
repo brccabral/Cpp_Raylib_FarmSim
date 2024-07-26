@@ -21,6 +21,7 @@ Level::Level()
             }, player);
     rain = new Rain(&all_sprites);
     raining = true;
+    soil_layer->raining = raining;
 }
 
 Level::~Level()
@@ -189,4 +190,8 @@ void Level::Reset()
 
     // Soil
     soil_layer->RemoveWater();
+
+    // randomize rain
+    soil_layer->raining = raining;
+
 }

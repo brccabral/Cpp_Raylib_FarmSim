@@ -53,9 +53,7 @@ void SoilLayer::Water(const rl::Vector2 point)
             const unsigned int y = sprite->rect.y / TILE_SIZE;
             grid[y][x].emplace_back("W");
 
-            const unsigned int random_water = rl::GetRandomValue(0, water_surfs.size() - 1);
-            new WaterTile(
-                    sprite->rect.pos, water_surfs[random_water], {all_sprites, &water_sprites});
+            CreateWaterTile(sprite->rect.pos);
         }
     }
 }
@@ -76,6 +74,24 @@ void SoilLayer::RemoveWater()
             if (IsWater(cell))
             {
                 cell.erase(remove(cell.begin(), cell.end(), "W"), cell.end());
+            }
+        }
+    }
+}
+
+void SoilLayer::WaterAll()
+{
+    for (int index_row = 0; index_row < grid.size(); ++index_row)
+    {
+        for (int index_col = 0; index_col < grid[index_row].size(); ++index_col)
+        {
+            const auto cell = &grid[index_row][index_col];
+            if (IsHit(*cell) && !IsWater(*cell))
+            {
+                cell->emplace_back("W");
+                const float x = index_col * TILE_SIZE;
+                const float y = index_row * TILE_SIZE;
+                CreateWaterTile({x, y});
             }
         }
     }
@@ -221,9 +237,20 @@ void SoilLayer::CreateSoilTiles()
                 const float y = index_row * TILE_SIZE;
                 // TODO: this is adding the same x,y to all_sprites
                 new SoilTile({x, y}, soil_surfs[tyle_type], {all_sprites, &soil_sprites});
+                if (raining)
+                {
+                    CreateWaterTile({x, y});
+                }
             }
         }
     }
+}
+
+void SoilLayer::CreateWaterTile(const rl::Vector2 pos)
+{
+    const unsigned int random_water = rl::GetRandomValue(0, water_surfs.size() - 1);
+    new WaterTile(
+            pos, water_surfs[random_water], {all_sprites, &water_sprites});
 }
 
 bool SoilLayer::IsFarmable(std::vector<std::string> cell)
