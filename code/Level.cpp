@@ -11,7 +11,7 @@ Level::Level()
 {
     display_surface = rg::display::GetSurface();
 
-    soil_layer = new SoilLayer(&all_sprites);
+    soil_layer = new SoilLayer(&all_sprites, &collisionSprites);
     Setup();
     overlay = new Overlay(player);
     transition = new Transition([this] { Reset(); }, player);

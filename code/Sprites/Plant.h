@@ -1,8 +1,9 @@
 #pragma once
 #include <rygame.h>
+#include "GenericSprite.h"
 
 
-class Plant : public rg::sprite::Sprite
+class Plant : public GenericSprite
 {
 public:
 

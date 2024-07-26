@@ -6,7 +6,7 @@ class SoilLayer
 {
 public:
 
-    explicit SoilLayer(rg::sprite::Group *all_sprites);
+    explicit SoilLayer(rg::sprite::Group *all_sprites, rg::sprite::Group *collisionSprites);
     ~SoilLayer();
 
     // Check if point is in a hittable tile, if so, adds a SoilTile to it
@@ -38,6 +38,7 @@ private:
     static bool IsPlant(const std::vector<char> &cell);
 
     rg::sprite::Group *all_sprites = nullptr;
+    rg::sprite::Group *collisionSprites = nullptr;
     rg::sprite::Group soil_sprites{};
     rg::sprite::Group water_sprites{};
     rg::sprite::Group plant_sprites{};

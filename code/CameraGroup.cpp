@@ -37,9 +37,9 @@ void CameraGroup::CustomDraw(const Player *player)
 #ifdef SHOW_HITBOX
                 if (sprite == player)
                 {
-                    Vector2 target_pos = GetRectCenter(offset_rect) +
-                                         PLAYER_TOOL_OFFSET[player->direction_status];
-                    rg::DrawCirc(display_surface, BLUE, target_pos, 5);
+                    const rl::Vector2 target_pos = GetRectCenter(offset_rect) +
+                                                   PLAYER_TOOL_OFFSET[player->direction_status];
+                    DrawCirc(display_surface, rl::BLUE, target_pos, 5);
                 }
 #endif
             }

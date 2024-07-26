@@ -6,6 +6,7 @@
 #include "Sprites/Interaction.h"
 #include "Sprites/Tree.h"
 
+#define HITBOX_Y_OFFSET 15
 
 Player::Player(
         const rl::Vector2 pos, rg::sprite::Group *group, rg::sprite::Group *collisionSprites,
@@ -30,7 +31,7 @@ Player::Player(
 
     hitbox = rect;
     RectInflate(hitbox, -126, -70);
-    hitbox.y += 20;
+    hitbox.y += HITBOX_Y_OFFSET;
 }
 
 Player::~Player()
@@ -215,7 +216,7 @@ void Player::UseSeed()
 
 void Player::Collision(const rg::Axis axis)
 {
-    // only GenericSprite should be added to collisionSprites as collisionSprites has hitbox
+    // only GenericSprite should be added to collisionSprites as GenericSprite has hitbox
     for (auto *sprite: collisionSprites->sprites)
     {
         const auto *generic_sprite = (GenericSprite *) sprite;
@@ -244,7 +245,7 @@ void Player::Collision(const rg::Axis axis)
                 }
             }
             rl::Vector2 newPos = GetRectCenter(hitbox);
-            newPos.y -= 20;
+            newPos.y -= HITBOX_Y_OFFSET;
             RectToCenter(rect, newPos);
         }
     }
@@ -268,13 +269,13 @@ void Player::Move(const float dt)
     // horizontal movement
     rect.pos.x += direction.x * speed * dt;
     RectToCenter(hitbox, GetRectCenter(rect));
-    hitbox.y += 20;
+    hitbox.y += HITBOX_Y_OFFSET;
     Collision(rg::HORIZONTAL);
 
     // vertical movement
     rect.pos.y += direction.y * speed * dt;
     RectToCenter(hitbox, GetRectCenter(rect));
-    hitbox.y += 20;
+    hitbox.y += HITBOX_Y_OFFSET;
     Collision(rg::VERTICAL);
 }
 
@@ -309,12 +310,12 @@ void Player::ImportAssets()
 #ifdef SHOW_HITBOX
         for (const auto *surface: surfaces)
         {
-            const RectangleU rd = surface->GetRect();
-            rg::DrawRect(surface, RED, rd, 2);
-            RectangleU hd = rd;
+            const rg::RectangleU rd = surface->GetRect();
+            DrawRect(surface, rl::RED, rd, 2);
+            rg::RectangleU hd = rd;
             RectInflate(hd, -126, -70);
-            hd.y += 20;
-            rg::DrawRect(surface, GREEN, hd, 2);
+            hd.y += HITBOX_Y_OFFSET;
+            DrawRect(surface, rl::GREEN, hd, 2);
         }
 #endif
     }

@@ -5,7 +5,8 @@
 #include "Sprites/SoilTile.h"
 #include "Sprites/WaterTile.h"
 
-SoilLayer::SoilLayer(rg::sprite::Group *all_sprites) : all_sprites(all_sprites)
+SoilLayer::SoilLayer(rg::sprite::Group *all_sprites, rg::sprite::Group *collisionSprites)
+    : all_sprites(all_sprites), collisionSprites(collisionSprites)
 {
     soil_surfs = rg::assets::ImportFolderDict("resources/graphics/soil");
     water_surfs = rg::assets::ImportFolder("resources/graphics/soil_water");
@@ -109,7 +110,8 @@ void SoilLayer::PlantSeed(const rl::Vector2 pos, const std::string &seed)
             {
                 grid[y][x].emplace_back('P');
                 new Plant(
-                        GetRectMidBottom(soil_sprite->rect), {all_sprites, &plant_sprites}, seed,
+                        GetRectMidBottom(soil_sprite->rect),
+                        {all_sprites, &plant_sprites, collisionSprites}, seed,
                         [this](const rl::Vector2 target) { return this->CheckWatered(target); });
             }
         }
