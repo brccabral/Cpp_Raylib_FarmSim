@@ -13,6 +13,8 @@ public:
     void GetHit(rl::Vector2 point);
     // Adds WaterTile to an existing SoilTile
     void Water(rl::Vector2 point);
+    // Remove all WaterTile, called when player goes to sleep (reset Level)
+    void RemoveWater();
 
 private:
 
@@ -21,6 +23,7 @@ private:
     void CreateSoilTiles();
     static bool IsFarmable(std::vector<std::string> cell);
     static bool IsHit(std::vector<std::string> cell);
+    static bool IsWater(std::vector<std::string> cell);
 
     rg::sprite::Group *all_sprites = nullptr;
     rg::sprite::Group soil_sprites{};

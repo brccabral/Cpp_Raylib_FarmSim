@@ -171,4 +171,7 @@ void Level::Reset()
         }
         tree->CreateFruit();
     }
+
+    // Soil
+    soil_layer->RemoveWater();
 }

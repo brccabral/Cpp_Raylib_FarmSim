@@ -60,6 +60,27 @@ void SoilLayer::Water(const rl::Vector2 point)
     }
 }
 
+void SoilLayer::RemoveWater()
+{
+    // destroy all water sprites
+    for (auto *sprite: water_sprites.sprites)
+    {
+        sprite->Kill();
+    }
+
+    // clean up the grid
+    for (auto &row: grid)
+    {
+        for (auto &cell: row)
+        {
+            if (IsWater(cell))
+            {
+                cell.erase(remove(cell.begin(), cell.end(), "W"), cell.end());
+            }
+        }
+    }
+}
+
 void SoilLayer::CreateSoilGrid()
 {
     const rg::Surface *ground = rg::Surface::Load("resources/graphics/world/ground.png");
@@ -213,4 +234,9 @@ bool SoilLayer::IsFarmable(std::vector<std::string> cell)
 bool SoilLayer::IsHit(std::vector<std::string> cell)
 {
     return std::find(cell.begin(), cell.end(), "X") != cell.end();
+}
+
+bool SoilLayer::IsWater(std::vector<std::string> cell)
+{
+    return std::find(cell.begin(), cell.end(), "W") != cell.end();
 }
