@@ -6,7 +6,7 @@ include(GNUInstallDirs)
 set(CMAKE_CXX_STANDARD 17)
 
 find_package(raylib REQUIRED)
-find_package(raylib_utils REQUIRED)
+find_package(rygame REQUIRED)
 find_package(tmx REQUIRED)
 find_package(raylib-tmx REQUIRED)
 
@@ -27,7 +27,7 @@ add_executable(${PROJECT_NAME} code/main.cpp
         code/Sprites/SoilTile.cpp
         code/Sprites/WaterTile.cpp
 )
-target_link_libraries(${PROJECT_NAME} raylib raylib_utils tmx raylib-tmx)
+target_link_libraries(${PROJECT_NAME} raylib rygame tmx raylib-tmx)
 
 if (WIN32)
     target_link_libraries(${PROJECT_NAME} gdi32 msvcrt winmm)

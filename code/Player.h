@@ -4,7 +4,7 @@
 
 #include <map>
 #include <string>
-#include <raylib_utils.h>
+#include <rygame.h>
 
 
 class Player : public rg::sprite::Sprite

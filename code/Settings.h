@@ -1,7 +1,7 @@
 #pragma once
 #include <map>
 #include <string>
-#include <raylib_utils.h>
+#include <rygame.h>
 
 constexpr int SCREEN_WIDTH = 1280;
 constexpr int SCREEN_HEIGHT = 720;

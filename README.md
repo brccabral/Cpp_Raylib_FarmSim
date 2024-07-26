@@ -9,9 +9,9 @@ This project is similar to **Stardew Valley**.
 - Raylib  
   Main library to manage window, inputs, screen  
   Compile and install raylib https://github.com/raysan5/raylib
-- Raylib Utils  
-  https://github.com/brccabral/raylib_utils.git  
-  I created this library to have my Raylib helper functions available to all my projects.  
+- Rygame  
+  https://github.com/brccabral/rygame.git  
+  I created this library to have my Raylib in the same style as Pygame.  
   Use as STATIC library.
 - TMX  
   Parse `.tmx` files (**Tiled**)  
@@ -23,5 +23,5 @@ This project is similar to **Stardew Valley**.
 ### Resources
 
 - Get game assets from tutorial project code https://github.com/clear-code-projects/PyDew-Valley
-  - In `graphics/stumps`, I renamed the images to `Small.png` and `Large.png`.   
+    - In `graphics/stumps`, I renamed the images to `Small.png` and `Large.png`.   
 

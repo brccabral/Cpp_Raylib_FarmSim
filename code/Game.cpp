@@ -1,4 +1,4 @@
-#include <raylib_utils.h>
+#include <rygame.h>
 #include "Game.h"
 
 Game::Game(const int width, const int height)
