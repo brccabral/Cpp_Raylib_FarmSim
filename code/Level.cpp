@@ -191,5 +191,4 @@ void Level::Reset()
     {
         soil_layer->WaterAll();
     }
-
 }

@@ -61,10 +61,8 @@ void SoilLayer::Water(const rl::Vector2 point)
 void SoilLayer::RemoveWater()
 {
     // destroy all water sprites
-    for (auto *sprite: water_sprites.sprites)
-    {
-        sprite->Kill();
-    }
+    all_sprites->remove(water_sprites.sprites);
+    water_sprites.empty();
 
     // clean up the grid
     for (auto &row: grid)
@@ -249,8 +247,7 @@ void SoilLayer::CreateSoilTiles()
 void SoilLayer::CreateWaterTile(const rl::Vector2 pos)
 {
     const unsigned int random_water = rl::GetRandomValue(0, water_surfs.size() - 1);
-    new WaterTile(
-            pos, water_surfs[random_water], {all_sprites, &water_sprites});
+    new WaterTile(pos, water_surfs[random_water], {all_sprites, &water_sprites});
 }
 
 bool SoilLayer::IsFarmable(std::vector<std::string> cell)
