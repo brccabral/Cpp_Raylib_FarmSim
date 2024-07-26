@@ -70,6 +70,7 @@ void Tree::CheckDeath()
         RectInflate(hitbox, -10, -rect.height * 0.6f);
         RectToMidBottom(hitbox, GetRectMidBottom(rect));
         alive = false;
+        player_add("wood");
 
 #ifdef SHOW_HITBOX
         const RectangleU rd = {0, 0, rect.size};
