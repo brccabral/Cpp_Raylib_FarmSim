@@ -58,6 +58,7 @@ void Tree::CheckDeath()
 {
     if (health <= 0)
     {
+        new Particle(rect.pos, image, {groups[0]}, LAYERS["fruit"], 0.3);
         delete image;
         image = stump_surf;
         const rl::Vector2 oldMidBottom = GetRectMidBottom(rect);
