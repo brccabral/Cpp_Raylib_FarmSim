@@ -14,7 +14,13 @@ Level::Level()
     soil_layer = new SoilLayer(&all_sprites);
     Setup();
     overlay = new Overlay(player);
-    transition = new Transition([this] { Reset(); }, player);
+    transition = new Transition(
+            [this]
+            {
+                Reset();
+            }, player);
+    rain = new Rain(&all_sprites);
+    raining = true;
 }
 
 Level::~Level()
@@ -28,6 +34,7 @@ Level::~Level()
 
     delete overlay;
     delete transition;
+    delete rain;
     UnloadTMX(tmx_data);
 }
 
@@ -37,6 +44,11 @@ void Level::run(const float dt)
     all_sprites.CustomDraw(player);
     all_sprites.Update(dt);
     overlay->Display();
+
+    if (raining)
+    {
+        rain->Update();
+    }
 
     if (player->sleep)
     {
@@ -112,7 +124,10 @@ void Level::Setup()
             new Tree(
                     {(float) tree->x, (float) (tree->y - tree->height)}, surf,
                     {&all_sprites, &collisionSprites, &treeSprites}, tree->name,
-                    [this](const std::string &item) { this->PlayerAdd(item); });
+                    [this](const std::string &item)
+                    {
+                        this->PlayerAdd(item);
+                    });
         }
         tree = tree->next;
     }
