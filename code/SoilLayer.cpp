@@ -99,7 +99,7 @@ void SoilLayer::CreateSoilGrid()
     rl::tmx_map *map = rl::LoadTMX("resources/data/map.tmx");
 
     const rl::tmx_layer *farmableLayer = tmx_find_layer_by_name(map, "Farmable");
-    auto tiles = rg::GetTMXTiles(map, farmableLayer);
+    auto tiles = rg::tmx::GetTMXTiles(map, farmableLayer);
     for (auto [position, surface]: tiles)
     {
         const unsigned int x = position.x / TILE_SIZE;
