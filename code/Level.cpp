@@ -33,6 +33,7 @@ Level::~Level()
     delete overlay;
     delete transition;
     delete rain;
+    delete soil_layer;
     UnloadTMX(tmx_data);
 }
 
