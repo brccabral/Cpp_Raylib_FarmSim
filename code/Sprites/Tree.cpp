@@ -84,14 +84,18 @@ void Tree::Damage()
     // damaging tree
     health -= 1;
 
+    const auto apples = apple_sprites.Sprites();
     // remove an apple
-    if (!apple_sprites.sprites.empty())
+    if (!apples.empty())
     {
-        const int random_apple = rl::GetRandomValue(
-                0, apple_sprites.sprites.size() - 1); // GetRandomValue includes `max`
-        const auto apple = apple_sprites.sprites[random_apple];
+        const int random_apple =
+                rl::GetRandomValue(0, apples.size() - 1); // GetRandomValue includes `max`
+        const auto apple = apples[random_apple];
         new Particle(apple->rect.pos, apple->image, {groups[0]}, LAYERS["fruit"]);
         player_add("apple");
+        // do not delete apple here, this function is called inside the all_sprites update
+        // during player update and the all_sprites might still use it
+        // it will be deleted in ~Tree()
         apple->Kill();
     }
 }

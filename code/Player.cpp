@@ -194,7 +194,8 @@ void Player::UseTool()
     }
     else if (!strcmp(selected_tool.c_str(), "axe"))
     {
-        for (const auto treeSprite: treeSprites->sprites)
+        const auto trees = treeSprites->Sprites();
+        for (const auto treeSprite: trees)
         {
             const auto tree = (Tree *) treeSprite;
             if (CheckCollisionPointRec(target_pos, tree->rect.rectangle))
@@ -217,7 +218,8 @@ void Player::UseSeed()
 void Player::Collision(const rg::Axis axis)
 {
     // only GenericSprite should be added to collisionSprites as GenericSprite has hitbox
-    for (auto *sprite: collisionSprites->sprites)
+    const auto collisions = collisionSprites->Sprites();
+    for (auto *sprite: collisions)
     {
         const auto *generic_sprite = (GenericSprite *) sprite;
         if (CheckCollisionRecs(generic_sprite->hitbox.rectangle, hitbox.rectangle))
