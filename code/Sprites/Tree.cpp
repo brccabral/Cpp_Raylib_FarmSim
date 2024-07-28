@@ -25,21 +25,18 @@ Tree::Tree(
 
 Tree::~Tree()
 {
+    // if there is any apple in this tree, make sure to leave all
+    // groups together with the tree, before the tree is deleted
+    const auto apples = apple_sprites.Sprites();
+    for (auto *sprite: apples)
+    {
+        sprite->LeaveOtherGroups(&apple_sprites);
+    }
+
     if (alive)
     {
         delete stump_surf;
     }
-}
-
-void Tree::LeaveOtherGroups(const rg::sprite::Group *sprite_group)
-{
-    // if there is any apple in this tree, make sure to leave all
-    // groups together with the tree, before the tree is deleted
-    for (auto *sprite: apple_sprites.sprites)
-    {
-        sprite->LeaveOtherGroups(sprite_group);
-    }
-    GenericSprite::LeaveOtherGroups(sprite_group);
 }
 
 void Tree::CreateFruit()

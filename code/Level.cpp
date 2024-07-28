@@ -182,7 +182,7 @@ void Level::Reset()
         auto *tree = (Tree *) treeSprite;
         for (auto *apple: tree->apple_sprites.sprites)
         {
-            apple->Kill();
+            apple->Kill(true);
         }
         tree->CreateFruit();
     }
@@ -213,14 +213,7 @@ void Level::PlantCollision()
         if (plant->harvestable &&
             CheckCollisionRecs(plant->rect.rectangle, player->hitbox.rectangle))
         {
-            plant->Kill();
-            // Kill() invalidates the iterator because it removes plant from sprites vector
-            // we need to restart from begining
-            it = soil_layer->plant_sprites.sprites.begin();
-        }
-        else
-        {
-            ++it;
+            plant->Kill(true);
         }
     }
 }

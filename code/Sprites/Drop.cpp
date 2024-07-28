@@ -2,7 +2,7 @@
 
 Drop::Drop(
         const rl::Vector2 pos, rg::Surface *surface, const std::vector<rg::sprite::Group *> &groups,
-        const unsigned int z, bool moving)
+        const unsigned int z, const bool moving)
     : GenericSprite(pos, surface, groups, z), moving(moving)
 {
     lifetime = rl::GetRandomValue(400, 500);
@@ -31,6 +31,6 @@ void Drop::Update(const float deltaTime)
     const double current_time = rl::GetTime();
     if (current_time - start_time >= lifetime / 1000.0f)
     {
-        Kill();
+        Kill(true);
     }
 }

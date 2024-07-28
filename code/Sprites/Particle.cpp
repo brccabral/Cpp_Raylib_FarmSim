@@ -20,6 +20,6 @@ void Particle::Update(float deltaTime)
     const double current_time = rl::GetTime();
     if (current_time - start_time > duration)
     {
-        Kill();
+        Kill(true);
     }
 }
