@@ -25,13 +25,6 @@ Tree::Tree(
 
 Tree::~Tree()
 {
-    // if there is any apple in this tree, make sure to leave all
-    // groups together with the tree, before the tree is deleted
-    for (auto *sprite: apple_sprites.Sprites())
-    {
-        sprite->LeaveOtherGroups(&apple_sprites);
-    }
-
     if (alive)
     {
         delete stump_surf;
@@ -97,10 +90,8 @@ void Tree::Damage()
         const auto apple = apples[random_apple];
         new Particle(apple->rect.pos, apple->image, {groups[0]}, LAYERS["fruit"]);
         player_add("apple");
-        // do not delete apple here, this function is called inside the all_sprites update
-        // during player update and the all_sprites might still use it
-        // it will be deleted in ~Tree()
-        apple->Kill();
+
+        apple->Kill(true);
     }
 }
 
