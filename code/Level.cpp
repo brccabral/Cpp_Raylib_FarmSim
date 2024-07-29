@@ -182,10 +182,13 @@ void Level::Reset()
     for (auto *treeSprite: treeSprites.Sprites())
     {
         auto *tree = (Tree *) treeSprite;
+        // remove existing apples
         for (auto *apple: tree->apple_sprites.Sprites())
         {
             apple->Kill(true);
         }
+
+        // create new ones if tree is alive
         tree->CreateFruit();
     }
 

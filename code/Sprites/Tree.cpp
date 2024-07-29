@@ -40,10 +40,15 @@ Tree::~Tree()
 
 void Tree::CreateFruit()
 {
+    if (!alive)
+    {
+        return;
+    }
     for (const auto position: apple_pos)
     {
         if (rl::GetRandomValue(0, 9) < 2) // 20%
         {
+            // apple_surf is deleted in apple.~Sprite()
             rg::Surface *apple_surf = rg::Surface::Load("resources/graphics/fruit/apple.png");
             const rl::Vector2 pos = rect.pos + position;
             new GenericSprite(pos, apple_surf, {&apple_sprites, groups[0]}, LAYERS["fruit"]);
