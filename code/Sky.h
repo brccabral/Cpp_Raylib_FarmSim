@@ -8,10 +8,11 @@ public:
 
     Sky();
     void Display(float dt);
+    rl::Vector3 start_color{};
 
 private:
 
     rg::Surface *display_surface = nullptr;
     rg::Surface *full_surf = nullptr;
-    rl::Color start_color{};
+    rl::Vector3 end_color{};
 };

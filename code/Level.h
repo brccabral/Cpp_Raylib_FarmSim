@@ -19,7 +19,7 @@ public:
 
 private:
 
-    void PlayerAdd(const std::string &item);
+    void PlayerAdd(const std::string &item) const;
     void Reset();
     void PlantCollision();
 

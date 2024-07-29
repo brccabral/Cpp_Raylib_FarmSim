@@ -177,7 +177,7 @@ void Level::Setup()
             LAYERS["ground"]); // GenericSprite will be deleted in ~Level.all_sprites
 }
 
-void Level::PlayerAdd(const std::string &item)
+void Level::PlayerAdd(const std::string &item) const
 {
     player->item_inventory[item] += 1;
 }
@@ -211,6 +211,9 @@ void Level::Reset()
     {
         soil_layer->WaterAll();
     }
+
+    // sky
+    sky->start_color = {255, 255, 255};
 }
 
 void Level::PlantCollision()
