@@ -31,6 +31,11 @@ public:
             {"corn", 0}, //
             {"tomato", 0} //
     };
+    std::map<std::string, unsigned int> seed_inventory = {
+            {"corn", 5}, //
+            {"tomato", 5} //
+    };
+    int money = 200;
 
     bool sleep = false; // flag if player is sleeping, new day reset level
 
@@ -43,7 +48,7 @@ private:
     void Animate(float dt);
     void UpdateStatus();
     void UseTool() const;
-    void UseSeed() const;
+    void UseSeed();
     void Collision(rg::Axis axis);
     void GetTargetPos();
     void SetStatus(const std::string &animation_status);

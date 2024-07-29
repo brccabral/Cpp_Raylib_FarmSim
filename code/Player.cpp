@@ -209,9 +209,13 @@ void Player::UseTool() const
     }
 }
 
-void Player::UseSeed() const
+void Player::UseSeed()
 {
-    soil_layer->PlantSeed(target_pos, selected_seed);
+    if (seed_inventory[selected_seed] > 0)
+    {
+        soil_layer->PlantSeed(target_pos, selected_seed);
+        seed_inventory[selected_seed] -= 1;
+    }
 }
 
 void Player::Collision(const rg::Axis axis)
