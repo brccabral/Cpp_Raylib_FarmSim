@@ -19,6 +19,6 @@ private:
     Player *player = nullptr;
 
     rg::Surface *image = nullptr;
-    float transparency = 255;
-    float speed = -5; // fade to black speed = -2
+    int color = 255;
+    int speed = -5; // fade to black speed = -2
 };
