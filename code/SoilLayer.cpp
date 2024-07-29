@@ -60,7 +60,7 @@ void SoilLayer::Water(const rl::Vector2 point)
     }
 }
 
-void SoilLayer::RemoveWater()
+void SoilLayer::RemoveAllWater()
 {
     // destroy all water sprites
     for (auto *water: water_sprites.Sprites())
@@ -79,6 +79,14 @@ void SoilLayer::RemoveWater()
             }
         }
     }
+}
+
+void SoilLayer::RemovePlant(const rl::Vector2 pos)
+{
+    const unsigned int x = pos.x / TILE_SIZE;
+    const unsigned int y = pos.y / TILE_SIZE;
+    auto *cell = &grid[y][x];
+    cell->erase(std::remove(cell->begin(), cell->end(), 'P'), cell->end());
 }
 
 void SoilLayer::WaterAll()

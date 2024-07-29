@@ -14,7 +14,9 @@ public:
     // Adds WaterTile to an existing SoilTile
     void Water(rl::Vector2 point);
     // Remove all WaterTile, called when player goes to sleep (reset Level)
-    void RemoveWater();
+    void RemoveAllWater();
+    // Remove Plant from position (during harvesting)
+    void RemovePlant(rl::Vector2 pos);
     // When it rains, all available soil will be watered
     void WaterAll();
     // Plant a seed in an empty soil
