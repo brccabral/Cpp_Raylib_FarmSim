@@ -21,6 +21,8 @@ Level::Level()
     rain = new Rain(&all_sprites);
     raining = rl::GetRandomValue(0, 9) > RAIN_CHANCE;
     soil_layer->raining = raining;
+
+    sky = new Sky;
 }
 
 Level::~Level()
@@ -36,6 +38,7 @@ Level::~Level()
     delete transition;
     delete rain;
     delete soil_layer;
+    delete sky;
     UnloadTMX(tmx_data);
 }
 
@@ -48,11 +51,16 @@ void Level::run(const float dt)
 
     overlay->Display();
 
+    // rain
     if (raining)
     {
         rain->Update();
     }
 
+    // day
+    sky->Display(dt);
+
+    // transition overlay
     if (player->sleep)
     {
         transition->Play();

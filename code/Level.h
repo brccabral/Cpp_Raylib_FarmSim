@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Overlay.h"
 #include "Rain.h"
+#include "Sky.h"
 #include "SoilLayer.h"
 #include "Transition.h"
 
@@ -32,6 +33,7 @@ private:
     Overlay *overlay = nullptr;
     Transition *transition = nullptr;
     SoilLayer *soil_layer = nullptr;
+    Sky *sky = nullptr;
     Rain *rain = nullptr;
 
     rl::tmx_map *tmx_data = nullptr;
