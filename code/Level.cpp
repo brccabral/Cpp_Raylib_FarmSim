@@ -7,6 +7,7 @@
 #include "Sprites/Water.h"
 #include "Sprites/WildFlower.h"
 
+#define RAIN_CHANCE (-1)
 
 Level::Level()
 {
@@ -17,7 +18,7 @@ Level::Level()
     overlay = new Overlay(player);
     transition = new Transition([this] { Reset(); }, player);
     rain = new Rain(&all_sprites);
-    raining = rl::GetRandomValue(0, 9) > 6;
+    raining = rl::GetRandomValue(0, 9) > RAIN_CHANCE;
     soil_layer->raining = raining;
 }
 
@@ -192,7 +193,7 @@ void Level::Reset()
     soil_layer->RemoveWater();
 
     // randomize rain
-    raining = rl::GetRandomValue(0, 9) > 6;
+    raining = rl::GetRandomValue(0, 9) > RAIN_CHANCE;
     soil_layer->raining = raining;
     if (raining)
     {
