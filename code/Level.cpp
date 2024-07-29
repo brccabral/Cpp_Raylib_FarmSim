@@ -178,12 +178,10 @@ void Level::Reset()
     soil_layer->UpdatePlants(); // must call before RemoveWater
 
     // apples on the trees
-    const auto trees = treeSprites.Sprites();
-    for (auto *treeSprite: trees)
+    for (auto *treeSprite: treeSprites.Sprites())
     {
         auto *tree = (Tree *) treeSprite;
-        const auto apples = tree->apple_sprites.Sprites();
-        for (auto *apple: apples)
+        for (auto *apple: tree->apple_sprites.Sprites())
         {
             apple->Kill(true);
         }
@@ -204,12 +202,7 @@ void Level::Reset()
 
 void Level::PlantCollision()
 {
-    const auto plants = soil_layer->plant_sprites.Sprites();
-    if (plants.empty())
-    {
-        return;
-    }
-    for (auto *plantSprite: plants)
+    for (auto *plantSprite: soil_layer->plant_sprites.Sprites())
     {
         auto *plant = (Plant *) plantSprite;
         if (plant->harvestable &&

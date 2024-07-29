@@ -47,8 +47,7 @@ void SoilLayer::GetHit(const rl::Vector2 point)
 void SoilLayer::Water(const rl::Vector2 point)
 {
     // only if it is a SoilSprite (is in group soil_sprites)
-    const auto sprites = soil_sprites.Sprites();
-    for (const auto *sprite: sprites)
+    for (const auto *sprite: soil_sprites.Sprites())
     {
         if (CheckCollisionPointRec(point, sprite->rect.rectangle))
         {
@@ -64,8 +63,7 @@ void SoilLayer::Water(const rl::Vector2 point)
 void SoilLayer::RemoveWater()
 {
     // destroy all water sprites
-    const auto waters = water_sprites.Sprites();
-    for (auto *water: waters)
+    for (auto *water: water_sprites.Sprites())
     {
         water->Kill(true);
     }
@@ -103,8 +101,7 @@ void SoilLayer::WaterAll()
 
 void SoilLayer::PlantSeed(const rl::Vector2 pos, const std::string &seed)
 {
-    const auto soils = soil_sprites.Sprites();
-    for (const auto *soil_sprite: soils)
+    for (const auto *soil_sprite: soil_sprites.Sprites())
     {
         if (CheckCollisionPointRec(pos, soil_sprite->rect.rectangle))
         {
@@ -307,8 +304,7 @@ bool SoilLayer::IsPlant(const std::vector<char> &cell)
 
 void SoilLayer::UpdatePlants()
 {
-    const auto plants = plant_sprites.Sprites();
-    for (auto *sprite: plants)
+    for (auto *sprite: plant_sprites.Sprites())
     {
         const auto plant = (Plant *) sprite;
         plant->Grow();

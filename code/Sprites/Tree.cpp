@@ -27,8 +27,7 @@ Tree::~Tree()
 {
     // if there is any apple in this tree, make sure to leave all
     // groups together with the tree, before the tree is deleted
-    const auto apples = apple_sprites.Sprites();
-    for (auto *sprite: apples)
+    for (auto *sprite: apple_sprites.Sprites())
     {
         sprite->LeaveOtherGroups(&apple_sprites);
     }
