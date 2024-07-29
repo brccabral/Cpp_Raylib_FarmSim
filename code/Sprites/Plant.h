@@ -14,10 +14,10 @@ public:
     void Grow();
 
     bool harvestable{};
+    std::string plant_type;
 
 private:
 
-    std::string plant_type;
     std::vector<rg::Surface *> frames{};
     float age = 0;
     int max_age{};

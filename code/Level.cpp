@@ -7,7 +7,7 @@
 #include "Sprites/Water.h"
 #include "Sprites/WildFlower.h"
 
-#define RAIN_CHANCE (-1)
+#define RAIN_CHANCE (6)
 
 Level::Level()
 {
@@ -212,6 +212,7 @@ void Level::PlantCollision()
         if (plant->harvestable &&
             CheckCollisionRecs(plant->rect.rectangle, player->hitbox.rectangle))
         {
+            PlayerAdd(plant->plant_type);
             plant->Kill(true);
         }
     }
