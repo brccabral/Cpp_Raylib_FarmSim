@@ -19,7 +19,7 @@ Game::~Game()
     rg::Quit();
 }
 
-void Game::run()
+void Game::run() const
 {
     while (!rl::WindowShouldClose())
     {

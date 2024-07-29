@@ -1,10 +1,8 @@
 #pragma once
-#include "SoilLayer.h"
-
-
 #include <map>
 #include <string>
 #include <rygame.h>
+#include "SoilLayer.h"
 
 
 class Player : public rg::sprite::Sprite
@@ -44,8 +42,8 @@ private:
     void UpdateTimers();
     void Animate(float dt);
     void UpdateStatus();
-    void UseTool();
-    void UseSeed();
+    void UseTool() const;
+    void UseSeed() const;
     void Collision(rg::Axis axis);
     void GetTargetPos();
     void SetStatus(const std::string &animation_status);

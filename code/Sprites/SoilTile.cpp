@@ -4,7 +4,7 @@
 
 
 SoilTile::SoilTile(
-        rl::Vector2 pos, rg::Surface *surface, const std::vector<rg::sprite::Group *> &groups)
+        const rl::Vector2 pos, rg::Surface *surface, const std::vector<rg::sprite::Group *> &groups)
     : Sprite(groups)
 {
     image = surface;

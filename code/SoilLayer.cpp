@@ -1,9 +1,9 @@
 #include "SoilLayer.h"
-
 #include "Settings.h"
 #include "Sprites/Plant.h"
 #include "Sprites/SoilTile.h"
 #include "Sprites/WaterTile.h"
+
 
 SoilLayer::SoilLayer(rg::sprite::Group *all_sprites, rg::sprite::Group *collisionSprites)
     : all_sprites(all_sprites), collisionSprites(collisionSprites)

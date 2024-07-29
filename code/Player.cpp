@@ -186,7 +186,7 @@ void Player::UpdateStatus()
     }
 }
 
-void Player::UseTool()
+void Player::UseTool() const
 {
     if (!strcmp(selected_tool.c_str(), "hoe"))
     {
@@ -209,7 +209,7 @@ void Player::UseTool()
     }
 }
 
-void Player::UseSeed()
+void Player::UseSeed() const
 {
     soil_layer->PlantSeed(target_pos, selected_seed);
 }

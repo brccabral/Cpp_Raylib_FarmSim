@@ -1,6 +1,6 @@
 #include "Transition.h"
-
 #include "Settings.h"
+
 
 Transition::Transition(const std::function<void()> &reset, Player *player)
     : reset(reset), player(player)
