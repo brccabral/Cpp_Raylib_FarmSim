@@ -2,6 +2,7 @@
 #include "Level.h"
 #include "Sprites/GenericSprite.h"
 #include "Sprites/Interaction.h"
+#include "Sprites/Particle.h"
 #include "Sprites/Plant.h"
 #include "Sprites/Tree.h"
 #include "Sprites/Water.h"
@@ -214,6 +215,8 @@ void Level::PlantCollision()
         {
             PlayerAdd(plant->plant_type);
             plant->Kill(true);
+            // we can still use plant because the deletion is delayed until dislay::Update
+            new Particle(plant->rect.pos, plant->image, {&all_sprites}, LAYERS["main"]);
         }
     }
 }
