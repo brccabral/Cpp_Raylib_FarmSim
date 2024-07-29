@@ -75,7 +75,7 @@ void SoilLayer::RemoveWater()
         {
             if (IsWater(cell))
             {
-                cell.erase(remove(cell.begin(), cell.end(), 'W'), cell.end());
+                cell.erase(std::remove(cell.begin(), cell.end(), 'W'), cell.end());
             }
         }
     }
