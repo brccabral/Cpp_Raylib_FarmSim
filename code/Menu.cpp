@@ -25,13 +25,16 @@ void Menu::Update()
     Input();
     rg::draw::rect(display_surface, rl::RED, main_rect);
     DisplayMoney();
-    // for (int text_index = 0; text_index < text_surfs.size(); ++text_index)
-    // {
-    //     display_surface->Blit(text_surfs[text_index], {100.0f, text_index * 50.0f});
-    // }
+    for (int text_index = 0; text_index < text_surfs.size(); ++text_index)
+    {
+        const float top = main_rect.y + text_index * (text_surfs[text_index]->GetRect().height +
+                                                      (padding * 2) + space);
+        ShowEntry(text_surfs[text_index], 0, top);
+        display_surface->Blit(text_surfs[text_index], {100.0f, text_index * 50.0f});
+    }
 }
 
-void Menu::Input()
+void Menu::Input() const
 {
     if (IsKeyReleased(rl::KEY_ESCAPE))
     {
@@ -48,13 +51,11 @@ void Menu::Setup()
         total_height += text_surf->GetRect().height + (padding * 2);
     }
     total_height += (text_surfs.size() - 1) * space;
-    menu_top = SCREEN_HEIGHT / 2 - total_height / 2;
-    main_rect = {
-            (SCREEN_WIDTH / 2.0f - width / 2.0f), (float) menu_top, (float) width,
-            (float) total_height};
+    menu_top = SCREEN_HEIGHT / 2.0f - total_height / 2.0f;
+    main_rect = {(SCREEN_WIDTH / 2.0f - width / 2.0f), menu_top, width, total_height};
 }
 
-void Menu::DisplayMoney()
+void Menu::DisplayMoney() const
 {
     auto *text_surf =
             font.render(rl::TextFormat("$%s", std::to_string(player->money).c_str()), rl::BLACK);
@@ -63,4 +64,12 @@ void Menu::DisplayMoney()
 
     rg::draw::rect(display_surface, rl::WHITE, GetRectInflate(text_rect, 10, 10), 0, 4);
     display_surface->Blit(text_surf, text_rect.pos);
+}
+
+void Menu::ShowEntry(const rg::Surface *text_surf, unsigned int amount, const float top)
+{
+    // background
+    const rg::RectangleU bg_rect = {
+            main_rect.x, top, width, text_surf->GetRect().height + padding * 2};
+    rg::draw::rect(display_surface, rl::WHITE, bg_rect, 0, 4);
 }
