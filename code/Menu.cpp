@@ -24,6 +24,7 @@ void Menu::Update()
 {
     Input();
     rg::draw::rect(display_surface, rl::RED, main_rect);
+    DisplayMoney();
     // for (int text_index = 0; text_index < text_surfs.size(); ++text_index)
     // {
     //     display_surface->Blit(text_surfs[text_index], {100.0f, text_index * 50.0f});
@@ -51,4 +52,15 @@ void Menu::Setup()
     main_rect = {
             (SCREEN_WIDTH / 2.0f - width / 2.0f), (float) menu_top, (float) width,
             (float) total_height};
+}
+
+void Menu::DisplayMoney()
+{
+    auto *text_surf =
+            font.render(rl::TextFormat("$%s", std::to_string(player->money).c_str()), rl::BLACK);
+    rg::RectangleU text_rect = text_surf->GetRect();
+    RectToMidBottom(text_rect, {SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - 20});
+
+    rg::draw::rect(display_surface, rl::WHITE, GetRectInflate(text_rect, 10, 10), 0, 4);
+    display_surface->Blit(text_surf, text_rect.pos);
 }

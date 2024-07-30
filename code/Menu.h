@@ -13,6 +13,7 @@ public:
 private:
 
     void Setup();
+    void DisplayMoney();
 
     Player *player = nullptr;
     std::function<void()> toggle_menu = nullptr;
