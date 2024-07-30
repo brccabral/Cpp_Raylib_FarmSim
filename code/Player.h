@@ -11,7 +11,7 @@ public:
 
     Player(rl::Vector2 pos, rg::sprite::Group *group, rg::sprite::Group *collisionSprites,
            rg::sprite::Group *treeSprites, rg::sprite::Group *interactionSprites,
-           SoilLayer *soil_layer);
+           SoilLayer *soil_layer, const std::function<void()> &toggle_shop);
     ~Player() override;
     void Update(float deltaTime) override;
 
@@ -71,4 +71,6 @@ private:
     SoilLayer *soil_layer = nullptr;
 
     rl::Vector2 target_pos{};
+
+    std::function<void()> toggle_shop = nullptr;
 };

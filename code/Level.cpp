@@ -158,9 +158,16 @@ void Level::Setup()
         {
             player = new Player(
                     {(float) playerObj->x, (float) playerObj->y}, &all_sprites, &collisionSprites,
-                    &treeSprites, &interactionSprites, soil_layer);
+                    &treeSprites, &interactionSprites, soil_layer, [this] { ToogleShop(); });
         }
         if (!strcmp(playerObj->name, "Bed"))
+        {
+            new Interaction(
+                    {(float) playerObj->x, (float) playerObj->y},
+                    {(float) playerObj->width, (float) playerObj->height}, {&interactionSprites},
+                    playerObj->name);
+        }
+        if (!strcmp(playerObj->name, "Trader"))
         {
             new Interaction(
                     {(float) playerObj->x, (float) playerObj->y},
@@ -231,4 +238,9 @@ void Level::PlantCollision()
             soil_layer->RemovePlant(GetRectCenter(plant->rect));
         }
     }
+}
+
+void Level::ToogleShop()
+{
+    shop_active = !shop_active;
 }

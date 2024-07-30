@@ -11,9 +11,9 @@
 Player::Player(
         const rl::Vector2 pos, rg::sprite::Group *group, rg::sprite::Group *collisionSprites,
         rg::sprite::Group *treeSprites, rg::sprite::Group *interactionSprites,
-        SoilLayer *soil_layer)
+        SoilLayer *soil_layer, const std::function<void()> &toggle_shop)
     : Sprite(group), collisionSprites(collisionSprites), treeSprites(treeSprites),
-      interactionSprites(interactionSprites), soil_layer(soil_layer)
+      interactionSprites(interactionSprites), soil_layer(soil_layer), toggle_shop(toggle_shop)
 {
     ImportAssets();
 
@@ -134,7 +134,9 @@ void Player::Input()
         {
             const auto *interaction_sprite = (Interaction *) collided_interation_sprite;
             if (!strcmp(interaction_sprite->name.c_str(), "Trader"))
-            {}
+            {
+                toggle_shop();
+            }
             else
             {
                 direction_status = "left";

@@ -22,6 +22,7 @@ private:
     void PlayerAdd(const std::string &item) const;
     void Reset();
     void PlantCollision();
+    void ToogleShop();
 
     rg::Surface *display_surface = nullptr;
 
@@ -40,4 +41,5 @@ private:
     std::vector<rg::Surface *> water_frames;
 
     bool raining{};
+    bool shop_active{};
 };
