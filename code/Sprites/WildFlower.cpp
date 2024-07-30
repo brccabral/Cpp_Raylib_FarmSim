@@ -4,7 +4,7 @@ WildFlower::WildFlower(
         const rl::Vector2 pos, rg::Surface *surf, const std::vector<rg::sprite::Group *> &groups)
     : GenericSprite(pos, surf, groups)
 {
-    hitbox = rect;
-    RectInflate(hitbox, -rect.width * 0.2f, -rect.height * 0.75f);
-    RectToMidBottom(hitbox, GetRectMidBottom(rect));
+    // hitbox = rect.copy();
+    // hitbox.inflate(-rect.width * 0.2f, -rect.height * 0.75);
+    // hitbox.midbottom(rect.midbottom());
 }

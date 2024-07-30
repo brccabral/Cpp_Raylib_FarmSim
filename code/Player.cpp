@@ -20,7 +20,7 @@ Player::Player(
     image = animations[status][frame_index];
 
     rect = image->GetRect();
-    RectToCenter(rect, pos);
+    rect.center(pos);
 
     z = LAYERS["main"];
 
@@ -29,8 +29,7 @@ Player::Player(
     timers["seed use"] = rg::Timer(0.350f, false, false, [this] { UseSeed(); });
     timers["seed switch"] = rg::Timer(0.2f);
 
-    hitbox = rect;
-    RectInflate(hitbox, -126, -70);
+    hitbox = rect.inflate(-126, -70);
     hitbox.y += HITBOX_Y_OFFSET;
 }
 
@@ -130,6 +129,7 @@ void Player::Input()
     // interation sprites
     if (IsKeyReleased(rl::KEY_ENTER))
     {
+        toggle_shop();
         if (auto *collided_interation_sprite = spritecollideany(this, interactionSprites))
         {
             const auto *interaction_sprite = (Interaction *) collided_interation_sprite;
@@ -223,43 +223,47 @@ void Player::UseSeed()
 void Player::Collision(const rg::Axis axis)
 {
     // only GenericSprite should be added to collisionSprites as GenericSprite has hitbox
-    for (auto *sprite: collisionSprites->Sprites())
+    for (auto *collisionSprite: collisionSprites->Sprites())
     {
-        const auto *generic_sprite = (GenericSprite *) sprite;
-        if (CheckCollisionRecs(generic_sprite->hitbox.rectangle, hitbox.rectangle))
+        const auto *sprite = (GenericSprite *) collisionSprite;
+        if (CheckCollisionRecs(sprite->hitbox.rectangle, hitbox.rectangle))
         {
             if (axis == rg::HORIZONTAL)
             {
                 if (direction.x > 0) // player moving right
                 {
-                    hitbox.x = generic_sprite->hitbox.x - hitbox.width;
+                    // hitbox.x = generic_sprite->hitbox.x - hitbox.width;
+                    hitbox.right(sprite->hitbox.left());
                 }
                 else if (direction.x < 0) // player moving left
                 {
-                    hitbox.x = generic_sprite->hitbox.x + generic_sprite->hitbox.width;
+                    // hitbox.x = generic_sprite->hitbox.x + generic_sprite->hitbox.width;
+                    hitbox.left(sprite->hitbox.right());
                 }
             }
             else
             {
                 if (direction.y > 0) // player moving down
                 {
-                    hitbox.y = generic_sprite->hitbox.y - hitbox.height;
+                    // hitbox.y = sprite->hitbox.y - hitbox.height;
+                    hitbox.bottom(sprite->hitbox.top());
                 }
                 else if (direction.y < 0) // player moving up
                 {
-                    hitbox.y = generic_sprite->hitbox.y + generic_sprite->hitbox.height;
+                    // hitbox.y = sprite->hitbox.y + sprite->hitbox.height;
+                    hitbox.top(sprite->hitbox.bottom());
                 }
             }
-            rl::Vector2 newPos = GetRectCenter(hitbox);
+            rl::Vector2 newPos = hitbox.center(); // GetRectCenter(hitbox);
             newPos.y -= HITBOX_Y_OFFSET;
-            RectToCenter(rect, newPos);
+            rect.center(newPos);
         }
     }
 }
 
 void Player::GetTargetPos()
 {
-    target_pos = GetRectCenter(rect) + PLAYER_TOOL_OFFSET[direction_status];
+    target_pos = rect.center() + PLAYER_TOOL_OFFSET[direction_status];
 }
 
 void Player::SetStatus(const std::string &animation_status)
@@ -274,13 +278,13 @@ void Player::Move(const float dt)
     // split the movement to deal with collisions
     // horizontal movement
     rect.pos.x += direction.x * speed * dt;
-    RectToCenter(hitbox, GetRectCenter(rect));
+    hitbox.center(rect.center());
     hitbox.y += HITBOX_Y_OFFSET;
     Collision(rg::HORIZONTAL);
 
     // vertical movement
     rect.pos.y += direction.y * speed * dt;
-    RectToCenter(hitbox, GetRectCenter(rect));
+    hitbox.center(rect.center());
     hitbox.y += HITBOX_Y_OFFSET;
     Collision(rg::VERTICAL);
 }

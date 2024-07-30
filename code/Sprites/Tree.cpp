@@ -56,12 +56,11 @@ void Tree::CheckDeath()
         new Particle(rect.pos, image, {groups[0]}, LAYERS["fruit"], 0.3);
         delete image;
         image = stump_surf;
-        const rl::Vector2 oldMidBottom = GetRectMidBottom(rect);
+        const rl::Vector2 oldMidBottom = rect.midbottom();
         rect = image->GetRect();
-        RectToMidBottom(rect, oldMidBottom);
-        hitbox = rect;
-        RectInflate(hitbox, -10, -rect.height * 0.6f);
-        RectToMidBottom(hitbox, GetRectMidBottom(rect));
+        rect.midbottom(oldMidBottom);
+        hitbox = rect.inflate(-10, -rect.height * 0.6f);
+        hitbox.midbottom(rect.midbottom());
         alive = false;
         player_add("wood");
 

@@ -49,5 +49,5 @@ private:
     std::vector<rg::Surface *> water_surfs{};
 
     std::vector<std::vector<std::vector<char>>> grid;
-    std::vector<rg::RectangleU> hit_rects{};
+    std::vector<rg::Rect> hit_rects{};
 };

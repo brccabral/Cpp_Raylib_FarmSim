@@ -32,11 +32,11 @@ void Overlay::Display()
 {
     auto *tool_surf = tools_surfaces[player->selected_tool];
     auto tool_rect = tool_surf->GetRect();
-    RectToMidBottom(tool_rect, OVERLAY_POSITIONS["tool"]);
+    tool_rect.midbottom(OVERLAY_POSITIONS["tool"]);
     display_surface->Blit(tool_surf, tool_rect.pos);
 
     auto *seed_surf = seeds_surfaces[player->selected_seed];
     auto seed_rect = seed_surf->GetRect();
-    RectToMidBottom(seed_rect, OVERLAY_POSITIONS["seed"]);
+    seed_rect.midbottom(OVERLAY_POSITIONS["seed"]);
     display_surface->Blit(seed_surf, seed_rect.pos);
 }

@@ -17,10 +17,9 @@ void GenericSprite::InitImage(const rl::Vector2 pos, rg::Surface *surf)
 {
     image = surf;
     rect = image->GetRect();
-    RectToTopLeft(rect, pos);
+    rect.topleft(pos);
 
     // hitbox gives an idea of pseudo-3D, where the player can be behind an object and vice-versa
-    hitbox = rect;
-    RectInflate(hitbox, -rect.width * 0.2f, -rect.height * 0.75f);
-    RectToMidBottom(hitbox, GetRectMidBottom(rect));
+    hitbox = rect.copy().inflate(-rect.width * 0.2f, -rect.height * 0.75f);
+    hitbox.midbottom(rect.midbottom());
 }

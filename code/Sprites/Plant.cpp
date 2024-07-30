@@ -25,7 +25,7 @@ Plant::Plant(
     }
     image = frames[0];
     rect = image->GetRect();
-    RectToMidBottom(rect, pos);
+    rect.midbottom(pos);
     rect.pos += {0, y_offset};
 
 #ifdef SHOW_HITBOX
@@ -52,7 +52,7 @@ Plant::~Plant()
 
 void Plant::Grow()
 {
-    if (check_watered(GetRectCenter(rect)))
+    if (check_watered(rect.center()))
     {
         age += grow_speed;
         if (age >= max_age)
@@ -60,15 +60,14 @@ void Plant::Grow()
             age = max_age;
             harvestable = true;
         }
-        const rl::Vector2 oldCenter = GetRectCenter(rect);
+        const rl::Vector2 oldCenter = rect.center();
         image = frames[int(age)];
         rect = image->GetRect();
-        RectToCenter(rect, oldCenter);
+        rect.center(oldCenter);
         if (age >= 1)
         {
             z = LAYERS["main"];
-            hitbox = rect;
-            RectInflate(hitbox, -26, -rect.height * 0.4);
+            hitbox = rect.inflate(-26, -rect.height * 0.4);
         }
     }
 }

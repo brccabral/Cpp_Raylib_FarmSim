@@ -244,7 +244,7 @@ void Level::PlantCollision()
             plant->Kill(true);
             // we can still use plant because the deletion is delayed until dislay::Update
             new Particle(plant->rect.pos, plant->image, {&all_sprites}, LAYERS["main"]);
-            soil_layer->RemovePlant(GetRectCenter(plant->rect));
+            soil_layer->RemovePlant(plant->rect.center());
         }
     }
 }

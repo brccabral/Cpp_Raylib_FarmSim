@@ -57,23 +57,23 @@ void Menu::DisplayMoney() const
 {
     auto *text_surf =
             font.render(rl::TextFormat("$%s", std::to_string(player->money).c_str()), rl::BLACK);
-    rg::RectangleU text_rect = text_surf->GetRect();
-    RectToMidBottom(text_rect, {SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - 20});
+    rg::Rect text_rect = text_surf->GetRect();
+    text_rect.midbottom({SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - 20});
 
-    rg::draw::rect(display_surface, rl::WHITE, GetRectInflate(text_rect, 10, 10), 0, 4);
+    rg::draw::rect(display_surface, rl::WHITE, text_rect.inflate(10, 10), 0, 4);
     display_surface->Blit(text_surf, text_rect.pos);
     delete text_surf;
 }
 
-void Menu::ShowEntry(rg::Surface *text_surf, unsigned int amount, const float top)
+void Menu::ShowEntry(rg::Surface *text_surf, const unsigned int amount, const float top)
 {
     // background
-    const rg::RectangleU bg_rect = {
-            main_rect.x, top, width, text_surf->GetRect().height + padding * 2};
+    const rg::Rect bg_rect = {
+            main_rect.left(), top, width, text_surf->GetRect().height + padding * 2};
     rg::draw::rect(display_surface, rl::WHITE, bg_rect, 0, 4);
 
     // text
-    rg::RectangleU text_rect = text_surf->GetRect();
-    RectToMidLeft(text_rect, {main_rect.x + 20, bg_rect.y + bg_rect.height / 2});
+    rg::Rect text_rect = text_surf->GetRect();
+    text_rect.midleft({main_rect.left() + 20, bg_rect.centery()});
     display_surface->Blit(text_surf, text_rect.pos);
 }

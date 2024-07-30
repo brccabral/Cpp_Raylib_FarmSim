@@ -23,7 +23,7 @@ public:
     std::vector<std::string> seeds = {"corn", "tomato"};
     std::string selected_seed = "corn";
 
-    rg::RectangleU hitbox{};
+    rg::Rect hitbox{};
 
     rg::InsertOrderMap<std::string, unsigned int> item_inventory = {
             {"wood", 0}, //

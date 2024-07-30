@@ -4,7 +4,7 @@
 
 void CameraGroup::CustomDraw(const Player *player)
 {
-    offset = rg::GetRectCenter(player->rect);
+    offset = player->rect.center();
     offset.x -= SCREEN_WIDTH / 2.0f;
     offset.y -= SCREEN_HEIGHT / 2.0f;
 
@@ -13,8 +13,8 @@ void CameraGroup::CustomDraw(const Player *player)
             sprites.begin(), sprites.end(),
             [](const rg::sprite::Sprite *l, const rg::sprite::Sprite *r)
             {
-                const float yl = GetRectCenter(l->rect).y;
-                const float yr = GetRectCenter(r->rect).y;
+                const float yl = l->rect.centery();
+                const float yr = r->rect.centery();
                 return yl < yr;
             });
     for (const auto &[layer, order]: LAYERS)
@@ -23,7 +23,7 @@ void CameraGroup::CustomDraw(const Player *player)
         {
             if (sprite->z == order)
             {
-                rg::RectangleU offset_rect = sprite->rect;
+                rg::Rect offset_rect = sprite->rect;
                 offset_rect.pos -= offset;
 
                 display_surface->Blit(sprite->image, offset_rect.pos);

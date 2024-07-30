@@ -33,5 +33,5 @@ private:
     std::vector<rg::Surface *> text_surfs;
     float total_height{};
     float menu_top{};
-    rg::RectangleU main_rect{};
+    rg::Rect main_rect{};
 };

@@ -12,5 +12,5 @@ public:
             unsigned int z = LAYERS["main"]);
     void InitImage(rl::Vector2 pos, rg::Surface *surf);
 
-    rg::RectangleU hitbox{};
+    rg::Rect hitbox{};
 };

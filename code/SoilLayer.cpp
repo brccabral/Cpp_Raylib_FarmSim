@@ -120,7 +120,7 @@ void SoilLayer::PlantSeed(const rl::Vector2 pos, const std::string &seed)
             {
                 grid[y][x].emplace_back('P');
                 new Plant(
-                        GetRectMidBottom(soil_sprite->rect),
+                        soil_sprite->rect.midbottom(),
                         {all_sprites, &plant_sprites, collisionSprites}, seed,
                         [this](const rl::Vector2 target) { return this->CheckWatered(target); });
             }
@@ -178,7 +178,7 @@ void SoilLayer::CreateHitRects()
             {
                 const unsigned int x = index_col * TILE_SIZE;
                 const unsigned int y = index_row * TILE_SIZE;
-                rg::RectangleU rect = {(float) x, (float) y, (float) TILE_SIZE, (float) TILE_SIZE};
+                rg::Rect rect = {(float) x, (float) y, (float) TILE_SIZE, (float) TILE_SIZE};
                 hit_rects.push_back(rect);
             }
         }
