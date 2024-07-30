@@ -23,14 +23,12 @@ Menu::~Menu()
 void Menu::Update()
 {
     Input();
-    rg::draw::rect(display_surface, rl::RED, main_rect);
     DisplayMoney();
     for (int text_index = 0; text_index < text_surfs.size(); ++text_index)
     {
         const float top = main_rect.y + text_index * (text_surfs[text_index]->GetRect().height +
                                                       (padding * 2) + space);
         ShowEntry(text_surfs[text_index], 0, top);
-        display_surface->Blit(text_surfs[text_index], {100.0f, text_index * 50.0f});
     }
 }
 
@@ -66,10 +64,15 @@ void Menu::DisplayMoney() const
     display_surface->Blit(text_surf, text_rect.pos);
 }
 
-void Menu::ShowEntry(const rg::Surface *text_surf, unsigned int amount, const float top)
+void Menu::ShowEntry(rg::Surface *text_surf, unsigned int amount, const float top)
 {
     // background
     const rg::RectangleU bg_rect = {
             main_rect.x, top, width, text_surf->GetRect().height + padding * 2};
     rg::draw::rect(display_surface, rl::WHITE, bg_rect, 0, 4);
+
+    // text
+    rg::RectangleU text_rect = text_surf->GetRect();
+    RectToMidLeft(text_rect, {main_rect.x + 20, bg_rect.y + bg_rect.height / 2});
+    display_surface->Blit(text_surf, text_rect.pos);
 }

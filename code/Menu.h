@@ -14,7 +14,7 @@ private:
 
     void Setup();
     void DisplayMoney() const;
-    void ShowEntry(const rg::Surface *text_surf, unsigned int amount, float top);
+    void ShowEntry(rg::Surface *text_surf, unsigned int amount, float top);
 
     Player *player = nullptr;
     std::function<void()> toggle_menu = nullptr;
