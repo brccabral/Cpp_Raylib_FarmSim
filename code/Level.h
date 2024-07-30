@@ -1,5 +1,6 @@
 #pragma once
 #include "CameraGroup.h"
+#include "Menu.h"
 #include "Player.h"
 #include "Overlay.h"
 #include "Rain.h"
@@ -24,7 +25,7 @@ private:
     void PlantCollision();
     void ToogleShop();
 
-    rg::Surface *display_surface = nullptr;
+    rg::Surface *display_surface = rg::display::GetSurface();
 
     CameraGroup all_sprites{};
     rg::sprite::Group collisionSprites{};
@@ -36,6 +37,7 @@ private:
     SoilLayer *soil_layer = nullptr;
     Sky *sky = nullptr;
     Rain *rain = nullptr;
+    Menu *menu = nullptr;
 
     rl::tmx_map *tmx_data = nullptr;
     std::vector<rg::Surface *> water_frames;

@@ -23,6 +23,7 @@ Level::Level()
     soil_layer->raining = raining;
 
     sky = new Sky;
+    menu = new Menu(player, [this] { ToogleShop(); });
 }
 
 Level::~Level()
@@ -44,19 +45,28 @@ Level::~Level()
 
 void Level::run(const float dt)
 {
+    // drawing logic
     display_surface->Fill(rl::BLACK);
     all_sprites.CustomDraw(player);
-    all_sprites.Update(dt);
-    PlantCollision();
 
+    // updates
+    if (shop_active)
+    {
+        menu->Update();
+    }
+    else
+    {
+        all_sprites.Update(dt);
+        PlantCollision();
+    }
+
+    // weather
     overlay->Display();
-
     // rain
-    if (raining)
+    if (raining and !shop_active)
     {
         rain->Update();
     }
-
     // day
     sky->Display(dt);
 
