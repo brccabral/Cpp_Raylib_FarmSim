@@ -7,6 +7,7 @@ public:
 
     Menu(Player *player, const std::function<void()> &toggle_menu);
     void Update();
+    void Input();
 
 private:
 

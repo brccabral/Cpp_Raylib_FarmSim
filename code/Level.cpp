@@ -38,6 +38,7 @@ Level::~Level()
     delete rain;
     delete soil_layer;
     delete sky;
+    delete menu;
     UnloadTMX(tmx_data);
 }
 
@@ -50,6 +51,7 @@ void Level::run(const float dt)
     // updates
     if (shop_active)
     {
+        menu->Input();
         menu->Update();
     }
     else

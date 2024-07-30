@@ -10,3 +10,11 @@ void Menu::Update()
     surface.Fill(rl::BLACK);
     display_surface->Blit(&surface);
 }
+
+void Menu::Input()
+{
+    if (IsKeyReleased(rl::KEY_ESCAPE))
+    {
+        toggle_menu();
+    }
+}
