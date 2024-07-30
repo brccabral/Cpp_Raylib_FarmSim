@@ -76,4 +76,10 @@ void Menu::ShowEntry(rg::Surface *text_surf, const unsigned int amount, const fl
     rg::Rect text_rect = text_surf->GetRect();
     text_rect.midleft({main_rect.left() + 20, bg_rect.centery()});
     display_surface->Blit(text_surf, text_rect.pos);
+
+    // amount
+    rg::Surface *amount_surf = font.render(std::to_string(amount).c_str(), rl::BLACK);
+    rg::Rect amount_rect = amount_surf->GetRect();
+    amount_rect.midright({main_rect.right() - 20, bg_rect.centery()});
+    display_surface->Blit(amount_surf, amount_rect.pos);
 }
