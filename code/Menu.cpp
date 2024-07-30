@@ -2,7 +2,13 @@
 
 Menu::Menu(Player *player, const std::function<void()> &toggle_menu)
     : player(player), toggle_menu(toggle_menu)
-{}
+{
+    auto s = rg::getKeys(player->seed_inventory);
+    options = rg::getKeys(player->item_inventory);
+    options.insert(options.begin(), s.begin(), s.end());
+    sell_border = player->item_inventory.size() - 1;
+    Setup();
+}
 
 void Menu::Update()
 {
@@ -18,3 +24,6 @@ void Menu::Input()
         toggle_menu();
     }
 }
+
+void Menu::Setup()
+{}
