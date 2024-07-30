@@ -1,5 +1,7 @@
 #include "Menu.h"
 
+#include "Settings.h"
+
 Menu::Menu(Player *player, const std::function<void()> &toggle_menu)
     : player(player), toggle_menu(toggle_menu)
 {
@@ -21,10 +23,11 @@ Menu::~Menu()
 void Menu::Update()
 {
     Input();
-    for (int text_index = 0; text_index < text_surfs.size(); ++text_index)
-    {
-        display_surface->Blit(text_surfs[text_index], {100.0f, text_index * 50.0f});
-    }
+    rg::draw::rect(display_surface, rl::RED, main_rect);
+    // for (int text_index = 0; text_index < text_surfs.size(); ++text_index)
+    // {
+    //     display_surface->Blit(text_surfs[text_index], {100.0f, text_index * 50.0f});
+    // }
 }
 
 void Menu::Input()
@@ -41,5 +44,11 @@ void Menu::Setup()
     {
         auto *text_surf = font.render(item.c_str(), rl::BLACK);
         text_surfs.emplace_back(text_surf);
+        total_height += text_surf->GetRect().height + (padding * 2);
     }
+    total_height += (text_surfs.size() - 1) * space;
+    menu_top = SCREEN_HEIGHT / 2 - total_height / 2;
+    main_rect = {
+            (SCREEN_WIDTH / 2.0f - width / 2.0f), (float) menu_top, (float) width,
+            (float) total_height};
 }

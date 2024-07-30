@@ -29,4 +29,7 @@ private:
     unsigned int sell_border = 0;
 
     std::vector<rg::Surface *> text_surfs;
+    unsigned int total_height{};
+    unsigned int menu_top{};
+    rg::RectangleU main_rect{};
 };
