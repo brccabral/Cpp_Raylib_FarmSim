@@ -25,13 +25,13 @@ public:
 
     rg::RectangleU hitbox{};
 
-    std::map<std::string, unsigned int> item_inventory = {
+    rg::InsertOrderMap<std::string, unsigned int> item_inventory = {
             {"wood", 0}, //
             {"apple", 0}, //
             {"corn", 0}, //
             {"tomato", 0} //
     };
-    std::map<std::string, unsigned int> seed_inventory = {
+    rg::InsertOrderMap<std::string, unsigned int> seed_inventory = {
             {"corn", 5}, //
             {"tomato", 5} //
     };

@@ -51,7 +51,6 @@ void Level::run(const float dt)
     // updates
     if (shop_active)
     {
-        menu->Input();
         menu->Update();
     }
     else

@@ -6,6 +6,7 @@ class Menu
 public:
 
     Menu(Player *player, const std::function<void()> &toggle_menu);
+    ~Menu();
     void Update();
     void Input();
 
@@ -16,7 +17,7 @@ private:
     Player *player = nullptr;
     std::function<void()> toggle_menu = nullptr;
     rg::Surface *display_surface = rg::display::GetSurface();
-    rl::Font font = rl::LoadFontEx("resources/font/LycheeSoda.ttf", 30, nullptr, 0);
+    rg::font::Font font = rg::font::Font("resources/font/LycheeSoda.ttf", 30);
 
     // options
     unsigned int width = 400;
@@ -26,4 +27,6 @@ private:
     // entries
     std::vector<std::string> options;
     unsigned int sell_border = 0;
+
+    std::vector<rg::Surface *> text_surfs;
 };
