@@ -12,7 +12,7 @@ inline std::map<std::string, rl::Vector2> OVERLAY_POSITIONS = {
         {"seed", {70, SCREEN_HEIGHT - 5}}, //
 };
 
-inline InsertOrderMap<std::string, unsigned int> LAYERS = {
+inline rg::InsertOrderMap<std::string, unsigned int> LAYERS = {
         {"water", 0}, //
         {"ground", 1}, //
         {"soil", 2}, //
@@ -28,7 +28,7 @@ inline InsertOrderMap<std::string, unsigned int> LAYERS = {
         {"rain drops", 12}, //
 };
 
-inline InsertOrderMap<std::string, std::vector<rl::Vector2>> APPLE_POS = {
+inline rg::InsertOrderMap<std::string, std::vector<rl::Vector2>> APPLE_POS = {
         {"Small", {{18, 17}, {30, 37}, {12, 50}, {30, 45}, {20, 30}, {30, 10}}},
         {"Large", {{30, 24}, {60, 65}, {50, 50}, {16, 40}, {45, 50}, {42, 70}}},
 };
