@@ -62,6 +62,7 @@ void Menu::DisplayMoney() const
 
     rg::draw::rect(display_surface, rl::WHITE, GetRectInflate(text_rect, 10, 10), 0, 4);
     display_surface->Blit(text_surf, text_rect.pos);
+    delete text_surf;
 }
 
 void Menu::ShowEntry(rg::Surface *text_surf, unsigned int amount, const float top)
