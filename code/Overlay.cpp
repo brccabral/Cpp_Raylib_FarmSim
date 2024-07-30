@@ -4,7 +4,6 @@
 
 Overlay::Overlay(Player *player) : player(player)
 {
-    display_surface = rg::display::GetSurface();
     for (auto &tool: player->tools)
     {
         std::string path = "resources/graphics/overlay/" + tool + ".png";

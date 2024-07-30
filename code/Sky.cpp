@@ -1,13 +1,5 @@
 #include "Sky.h"
-#include "Settings.h"
 
-Sky::Sky()
-{
-    display_surface = rg::display::GetSurface();
-    full_surf = new rg::Surface(SCREEN_WIDTH, SCREEN_HEIGHT);
-    start_color = {255, 255, 255};
-    end_color = {38, 101, 189};
-}
 
 void Sky::Display(const float dt)
 {

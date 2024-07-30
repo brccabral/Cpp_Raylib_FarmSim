@@ -7,12 +7,12 @@ class CameraGroup : public rg::sprite::Group
 {
 public:
 
-    CameraGroup();
+    CameraGroup() = default;
 
     void CustomDraw(const Player *player);
 
 private:
 
-    rg::Surface *display_surface = nullptr;
+    rg::Surface *display_surface = rg::display::GetSurface();
     rl::Vector2 offset{};
 };

@@ -12,7 +12,7 @@ public:
 
 private:
 
-    rg::Surface *display_surface = nullptr;
+    rg::Surface *display_surface = rg::display::GetSurface();
     Player *player;
 
     std::map<std::string, rg::Surface *> tools_surfaces;

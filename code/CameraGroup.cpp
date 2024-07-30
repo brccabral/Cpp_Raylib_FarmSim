@@ -2,11 +2,6 @@
 #include "Settings.h"
 
 
-CameraGroup::CameraGroup()
-{
-    display_surface = rg::display::GetSurface();
-}
-
 void CameraGroup::CustomDraw(const Player *player)
 {
     offset = rg::GetRectCenter(player->rect);
