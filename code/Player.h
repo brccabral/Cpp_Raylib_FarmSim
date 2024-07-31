@@ -39,6 +39,9 @@ public:
 
     bool sleep = false; // flag if player is sleeping, new day reset level
 
+    // sounds
+    rg::mixer::Sound axe_sound = rg::mixer::Sound("resources/audio/axe.mp3");
+
 private:
 
     void Move(float dt);

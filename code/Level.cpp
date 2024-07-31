@@ -132,23 +132,6 @@ void Level::Setup()
         decor = decor->next;
     }
 
-    // trees
-    const rl::tmx_layer *trees_layer = tmx_find_layer_by_name(tmx_data, "Trees");
-    const auto *tree = trees_layer->content.objgr->head;
-    while (tree)
-    {
-        const int gid = tree->content.gid;
-        if (tmx_data->tiles[gid])
-        {
-            auto *surf = rg::tmx::GetTMXTileSurface(tmx_data->tiles[gid]);
-            new Tree(
-                    {(float) tree->x, (float) (tree->y - tree->height)}, surf,
-                    {&all_sprites, &collisionSprites, &treeSprites}, tree->name,
-                    [this](const std::string &item) { this->PlayerAdd(item); });
-        }
-        tree = tree->next;
-    }
-
     // collision tiles
     const rl::tmx_layer *collision_layer = tmx_find_layer_by_name(tmx_data, "Collision");
     auto collision_tiles = rg::tmx::GetTMXTiles(tmx_data, collision_layer);
@@ -184,6 +167,30 @@ void Level::Setup()
                     playerObj->name);
         }
         playerObj = playerObj->next;
+    }
+
+    // player must exist
+    if (!player)
+    {
+        throw;
+    }
+
+    // trees
+    // Tree() depends on Player
+    const rl::tmx_layer *trees_layer = tmx_find_layer_by_name(tmx_data, "Trees");
+    const auto *tree = trees_layer->content.objgr->head;
+    while (tree)
+    {
+        const int gid = tree->content.gid;
+        if (tmx_data->tiles[gid])
+        {
+            auto *surf = rg::tmx::GetTMXTileSurface(tmx_data->tiles[gid]);
+            new Tree(
+                    {(float) tree->x, (float) (tree->y - tree->height)}, surf,
+                    {&all_sprites, &collisionSprites, &treeSprites}, tree->name,
+                    [this](const std::string &item) { this->PlayerAdd(item); }, &player->axe_sound);
+        }
+        tree = tree->next;
     }
 
 

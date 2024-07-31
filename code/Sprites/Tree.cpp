@@ -4,8 +4,9 @@
 
 Tree::Tree(
         const rl::Vector2 pos, rg::Surface *surf, const std::vector<rg::sprite::Group *> &groups,
-        const char *name, const std::function<void(const std::string &item)> &player_add)
-    : GenericSprite(pos, surf, groups), name_(name), player_add(player_add)
+        const char *name, const std::function<void(const std::string &item)> &player_add,
+        rg::mixer::Sound *axe_sound)
+    : GenericSprite(pos, surf, groups), name_(name), player_add(player_add), axe_sound(axe_sound)
 {
     apple_pos = APPLE_POS[name_];
     CreateFruit();
@@ -76,6 +77,9 @@ void Tree::Damage()
 {
     // damaging tree
     health -= 1;
+
+    // play sound
+    axe_sound->Play();
 
     const auto apples = apple_sprites.Sprites();
     // remove an apple
