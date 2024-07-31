@@ -39,12 +39,6 @@ public:
 
     bool sleep = false; // flag if player is sleeping, new day reset level
 
-    // sounds
-    rg::mixer::Sound axe_sound = rg::mixer::Sound("resources/audio/axe.mp3");
-    rg::mixer::Sound hoe_sound = rg::mixer::Sound("resources/audio/hoe.wav");
-    rg::mixer::Sound watering = rg::mixer::Sound("resources/audio/water.mp3");
-    rg::mixer::Sound plant_sound = rg::mixer::Sound("resources/audio/plant.wav");
-
 private:
 
     void Move(float dt);
@@ -79,4 +73,10 @@ private:
     rl::Vector2 target_pos{};
 
     std::function<void()> toggle_shop = nullptr;
+
+    // sounds
+    rg::mixer::Sound axe_sound = rg::mixer::Sound("resources/audio/axe.mp3");
+    rg::mixer::Sound hoe_sound = rg::mixer::Sound("resources/audio/hoe.wav");
+    rg::mixer::Sound watering = rg::mixer::Sound("resources/audio/water.mp3");
+    rg::mixer::Sound plant_sound = rg::mixer::Sound("resources/audio/plant.wav");
 };
