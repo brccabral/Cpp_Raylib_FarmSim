@@ -204,6 +204,7 @@ void Player::UseTool() const
             if (CheckCollisionPointRec(target_pos, tree->rect.rectangle))
             {
                 tree->Damage();
+                axe_sound.Play();
             }
         }
     }
