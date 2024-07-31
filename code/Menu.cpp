@@ -22,6 +22,7 @@ Menu::~Menu()
 
 void Menu::Update()
 {
+    timer.Update();
     Input();
     DisplayMoney();
     auto s = rg::getValues<unsigned int, decltype(player->seed_inventory)>(player->seed_inventory);
@@ -33,15 +34,41 @@ void Menu::Update()
     {
         const float top = main_rect.top() + text_index * (text_surfs[text_index]->GetRect().height +
                                                           (padding * 2) + space);
-        ShowEntry(text_surfs[text_index], amount_list[text_index], top);
+        ShowEntry(text_surfs[text_index], amount_list[text_index], top, index == text_index);
     }
 }
 
-void Menu::Input() const
+void Menu::Input()
 {
     if (IsKeyReleased(rl::KEY_ESCAPE))
     {
         toggle_menu();
+    }
+
+    // the timer is not needed in here because we are using IsKeyReleased, but it is here to be
+    // compliant with the tutorial
+    if (!timer.active)
+    {
+        if (IsKeyReleased(rl::KEY_UP))
+        {
+            --index;
+            timer.Activate();
+        }
+        if (IsKeyReleased(rl::KEY_DOWN))
+        {
+            ++index;
+            timer.Activate();
+        }
+    }
+    // clamp the values
+    // circular list
+    if (index < 0)
+    {
+        index = options.size() - 1;
+    }
+    else if (index > options.size() - 1)
+    {
+        index = 0;
     }
 }
 
@@ -70,7 +97,8 @@ void Menu::DisplayMoney() const
     delete text_surf;
 }
 
-void Menu::ShowEntry(rg::Surface *text_surf, const unsigned int amount, const float top)
+void Menu::ShowEntry(
+        rg::Surface *text_surf, const unsigned int amount, const float top, const bool selected)
 {
     // background
     const rg::Rect bg_rect = {
@@ -87,4 +115,10 @@ void Menu::ShowEntry(rg::Surface *text_surf, const unsigned int amount, const fl
     rg::Rect amount_rect = amount_surf->GetRect();
     amount_rect.midright({main_rect.right() - 20, bg_rect.centery()});
     display_surface->Blit(amount_surf, amount_rect.pos);
+
+    // selected
+    if (selected)
+    {
+        rg::draw::rect(display_surface, rl::BLACK, bg_rect, 4, 4);
+    }
 }

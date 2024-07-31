@@ -8,13 +8,13 @@ public:
     Menu(Player *player, const std::function<void()> &toggle_menu);
     ~Menu();
     void Update();
-    void Input() const;
+    void Input();
 
 private:
 
     void Setup();
     void DisplayMoney() const;
-    void ShowEntry(rg::Surface *text_surf, unsigned int amount, float top);
+    void ShowEntry(rg::Surface *text_surf, unsigned int amount, float top, bool selected);
 
     Player *player = nullptr;
     std::function<void()> toggle_menu = nullptr;
@@ -34,4 +34,8 @@ private:
     float total_height{};
     float menu_top{};
     rg::Rect main_rect{};
+
+    // movement
+    int index = 0;
+    rg::Timer timer = rg::Timer(0.2f);
 };
