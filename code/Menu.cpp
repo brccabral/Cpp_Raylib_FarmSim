@@ -24,11 +24,16 @@ void Menu::Update()
 {
     Input();
     DisplayMoney();
+    auto s = rg::getValues<unsigned int, decltype(player->seed_inventory)>(player->seed_inventory);
+    auto amount_list =
+            rg::getValues<unsigned int, decltype(player->item_inventory)>(player->item_inventory);
+    amount_list.insert(amount_list.end(), s.begin(), s.end());
+
     for (int text_index = 0; text_index < text_surfs.size(); ++text_index)
     {
-        const float top = main_rect.y + text_index * (text_surfs[text_index]->GetRect().height +
-                                                      (padding * 2) + space);
-        ShowEntry(text_surfs[text_index], 0, top);
+        const float top = main_rect.top() + text_index * (text_surfs[text_index]->GetRect().height +
+                                                          (padding * 2) + space);
+        ShowEntry(text_surfs[text_index], amount_list[text_index], top);
     }
 }
 
