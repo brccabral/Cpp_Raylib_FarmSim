@@ -33,6 +33,7 @@ Player::Player(
 
     hoe_sound.SetVolume(0.1f);
     watering.SetVolume(0.2f);
+    plant_sound.SetVolume(0.2f);
 }
 
 Player::~Player()
@@ -220,8 +221,11 @@ void Player::UseSeed()
 {
     if (seed_inventory[selected_seed] > 0)
     {
-        soil_layer->PlantSeed(target_pos, selected_seed);
-        seed_inventory[selected_seed] -= 1;
+        if (soil_layer->PlantSeed(target_pos, selected_seed))
+        {
+            seed_inventory[selected_seed] -= 1;
+            plant_sound.Play();
+        }
     }
 }
 

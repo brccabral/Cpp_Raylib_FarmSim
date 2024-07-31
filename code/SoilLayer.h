@@ -20,7 +20,7 @@ public:
     // When it rains, all available soil will be watered
     void WaterAll();
     // Plant a seed in an empty soil
-    void PlantSeed(rl::Vector2 pos, const std::string &seed);
+    bool PlantSeed(rl::Vector2 pos, const std::string &seed);
     // Check if position contains a watered soil
     [[nodiscard]] bool CheckWatered(rl::Vector2 pos) const;
     // Update all plants

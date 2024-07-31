@@ -107,7 +107,7 @@ void SoilLayer::WaterAll()
     }
 }
 
-void SoilLayer::PlantSeed(const rl::Vector2 pos, const std::string &seed)
+bool SoilLayer::PlantSeed(const rl::Vector2 pos, const std::string &seed)
 {
     for (const auto *soil_sprite: soil_sprites.Sprites())
     {
@@ -123,9 +123,11 @@ void SoilLayer::PlantSeed(const rl::Vector2 pos, const std::string &seed)
                         soil_sprite->rect.midbottom(),
                         {all_sprites, &plant_sprites, collisionSprites}, seed,
                         [this](const rl::Vector2 target) { return this->CheckWatered(target); });
+                return true;
             }
         }
     }
+    return false;
 }
 
 bool SoilLayer::CheckWatered(const rl::Vector2 pos) const
