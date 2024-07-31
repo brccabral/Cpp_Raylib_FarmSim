@@ -32,6 +32,7 @@ Player::Player(
     hitbox.y += HITBOX_Y_OFFSET;
 
     hoe_sound.SetVolume(0.1f);
+    watering.SetVolume(0.2f);
 }
 
 Player::~Player()
@@ -211,6 +212,7 @@ void Player::UseTool() const
     else if (!strcmp(selected_tool.c_str(), "water"))
     {
         soil_layer->Water(target_pos);
+        watering.Play();
     }
 }
 

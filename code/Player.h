@@ -42,6 +42,7 @@ public:
     // sounds
     rg::mixer::Sound axe_sound = rg::mixer::Sound("resources/audio/axe.mp3");
     rg::mixer::Sound hoe_sound = rg::mixer::Sound("resources/audio/hoe.wav");
+    rg::mixer::Sound watering = rg::mixer::Sound("resources/audio/water.mp3");
 
 private:
 
