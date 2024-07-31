@@ -44,4 +44,7 @@ private:
 
     bool raining{};
     bool shop_active{};
+
+    // music
+    rg::mixer::Sound success = rg::mixer::Sound("resources/audio/success.wav");
 };

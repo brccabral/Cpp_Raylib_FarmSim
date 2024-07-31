@@ -22,6 +22,8 @@ Level::Level()
 
     sky = new Sky;
     menu = new Menu(player, [this] { ToogleShop(); });
+
+    success.SetVolume(0.3f);
 }
 
 Level::~Level()
@@ -203,6 +205,7 @@ void Level::Setup()
 void Level::PlayerAdd(const std::string &item) const
 {
     player->item_inventory[item] += 1;
+    success.Play();
 }
 
 void Level::Reset()
