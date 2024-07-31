@@ -18,6 +18,8 @@ Menu::~Menu()
     {
         delete text_surf;
     }
+    delete buy_text;
+    delete sell_text;
 }
 
 void Menu::Update()
@@ -83,6 +85,10 @@ void Menu::Setup()
     total_height += (text_surfs.size() - 1) * space;
     menu_top = SCREEN_HEIGHT / 2.0f - total_height / 2.0f;
     main_rect = {(SCREEN_WIDTH / 2.0f - width / 2.0f), menu_top, width, total_height};
+
+    // buy or sell
+    buy_text = font.render("buy", rl::BLACK);
+    sell_text = font.render("sell", rl::BLACK);
 }
 
 void Menu::DisplayMoney() const
@@ -120,5 +126,17 @@ void Menu::ShowEntry(
     if (selected)
     {
         rg::draw::rect(display_surface, rl::BLACK, bg_rect, 4, 4);
+        if (index <= sell_border)
+        {
+            rg::Rect pos_rect = sell_text->GetRect();
+            pos_rect.midleft({main_rect.left() + 150.0f, bg_rect.centery()});
+            display_surface->Blit(sell_text, pos_rect.pos);
+        }
+        else
+        {
+            rg::Rect pos_rect = buy_text->GetRect();
+            pos_rect.midleft({main_rect.left() + 150.0f, bg_rect.centery()});
+            display_surface->Blit(buy_text, pos_rect.pos);
+        }
     }
 }

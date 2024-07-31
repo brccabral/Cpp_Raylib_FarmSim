@@ -38,4 +38,8 @@ private:
     // movement
     int index = 0;
     rg::Timer timer = rg::Timer(0.2f);
+
+    // buy or sell text surface
+    rg::Surface *buy_text;
+    rg::Surface *sell_text;
 };
