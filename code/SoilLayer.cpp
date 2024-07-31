@@ -27,11 +27,11 @@ SoilLayer::~SoilLayer()
     }
 }
 
-void SoilLayer::GetHit(const rl::Vector2 point)
+void SoilLayer::GetHit(const rg::math::Vector2 point)
 {
     for (const auto rect: hit_rects)
     {
-        if (CheckCollisionPointRec(point, rect.rectangle))
+        if (rect.collidepoint(point))
         {
             const unsigned int x = rect.x / TILE_SIZE;
             const unsigned int y = rect.y / TILE_SIZE;
@@ -44,12 +44,12 @@ void SoilLayer::GetHit(const rl::Vector2 point)
     }
 }
 
-void SoilLayer::Water(const rl::Vector2 point)
+void SoilLayer::Water(const rg::math::Vector2 point)
 {
     // only if it is a SoilSprite (is in group soil_sprites)
     for (const auto *sprite: soil_sprites.Sprites())
     {
-        if (CheckCollisionPointRec(point, sprite->rect.rectangle))
+        if (sprite->rect.collidepoint(point))
         {
             const unsigned int x = sprite->rect.x / TILE_SIZE;
             const unsigned int y = sprite->rect.y / TILE_SIZE;
@@ -81,7 +81,7 @@ void SoilLayer::RemoveAllWater()
     }
 }
 
-void SoilLayer::RemovePlant(const rl::Vector2 pos)
+void SoilLayer::RemovePlant(const rg::math::Vector2 pos)
 {
     const unsigned int x = pos.x / TILE_SIZE;
     const unsigned int y = pos.y / TILE_SIZE;
@@ -107,11 +107,11 @@ void SoilLayer::WaterAll()
     }
 }
 
-bool SoilLayer::PlantSeed(const rl::Vector2 pos, const std::string &seed)
+bool SoilLayer::PlantSeed(const rg::math::Vector2 pos, const std::string &seed)
 {
     for (const auto *soil_sprite: soil_sprites.Sprites())
     {
-        if (CheckCollisionPointRec(pos, soil_sprite->rect.rectangle))
+        if (soil_sprite->rect.collidepoint(pos))
         {
             const unsigned int x = soil_sprite->rect.x / TILE_SIZE;
             const unsigned int y = soil_sprite->rect.y / TILE_SIZE;
@@ -122,7 +122,8 @@ bool SoilLayer::PlantSeed(const rl::Vector2 pos, const std::string &seed)
                 new Plant(
                         soil_sprite->rect.midbottom(),
                         {all_sprites, &plant_sprites, collisionSprites}, seed,
-                        [this](const rl::Vector2 target) { return this->CheckWatered(target); });
+                        [this](const rg::math::Vector2 target)
+                        { return this->CheckWatered(target); });
                 return true;
             }
         }
@@ -130,7 +131,7 @@ bool SoilLayer::PlantSeed(const rl::Vector2 pos, const std::string &seed)
     return false;
 }
 
-bool SoilLayer::CheckWatered(const rl::Vector2 pos) const
+bool SoilLayer::CheckWatered(const rg::math::Vector2 pos) const
 {
     const unsigned int x = pos.x / TILE_SIZE;
     const unsigned int y = pos.y / TILE_SIZE;
@@ -286,7 +287,7 @@ void SoilLayer::CreateSoilTiles()
     }
 }
 
-void SoilLayer::CreateWaterTile(const rl::Vector2 pos)
+void SoilLayer::CreateWaterTile(const rg::math::Vector2 pos)
 {
     const unsigned int random_water = rl::GetRandomValue(0, water_surfs.size() - 1);
     new WaterTile(pos, water_surfs[random_water], {all_sprites, &water_sprites});

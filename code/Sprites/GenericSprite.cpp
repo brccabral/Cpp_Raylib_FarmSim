@@ -1,7 +1,7 @@
 #include "GenericSprite.h"
 
 GenericSprite::GenericSprite(
-        const rl::Vector2 pos, rg::Surface *surf, const std::vector<rg::sprite::Group *> &groups,
+        const rg::math::Vector2 pos, rg::Surface *surf, const std::vector<rg::sprite::Group *> &groups,
         const unsigned int z)
     : Sprite(groups)
 {
@@ -13,7 +13,7 @@ GenericSprite::GenericSprite(
     this->z = z;
 }
 
-void GenericSprite::InitImage(const rl::Vector2 pos, rg::Surface *surf)
+void GenericSprite::InitImage(const rg::math::Vector2 pos, rg::Surface *surf)
 {
     image = surf;
     rect = image->GetRect().topleft(pos);

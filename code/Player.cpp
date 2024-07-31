@@ -9,7 +9,7 @@
 #define HITBOX_Y_OFFSET 15
 
 Player::Player(
-        const rl::Vector2 pos, rg::sprite::Group *group, rg::sprite::Group *collisionSprites,
+        const rg::math::Vector2 pos, rg::sprite::Group *group, rg::sprite::Group *collisionSprites,
         rg::sprite::Group *treeSprites, rg::sprite::Group *interactionSprites,
         SoilLayer *soil_layer, const std::function<void()> &toggle_shop)
     : Sprite(group), collisionSprites(collisionSprites), treeSprites(treeSprites),
@@ -180,7 +180,7 @@ void Player::Animate(const float dt)
 
 void Player::UpdateStatus()
 {
-    if (Vector2Length(direction) == 0)
+    if (direction.magnitude() == 0)
     {
         SetStatus("_idle");
     }
@@ -203,7 +203,7 @@ void Player::UseTool() const
         for (const auto treeSprite: treeSprites->Sprites())
         {
             const auto tree = (Tree *) treeSprite;
-            if (CheckCollisionPointRec(target_pos, tree->rect.rectangle))
+            if (tree->rect.collidepoint(target_pos))
             {
                 tree->Damage();
                 axe_sound.Play();
@@ -259,7 +259,7 @@ void Player::Collision(const rg::Axis axis)
                     hitbox.top(sprite->hitbox.bottom());
                 }
             }
-            rl::Vector2 newPos = hitbox.center();
+            rg::math::Vector2 newPos = hitbox.center();
             newPos.y -= HITBOX_Y_OFFSET;
             rect.center(newPos);
         }
@@ -278,7 +278,7 @@ void Player::SetStatus(const std::string &animation_status)
 
 void Player::Move(const float dt)
 {
-    direction = Vector2Normalize(direction);
+    direction.normalize_ip();
 
     // split the movement to deal with collisions
     // horizontal movement

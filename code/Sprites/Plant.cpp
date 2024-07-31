@@ -3,9 +3,9 @@
 
 
 Plant::Plant(
-        const rl::Vector2 pos, const std::vector<rg::sprite::Group *> &groups,
+        const rg::math::Vector2 pos, const std::vector<rg::sprite::Group *> &groups,
         const std::string &plant_type,
-        const std::function<bool(rl::Vector2 target)> &check_watered = nullptr)
+        const std::function<bool(rg::math::Vector2 target)> &check_watered = nullptr)
     : GenericSprite(pos, nullptr, groups, LAYERS["ground plant"]), plant_type(plant_type),
       check_watered(check_watered)
 {
@@ -58,7 +58,7 @@ void Plant::Grow()
             age = max_age;
             harvestable = true;
         }
-        const rl::Vector2 oldCenter = rect.center();
+        const rg::math::Vector2 oldCenter = rect.center();
         image = frames[int(age)];
         rect = image->GetRect();
         rect.center(oldCenter);

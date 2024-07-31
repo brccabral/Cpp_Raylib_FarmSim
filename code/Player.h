@@ -9,7 +9,7 @@ class Player : public rg::sprite::Sprite
 {
 public:
 
-    Player(rl::Vector2 pos, rg::sprite::Group *group, rg::sprite::Group *collisionSprites,
+    Player(rg::math::Vector2 pos, rg::sprite::Group *group, rg::sprite::Group *collisionSprites,
            rg::sprite::Group *treeSprites, rg::sprite::Group *interactionSprites,
            SoilLayer *soil_layer, const std::function<void()> &toggle_shop);
     ~Player() override;
@@ -53,7 +53,7 @@ private:
     void GetTargetPos();
     void SetStatus(const std::string &animation_status);
 
-    rl::Vector2 direction{};
+    rg::math::Vector2 direction{};
     float speed = 200.0f;
 
     std::map<std::string, std::vector<rg::Surface *>> animations;
@@ -70,7 +70,7 @@ private:
     rg::sprite::Group *interactionSprites = nullptr;
     SoilLayer *soil_layer = nullptr;
 
-    rl::Vector2 target_pos{};
+    rg::math::Vector2 target_pos{};
 
     std::function<void()> toggle_shop = nullptr;
 

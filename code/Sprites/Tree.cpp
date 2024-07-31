@@ -3,7 +3,7 @@
 
 
 Tree::Tree(
-        const rl::Vector2 pos, rg::Surface *surf, const std::vector<rg::sprite::Group *> &groups,
+        const rg::math::Vector2 pos, rg::Surface *surf, const std::vector<rg::sprite::Group *> &groups,
         const char *name, const std::function<void(const std::string &item)> &player_add)
     : GenericSprite(pos, surf, groups), name_(name), player_add(player_add)
 {
@@ -42,7 +42,7 @@ void Tree::CreateFruit()
         {
             // apple_surf is deleted in apple.~Sprite()
             rg::Surface *apple_surf = rg::Surface::Load("resources/graphics/fruit/apple.png");
-            const rl::Vector2 pos = rect.pos + position;
+            const rg::math::Vector2 pos = rect.pos + position;
             new GenericSprite(pos, apple_surf, {&apple_sprites, groups[0]}, LAYERS["fruit"]);
         }
     }
@@ -55,7 +55,7 @@ void Tree::CheckDeath()
         new Particle(rect.pos, image, {groups[0]}, LAYERS["fruit"], 0.3);
         delete image;
         image = stump_surf;
-        const rl::Vector2 oldMidBottom = rect.midbottom();
+        const rg::math::Vector2 oldMidBottom = rect.midbottom();
         rect = image->GetRect();
         rect.midbottom(oldMidBottom);
         hitbox = rect.inflate(-10, -rect.height * 0.6f);

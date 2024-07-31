@@ -14,5 +14,5 @@ public:
 private:
 
     rg::Surface *display_surface = rg::display::GetSurface();
-    rl::Vector2 offset{};
+    rg::math::Vector2 offset{};
 };

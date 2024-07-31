@@ -1,8 +1,8 @@
 #include "Drop.h"
 
 Drop::Drop(
-        const rl::Vector2 pos, rg::Surface *surface, const std::vector<rg::sprite::Group *> &groups,
-        const unsigned int z, const bool moving)
+        const rg::math::Vector2 pos, rg::Surface *surface,
+        const std::vector<rg::sprite::Group *> &groups, const unsigned int z, const bool moving)
     : GenericSprite(pos, surface, groups, z), moving(moving)
 {
     lifetime = rl::GetRandomValue(400, 500);

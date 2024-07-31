@@ -7,9 +7,9 @@ class Plant : public GenericSprite
 {
 public:
 
-    Plant(rl::Vector2 pos, const std::vector<rg::sprite::Group *> &groups,
+    Plant(rg::math::Vector2 pos, const std::vector<rg::sprite::Group *> &groups,
           const std::string &plant_type,
-          const std::function<bool(rl::Vector2 target)> &check_watered);
+          const std::function<bool(rg::math::Vector2 target)> &check_watered);
     ~Plant() override;
     void Grow();
 
@@ -23,5 +23,5 @@ private:
     int max_age{};
     float grow_speed{};
     float y_offset{};
-    std::function<bool(rl::Vector2 target)> check_watered;
+    std::function<bool(rg::math::Vector2 target)> check_watered;
 };
