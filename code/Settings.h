@@ -36,8 +36,9 @@ inline rg::InsertOrderMap<std::string, std::vector<rl::Vector2>> APPLE_POS = {
 inline std::map<std::string, rl::Vector2> PLAYER_TOOL_OFFSET = {
         {"left", {-50, 40}}, //
         {"right", {50, 40}}, //
-        {"up", {0, -10}}, //
-        {"down", {0, 50}}, //
+        // up/down values are different from tutorial due to HITBOX_Y_OFFSET in Player.h
+        {"up", {0, -25}}, //
+        {"down", {0, 35}}, //
 };
 
 inline std::map<std::string, float> GROW_SPEED = {
