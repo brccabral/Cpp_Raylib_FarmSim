@@ -14,7 +14,7 @@ private:
 
     void Setup();
     void DisplayMoney() const;
-    void ShowEntry(rg::Surface *text_surf, unsigned int amount, float top, bool selected);
+    void ShowEntry(rg::Surface *text_surf, unsigned int amount, float top, bool selected) const;
 
     Player *player = nullptr;
     std::function<void()> toggle_menu = nullptr;
@@ -40,6 +40,6 @@ private:
     rg::Timer timer = rg::Timer(0.2f);
 
     // buy or sell text surface
-    rg::Surface *buy_text;
-    rg::Surface *sell_text;
+    rg::Surface *buy_text = nullptr;
+    rg::Surface *sell_text = nullptr;
 };

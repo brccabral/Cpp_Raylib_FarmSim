@@ -1,7 +1,5 @@
 #pragma once
 #include "Settings.h"
-
-
 #include <rygame.h>
 
 

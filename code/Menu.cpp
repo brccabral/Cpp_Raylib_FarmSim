@@ -128,7 +128,7 @@ void Menu::DisplayMoney() const
 }
 
 void Menu::ShowEntry(
-        rg::Surface *text_surf, const unsigned int amount, const float top, const bool selected)
+        rg::Surface *text_surf, const unsigned int amount, const float top, const bool selected) const
 {
     // background
     const rg::Rect bg_rect = {
