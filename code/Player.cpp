@@ -19,8 +19,7 @@ Player::Player(
 
     image = animations[status][frame_index];
 
-    rect = image->GetRect();
-    rect.center(pos);
+    rect = image->GetRect().center(pos);
 
     z = LAYERS["main"];
 
@@ -232,12 +231,10 @@ void Player::Collision(const rg::Axis axis)
             {
                 if (direction.x > 0) // player moving right
                 {
-                    // hitbox.x = generic_sprite->hitbox.x - hitbox.width;
                     hitbox.right(sprite->hitbox.left());
                 }
                 else if (direction.x < 0) // player moving left
                 {
-                    // hitbox.x = generic_sprite->hitbox.x + generic_sprite->hitbox.width;
                     hitbox.left(sprite->hitbox.right());
                 }
             }
@@ -245,16 +242,14 @@ void Player::Collision(const rg::Axis axis)
             {
                 if (direction.y > 0) // player moving down
                 {
-                    // hitbox.y = sprite->hitbox.y - hitbox.height;
                     hitbox.bottom(sprite->hitbox.top());
                 }
                 else if (direction.y < 0) // player moving up
                 {
-                    // hitbox.y = sprite->hitbox.y + sprite->hitbox.height;
                     hitbox.top(sprite->hitbox.bottom());
                 }
             }
-            rl::Vector2 newPos = hitbox.center(); // GetRectCenter(hitbox);
+            rl::Vector2 newPos = hitbox.center();
             newPos.y -= HITBOX_Y_OFFSET;
             rect.center(newPos);
         }
@@ -320,12 +315,11 @@ void Player::ImportAssets()
 #ifdef SHOW_HITBOX
         for (const auto *surface: surfaces)
         {
-            const rg::RectangleU rd = surface->GetRect();
-            DrawRect(surface, rl::RED, rd, 2);
-            rg::RectangleU hd = rd;
-            RectInflate(hd, -126, -70);
+            const rg::Rect rd = surface->GetRect();
+            rg::draw::rect(surface, rl::RED, rd, 2);
+            rg::Rect hd = rd.inflate(-126, -70);
             hd.y += HITBOX_Y_OFFSET;
-            DrawRect(surface, rl::GREEN, hd, 2);
+            rg::draw::rect(surface, rl::GREEN, hd, 2);
         }
 #endif
     }

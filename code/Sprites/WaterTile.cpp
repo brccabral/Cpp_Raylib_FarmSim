@@ -7,7 +7,7 @@ WaterTile::WaterTile(
     : Sprite(groups)
 {
     image = surface;
-    rect = {pos, (float) image->Texture()->width, (float) image->Texture()->height};
+    rect = image->GetRect().topleft(pos);
     z = LAYERS["soil water"];
 }
 

@@ -119,8 +119,8 @@ void Menu::DisplayMoney() const
 {
     auto *text_surf =
             font.render(rl::TextFormat("$%s", std::to_string(player->money).c_str()), rl::BLACK);
-    rg::Rect text_rect = text_surf->GetRect();
-    text_rect.midbottom({SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - 20});
+    const rg::Rect text_rect =
+            text_surf->GetRect().midbottom({SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - 20});
 
     rg::draw::rect(display_surface, rl::WHITE, text_rect.inflate(10, 10), 0, 4);
     display_surface->Blit(text_surf, text_rect.pos);

@@ -24,18 +24,16 @@ Plant::Plant(
         y_offset = -8;
     }
     image = frames[0];
-    rect = image->GetRect();
-    rect.midbottom(pos);
+    rect = image->GetRect().midbottom(pos);
     rect.pos += {0, y_offset};
 
 #ifdef SHOW_HITBOX
     for (const auto *surface: frames)
     {
-        const rg::RectangleU rd = surface->GetRect();
-        DrawRect(surface, rl::RED, rd, 2);
-        rg::RectangleU hd = rd;
-        RectInflate(hd, -26, -rd.height * 0.4);
-        DrawRect(surface, rl::GREEN, hd, 2);
+        const rg::Rect rd = surface->GetRect();
+        rg::draw::rect(surface, rl::RED, rd, 2);
+        rg::Rect hd = rd.inflate(-26, -rd.height * 0.4);
+        rg::draw::rect(surface, rl::GREEN, hd, 2);
     }
 #endif
 }

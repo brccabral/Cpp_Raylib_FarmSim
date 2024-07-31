@@ -14,12 +14,11 @@ Tree::Tree(
     stump_surf = rg::Surface::Load(path.c_str());
 
 #ifdef SHOW_HITBOX
-    const rg::RectangleU rd = {0, 0, rect.size};
-    DrawRect(image, rl::RED, rd, 2);
-    rg::RectangleU hd = rd;
-    RectInflate(hd, -rect.width * 0.2f, -rect.height * 0.75f);
-    RectToMidBottom(hd, GetRectMidBottom(rd));
-    DrawRect(image, rl::GREEN, hd, 2);
+    const rg::Rect rd = {0, 0, rect.size};
+    rg::draw::rect(image, rl::RED, rd, 2);
+    const rg::Rect hd =
+            rd.inflate(-rect.width * 0.2f, -rect.height * 0.75f).midbottom(rd.midbottom());
+    rg::draw::rect(image, rl::GREEN, hd, 2);
 #endif
 }
 
@@ -65,12 +64,10 @@ void Tree::CheckDeath()
         player_add("wood");
 
 #ifdef SHOW_HITBOX
-        const rg::RectangleU rd = {0, 0, rect.size};
-        DrawRect(image, rl::RED, rd, 2);
-        rg::RectangleU hd = rd;
-        RectInflate(hd, -10, -rect.height * 0.6f);
-        RectToMidBottom(hd, GetRectMidBottom(rd));
-        DrawRect(image, rl::GREEN, hd, 2);
+        const rg::Rect rd = {0, 0, rect.size};
+        rg::draw::rect(image, rl::RED, rd, 2);
+        const rg::Rect hd = rd.inflate(-10, -rect.height * 0.6f).midbottom(rd.midbottom());
+        rg::draw::rect(image, rl::GREEN, hd, 2);
 #endif
     }
 }
