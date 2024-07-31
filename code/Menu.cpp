@@ -145,6 +145,7 @@ void Menu::ShowEntry(
     rg::Rect amount_rect = amount_surf->GetRect();
     amount_rect.midright({main_rect.right() - 20, bg_rect.centery()});
     display_surface->Blit(amount_surf, amount_rect.pos);
+    delete amount_surf;
 
     // selected
     if (selected)
