@@ -61,6 +61,30 @@ void Menu::Input()
             ++index;
             timer.Activate();
         }
+        if (IsKeyReleased(rl::KEY_SPACE))
+        {
+            timer.Activate();
+            // get item
+            const auto &current_item = options[index];
+            // sell/buy
+            if (index <= sell_border)
+            {
+                if (player->item_inventory[current_item] > 0)
+                {
+                    --player->item_inventory[current_item];
+                    player->money += SALE_PRICES[current_item];
+                }
+            }
+            else
+            {
+                const auto seed_price = PURCHASE_PRICES[current_item];
+                if (player->money >= seed_price)
+                {
+                    ++player->seed_inventory[current_item];
+                    player->money -= seed_price;
+                }
+            }
+        }
     }
     // clamp the values
     // circular list

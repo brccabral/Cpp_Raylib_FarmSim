@@ -44,3 +44,15 @@ inline std::map<std::string, float> GROW_SPEED = {
         {"corn", 1.0f}, //
         {"tomato", 0.7f}, //
 };
+
+inline std::map<std::string, unsigned int> SALE_PRICES = {
+        {"wood", 4}, //
+        {"apple", 2}, //
+        {"corn", 10}, //
+        {"tomato", 20}, //
+};
+
+inline std::map<std::string, unsigned int> PURCHASE_PRICES = {
+        {"corn", 4}, //
+        {"tomato", 5}, //
+};

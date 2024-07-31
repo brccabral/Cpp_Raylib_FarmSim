@@ -129,7 +129,7 @@ void Player::Input()
     // interation sprites
     if (IsKeyReleased(rl::KEY_ENTER))
     {
-        toggle_shop();
+        // toggle_shop();
         if (auto *collided_interation_sprite = spritecollideany(this, interactionSprites))
         {
             const auto *interaction_sprite = (Interaction *) collided_interation_sprite;
