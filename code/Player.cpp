@@ -30,6 +30,8 @@ Player::Player(
 
     hitbox = rect.inflate(-126, -70);
     hitbox.y += HITBOX_Y_OFFSET;
+
+    hoe_sound.SetVolume(0.1f);
 }
 
 Player::~Player()
@@ -192,6 +194,7 @@ void Player::UseTool() const
     if (!strcmp(selected_tool.c_str(), "hoe"))
     {
         soil_layer->GetHit(target_pos);
+        hoe_sound.Play();
     }
     else if (!strcmp(selected_tool.c_str(), "axe"))
     {
