@@ -24,6 +24,8 @@ Level::Level()
     menu = new Menu(player, [this] { ToogleShop(); });
 
     success.SetVolume(0.3f);
+    music.SetVolume(0.5f);
+    music.Play();
 }
 
 Level::~Level()

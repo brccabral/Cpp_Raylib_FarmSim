@@ -47,4 +47,5 @@ private:
 
     // music
     rg::mixer::Sound success = rg::mixer::Sound("resources/audio/success.wav");
+    rg::mixer::Sound music = rg::mixer::Sound("resources/audio/music.mp3", true);
 };
