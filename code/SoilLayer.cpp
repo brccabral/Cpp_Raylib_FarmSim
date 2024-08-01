@@ -157,13 +157,11 @@ void SoilLayer::CreateSoilGrid()
 
     const rl::tmx_layer *farmableLayer = tmx_find_layer_by_name(map, "Farmable");
     auto tiles = rg::tmx::GetTMXTiles(map, farmableLayer);
-    for (auto [position, surface]: tiles)
+    for (auto [position, surface, atlas]: tiles)
     {
         const unsigned int x = position.x / TILE_SIZE;
         const unsigned int y = position.y / TILE_SIZE;
         grid[y][x].emplace_back('F');
-        // ReSharper disable once CppDFADeletedPointer
-        delete surface;
     }
 
     delete ground;
