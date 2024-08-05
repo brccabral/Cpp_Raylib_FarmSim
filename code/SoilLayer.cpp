@@ -8,8 +8,8 @@
 SoilLayer::SoilLayer(rg::sprite::Group *all_sprites, rg::sprite::Group *collisionSprites)
     : all_sprites(all_sprites), collisionSprites(collisionSprites)
 {
-    soil_surfs = rg::assets::ImportFolderDict("resources/graphics/soil");
-    water_surfs = rg::assets::ImportFolder("resources/graphics/soil_water");
+    soil_surfs = rg::image::ImportFolderDict("resources/graphics/soil");
+    water_surfs = rg::image::ImportFolder("resources/graphics/soil_water");
 
     CreateSoilGrid();
     CreateHitRects();
@@ -17,14 +17,8 @@ SoilLayer::SoilLayer(rg::sprite::Group *all_sprites, rg::sprite::Group *collisio
 
 SoilLayer::~SoilLayer()
 {
-    for (auto &[key, surf]: soil_surfs)
-    {
-        delete surf;
-    }
-    for (const auto *surf: water_surfs)
-    {
-        delete surf;
-    }
+    rg::image::DeleteAllMap<std::string>(soil_surfs);
+    rg::image::DeleteAllVector(water_surfs);
 }
 
 void SoilLayer::GetHit(const rg::math::Vector2 point)
@@ -140,9 +134,10 @@ bool SoilLayer::CheckWatered(const rg::math::Vector2 pos) const
 
 void SoilLayer::CreateSoilGrid()
 {
-    const rg::Surface *ground = rg::Surface::Load("resources/graphics/world/ground.png");
+    const auto ground = rg::image::Load("resources/graphics/world/ground.png");
     const unsigned int h_tiles = ground->GetRect().width / TILE_SIZE;
     const unsigned int v_tiles = ground->GetRect().height / TILE_SIZE;
+    delete ground;
 
     for (int row = 0; row < v_tiles; ++row)
     {
@@ -164,7 +159,6 @@ void SoilLayer::CreateSoilGrid()
         grid[y][x].emplace_back('F');
     }
 
-    delete ground;
     UnloadTMX(map);
 }
 
@@ -275,7 +269,9 @@ void SoilLayer::CreateSoilTiles()
                 const float x = index_col * TILE_SIZE;
                 const float y = index_row * TILE_SIZE;
                 // TODO: this is adding the same x,y to all_sprites
-                new SoilTile({x, y}, soil_surfs[tyle_type], {all_sprites, &soil_sprites});
+                new SoilTile(
+                        {x, y}, rg::Surface::Create(&soil_surfs[tyle_type]->render.texture),
+                        {all_sprites, &soil_sprites});
                 if (raining)
                 {
                     CreateWaterTile({x, y});

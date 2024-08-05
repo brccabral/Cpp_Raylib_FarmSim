@@ -1,8 +1,8 @@
 #include "Particle.h"
 
 Particle::Particle(
-        const rg::math::Vector2 pos, rg::Surface *surf, const std::vector<rg::sprite::Group *> &groups,
-        const unsigned int z, const double duration)
+        const rg::math::Vector2 pos, rg::Surface *surf,
+        const std::vector<rg::sprite::Group *> &groups, const unsigned int z, const double duration)
     : GenericSprite(pos, surf, groups, z), duration(duration)
 {
     start_time = rl::GetTime();
@@ -12,6 +12,7 @@ Particle::Particle(
     const auto mask_surf = rg::mask::FromSurface(image);
     const auto new_surf = mask_surf.ToSurface();
     new_surf->SetColorKey(rl::BLACK);
+    // new_surf->Fill(rl::YELLOW);
     image = new_surf;
 }
 

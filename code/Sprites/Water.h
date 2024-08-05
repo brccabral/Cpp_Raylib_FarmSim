@@ -6,7 +6,7 @@ class Water : public GenericSprite
 {
 public:
 
-    Water(rg::math::Vector2 pos, const std::vector<rg::Surface *> &frames,
+    Water(rg::math::Vector2 pos, rg::Frames *frames,
           const std::vector<rg::sprite::Group *> &sprite_groups);
     ~Water() override;
     void Update(float deltaTime) override;
@@ -15,6 +15,6 @@ private:
 
     void Animate(float dt);
 
-    std::vector<rg::Surface *> frames;
+    rg::Frames *frames = nullptr;
     float frame_index = 0.0f;
 };

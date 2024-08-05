@@ -14,10 +14,7 @@ Menu::Menu(Player *player, const std::function<void()> &toggle_menu)
 
 Menu::~Menu()
 {
-    for (const auto *text_surf: text_surfs)
-    {
-        delete text_surf;
-    }
+    rg::image::DeleteAllVector(text_surfs);
     delete buy_text;
     delete sell_text;
 }
@@ -102,7 +99,7 @@ void Menu::Setup()
 {
     for (auto &item: options)
     {
-        auto *text_surf = font.render(item.c_str(), rl::BLACK);
+        auto text_surf = font.render(item.c_str(), rl::BLACK);
         text_surfs.emplace_back(text_surf);
         total_height += text_surf->GetRect().height + (padding * 2);
     }
@@ -117,23 +114,24 @@ void Menu::Setup()
 
 void Menu::DisplayMoney() const
 {
-    auto *text_surf =
+    const auto text_surf =
             font.render(rl::TextFormat("$%s", std::to_string(player->money).c_str()), rl::BLACK);
     const rg::Rect text_rect =
             text_surf->GetRect().midbottom({SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - 20});
 
-    rg::draw::rect(display_surface, rl::WHITE, text_rect.inflate(10, 10), 0, 4);
+    rg::draw::rect(*display_surface, rl::WHITE, text_rect.inflate(10, 10), 0, 4);
     display_surface->Blit(text_surf, text_rect.pos);
     delete text_surf;
 }
 
 void Menu::ShowEntry(
-        rg::Surface *text_surf, const unsigned int amount, const float top, const bool selected) const
+        rg::Surface *text_surf, const unsigned int amount, const float top,
+        const bool selected) const
 {
     // background
     const rg::Rect bg_rect = {
             main_rect.left(), top, width, text_surf->GetRect().height + padding * 2};
-    rg::draw::rect(display_surface, rl::WHITE, bg_rect, 0, 4);
+    rg::draw::rect(*display_surface, rl::WHITE, bg_rect, 0, 4);
 
     // text
     rg::Rect text_rect = text_surf->GetRect();
@@ -141,7 +139,7 @@ void Menu::ShowEntry(
     display_surface->Blit(text_surf, text_rect.pos);
 
     // amount
-    rg::Surface *amount_surf = font.render(std::to_string(amount).c_str(), rl::BLACK);
+    auto amount_surf = font.render(std::to_string(amount).c_str(), rl::BLACK);
     rg::Rect amount_rect = amount_surf->GetRect();
     amount_rect.midright({main_rect.right() - 20, bg_rect.centery()});
     display_surface->Blit(amount_surf, amount_rect.pos);
@@ -150,7 +148,7 @@ void Menu::ShowEntry(
     // selected
     if (selected)
     {
-        rg::draw::rect(display_surface, rl::BLACK, bg_rect, 4, 4);
+        rg::draw::rect(*display_surface, rl::BLACK, bg_rect, 4, 4);
         if (index <= sell_border)
         {
             rg::Rect pos_rect = sell_text->GetRect();

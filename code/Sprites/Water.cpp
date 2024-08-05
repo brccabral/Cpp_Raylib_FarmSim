@@ -1,16 +1,16 @@
 #include "Water.h"
 
 Water::Water(
-        const rg::math::Vector2 pos, const std::vector<rg::Surface *> &frames,
+        const rg::math::Vector2 pos, rg::Frames *frames,
         const std::vector<rg::sprite::Group *> &sprite_groups)
-    : GenericSprite(pos, frames[0], sprite_groups, LAYERS["water"]), frames(frames)
+    : GenericSprite(pos, frames, sprite_groups, LAYERS["water"]), frames(frames)
 {}
 
 Water::~Water()
 {
-    // image is a pointer to one of the frames
-    // but the frames are deleted in the Level class
-    // and the image is deleted in the Sprite parent
+    // image is a pointer to frames
+    // but frames is deleted in the Level class
+    // and the image is deleted in ~Sprite()
     image = nullptr;
 }
 
@@ -22,9 +22,5 @@ void Water::Update(const float deltaTime)
 void Water::Animate(const float dt)
 {
     frame_index += 5 * dt;
-    if (frame_index >= frames.size())
-    {
-        frame_index = 0;
-    }
-    image = frames[int(frame_index)];
+    frames->SetAtlas(int(frame_index));
 }

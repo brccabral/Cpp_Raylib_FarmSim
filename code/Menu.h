@@ -30,7 +30,7 @@ private:
     std::vector<std::string> options;
     unsigned int sell_border = 0;
 
-    std::vector<rg::Surface *> text_surfs;
+    std::vector<rg::Surface *> text_surfs{};
     float total_height{};
     float menu_top{};
     rg::Rect main_rect{};

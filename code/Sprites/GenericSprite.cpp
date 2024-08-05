@@ -1,20 +1,12 @@
 #include "GenericSprite.h"
 
 GenericSprite::GenericSprite(
-        const rg::math::Vector2 pos, rg::Surface *surf, const std::vector<rg::sprite::Group *> &groups,
-        const unsigned int z)
+        const rg::math::Vector2 pos, rg::Surface *surf,
+        const std::vector<rg::sprite::Group *> &groups, const unsigned int z)
     : Sprite(groups)
 {
-    if (surf)
-    {
-        InitImage(pos, surf);
-    }
-
     this->z = z;
-}
 
-void GenericSprite::InitImage(const rg::math::Vector2 pos, rg::Surface *surf)
-{
     image = surf;
     rect = image->GetRect().topleft(pos);
 

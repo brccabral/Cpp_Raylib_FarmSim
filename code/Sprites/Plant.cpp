@@ -10,9 +10,9 @@ Plant::Plant(
       check_watered(check_watered)
 {
     const std::string path = "resources/graphics/fruit/" + plant_type;
-    frames = rg::assets::ImportFolder(path.c_str());
+    const auto plantsSurfaces = rg::image::ImportFolder(path.c_str());
 
-    max_age = frames.size() - 1;
+    max_age = plantsSurfaces.size() - 1;
     grow_speed = GROW_SPEED[plant_type];
 
     if (!strcmp(plant_type.c_str(), "corn"))
@@ -23,9 +23,11 @@ Plant::Plant(
     {
         y_offset = -8;
     }
-    image = frames[0];
+    image = rg::Frames::Merge(plantsSurfaces, 1, plantsSurfaces.size());
     rect = image->GetRect().midbottom(pos);
     rect.pos += {0, y_offset};
+
+    rg::image::DeleteAllVector(plantsSurfaces);
 
 #ifdef SHOW_HITBOX
     for (const auto *surface: frames)
@@ -36,16 +38,6 @@ Plant::Plant(
         rg::draw::rect(surface, rl::GREEN, hd, 2);
     }
 #endif
-}
-
-Plant::~Plant()
-{
-    for (const auto *surface: frames)
-    {
-        delete surface;
-    }
-    // avoid double delete in ~Sprite()
-    image = nullptr;
 }
 
 void Plant::Grow()
@@ -59,7 +51,7 @@ void Plant::Grow()
             harvestable = true;
         }
         const rg::math::Vector2 oldCenter = rect.center();
-        image = frames[int(age)];
+        ((rg::Frames *) image)->SetAtlas(int(age));
         rect = image->GetRect();
         rect.center(oldCenter);
         if (age >= 1)

@@ -9,5 +9,4 @@ public:
     SoilTile(
             rg::math::Vector2 pos, rg::Surface *surface,
             const std::vector<rg::sprite::Group *> &groups);
-    ~SoilTile() override;
 };

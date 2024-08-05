@@ -40,13 +40,10 @@ Player::~Player()
 {
     for (auto &[key, surfaces]: animations)
     {
-        for (const auto *surface: surfaces)
-        {
-            delete surface;
-        };
+        rg::image::DeleteAllVector(surfaces);
     }
     // image is a pointer to one of the animations
-    // but it is also deleted in the Sprite parent class
+    // but it is also deleted in ~Sprite()
     image = nullptr;
 }
 
@@ -320,7 +317,7 @@ void Player::ImportAssets()
     for (auto &[key, surfaces]: animations)
     {
         std::string path = "resources/graphics/character/" + key;
-        surfaces = rg::assets::ImportFolder(path.c_str());
+        surfaces = rg::image::ImportFolder(path.c_str());
 
 #ifdef SHOW_HITBOX
         for (const auto *surface: surfaces)

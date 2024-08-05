@@ -40,7 +40,7 @@ private:
     Menu *menu = nullptr;
 
     rl::tmx_map *tmx_data = nullptr;
-    std::vector<rg::Surface *> water_frames;
+    rg::Frames *water_frames = nullptr;
 
     bool raining{};
     bool shop_active{};
@@ -48,4 +48,6 @@ private:
     // music
     rg::mixer::Sound success = rg::mixer::Sound("resources/audio/success.wav");
     rg::mixer::Sound music = rg::mixer::Sound("resources/audio/music.mp3", true);
+
+    rg::Surface *ground_surf = nullptr;
 };

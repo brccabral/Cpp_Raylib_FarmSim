@@ -14,6 +14,6 @@ public:
 private:
 
     rg::Surface *display_surface = rg::display::GetSurface();
-    rg::Surface *full_surf = new rg::Surface(SCREEN_WIDTH, SCREEN_HEIGHT);
+    rg::Surface *full_surf = rg::Surface::Create(SCREEN_WIDTH, SCREEN_HEIGHT);
     rl::Vector3 end_color{38, 101, 189};
 };

@@ -12,9 +12,3 @@ SoilTile::SoilTile(
     rect = image->GetRect().topleft(pos);
     z = LAYERS["soil"];
 }
-
-SoilTile::~SoilTile()
-{
-    // the image for SoilTile is created and deleted in SoilLayer (it is the same for all SoilTile)
-    image = nullptr;
-}

@@ -30,13 +30,6 @@ Level::Level()
 
 Level::~Level()
 {
-    // deletes all water_frames, the Water class don't need to delete them
-    // but need to set image to nullptr
-    for (const auto *surface: water_frames)
-    {
-        delete surface;
-    }
-
     delete overlay;
     delete transition;
     delete rain;
@@ -98,8 +91,7 @@ void Level::Setup()
         auto tiles = rg::tmx::GetTMXTiles(tmx_data, layer);
         for (auto &[tilePos, tileTexture, atlas_rect]: tiles)
         {
-            auto *tileSurf = new rg::Surface(atlas_rect.width, atlas_rect.height);
-            tileSurf->Blit(tileTexture, {}, atlas_rect);
+            auto tileSurf = rg::Surface::Create(tileTexture, atlas_rect);
             new GenericSprite(tilePos, tileSurf, {&all_sprites}, order);
         }
     }
@@ -109,13 +101,15 @@ void Level::Setup()
     auto fence_tiles = rg::tmx::GetTMXTiles(tmx_data, fence_layer);
     for (auto &[fence_pos, tileTexture, atlas_rect]: fence_tiles)
     {
-        auto *fence_surf = new rg::Surface(atlas_rect.width, atlas_rect.height);
-        fence_surf->Blit(tileTexture, {}, atlas_rect);
-        new GenericSprite(fence_pos, fence_surf, {&all_sprites, &collisionSprites});
+        new GenericSprite(
+                fence_pos, rg::Surface::Create(tileTexture, atlas_rect),
+                {&all_sprites, &collisionSprites});
     }
 
     // water
-    water_frames = rg::assets::ImportFolder("resources/graphics/water");
+    auto waterSurfaces = rg::image::ImportFolder("resources/graphics/water");
+    water_frames = rg::Frames::Merge(waterSurfaces, 1, waterSurfaces.size());
+    rg::image::DeleteAllVector(waterSurfaces);
     const rl::tmx_layer *water_layer = tmx_find_layer_by_name(tmx_data, "Water");
     auto water_tiles = rg::tmx::GetTMXTiles(tmx_data, water_layer);
     for (auto &[water_pos, water_surf, atlas_pos]: water_tiles)
@@ -132,11 +126,10 @@ void Level::Setup()
         if (tmx_data->tiles[gid])
         {
             rg::Rect atlas_rect{};
-            const auto *tileTexture = rg::tmx::GetTMXTileTexture(tmx_data->tiles[gid], &atlas_rect);
-            auto *surf = new rg::Surface(atlas_rect.width, atlas_rect.height);
-            surf->Blit(tileTexture, {}, atlas_rect);
+            auto *tileTexture = rg::tmx::GetTMXTileTexture(tmx_data->tiles[gid], &atlas_rect);
             new WildFlower(
-                    {(float) decor->x, (float) (decor->y - decor->height)}, surf,
+                    {(float) decor->x, (float) (decor->y - decor->height)},
+                    rg::Surface::Create(tileTexture, atlas_rect),
                     {&all_sprites, &collisionSprites});
         }
         decor = decor->next;
@@ -147,9 +140,8 @@ void Level::Setup()
     auto collision_tiles = rg::tmx::GetTMXTiles(tmx_data, collision_layer);
     for (auto &[collision_pos, tileTexture, atlas_rect]: collision_tiles)
     {
-        auto *collision_surf = new rg::Surface(atlas_rect.width, atlas_rect.height);
-        collision_surf->Blit(tileTexture, {}, atlas_rect);
-        new GenericSprite(collision_pos, collision_surf, {&collisionSprites});
+        new GenericSprite(
+                collision_pos, rg::Surface::Create(tileTexture, atlas_rect), {&collisionSprites});
     }
 
 
@@ -198,20 +190,18 @@ void Level::Setup()
         {
             rg::Rect atlas_rect;
             auto *tileTexture = rg::tmx::GetTMXTileTexture(tmx_data->tiles[gid], &atlas_rect);
-            auto *surf = new rg::Surface(atlas_rect.width, atlas_rect.height);
-            surf->Blit(tileTexture, {}, atlas_rect);
             new Tree(
-                    {(float) tree->x, (float) (tree->y - tree->height)}, surf,
+                    {(float) tree->x, (float) (tree->y - tree->height)},
+                    rg::Surface::Create(tileTexture, atlas_rect),
                     {&all_sprites, &collisionSprites, &treeSprites}, tree->name,
                     [this](const std::string &item) { this->PlayerAdd(item); });
         }
         tree = tree->next;
     }
 
-
-    auto *surface = rg::Surface::Load("resources/graphics/world/ground.png");
+    ground_surf = rg::image::Load("resources/graphics/world/ground.png");
     new GenericSprite(
-            {0, 0}, surface, {&all_sprites},
+            {0, 0}, ground_surf, {&all_sprites},
             LAYERS["ground"]); // GenericSprite will be deleted in ~Level.all_sprites
 }
 
