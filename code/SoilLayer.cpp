@@ -59,7 +59,7 @@ void SoilLayer::RemoveAllWater()
     // destroy all water sprites
     for (auto *water: water_sprites.Sprites())
     {
-        water->Kill(true);
+        water->Kill();
     }
 
     // clean up the grid
@@ -115,7 +115,7 @@ bool SoilLayer::PlantSeed(const rg::math::Vector2 pos, const std::string &seed)
                 grid[y][x].emplace_back('P');
                 new Plant(
                         soil_sprite->rect.midbottom(),
-                        {all_sprites, &plant_sprites, collisionSprites}, seed,
+                        {all_sprites, &plant_sprites, collisionSprites}, this, seed,
                         [this](const rg::math::Vector2 target)
                         { return this->CheckWatered(target); });
                 return true;
@@ -271,7 +271,7 @@ void SoilLayer::CreateSoilTiles()
                 // TODO: this is adding the same x,y to all_sprites
                 new SoilTile(
                         {x, y}, rg::Surface::Create(&soil_surfs[tyle_type]->render.texture),
-                        {all_sprites, &soil_sprites});
+                        {all_sprites, &soil_sprites}, this);
                 if (raining)
                 {
                     CreateWaterTile({x, y});
@@ -284,7 +284,7 @@ void SoilLayer::CreateSoilTiles()
 void SoilLayer::CreateWaterTile(const rg::math::Vector2 pos)
 {
     const unsigned int random_water = rl::GetRandomValue(0, water_surfs.size() - 1);
-    new WaterTile(pos, water_surfs[random_water], {all_sprites, &water_sprites});
+    new WaterTile(pos, water_surfs[random_water], {all_sprites, &water_sprites}, this);
 }
 
 bool SoilLayer::IsFarmable(const std::vector<char> &cell)
@@ -307,7 +307,7 @@ bool SoilLayer::IsPlant(const std::vector<char> &cell)
     return std::find(cell.begin(), cell.end(), 'P') != cell.end();
 }
 
-void SoilLayer::UpdatePlants()
+void SoilLayer::UpdatePlants() const
 {
     for (auto *sprite: plant_sprites.Sprites())
     {

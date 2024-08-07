@@ -8,7 +8,7 @@ class Plant : public GenericSprite
 public:
 
     Plant(rg::math::Vector2 pos, const std::vector<rg::sprite::Group *> &groups,
-          const std::string &plant_type,
+          rg::sprite::SpriteOwner *owner, const std::string &plant_type,
           const std::function<bool(rg::math::Vector2 target)> &check_watered);
     void Grow();
 

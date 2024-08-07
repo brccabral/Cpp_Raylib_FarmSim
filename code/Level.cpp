@@ -36,6 +36,7 @@ Level::~Level()
     delete soil_layer;
     delete sky;
     delete menu;
+    delete water_frames;
     UnloadTMX(tmx_data);
 }
 
@@ -92,7 +93,7 @@ void Level::Setup()
         for (auto &[tilePos, tileTexture, atlas_rect]: tiles)
         {
             auto tileSurf = rg::Surface::Create(tileTexture, atlas_rect);
-            new GenericSprite(tilePos, tileSurf, {&all_sprites}, order);
+            new GenericSprite(tilePos, tileSurf, {&all_sprites}, this, order);
         }
     }
 
@@ -103,7 +104,7 @@ void Level::Setup()
     {
         new GenericSprite(
                 fence_pos, rg::Surface::Create(tileTexture, atlas_rect),
-                {&all_sprites, &collisionSprites});
+                {&all_sprites, &collisionSprites}, this);
     }
 
     // water
@@ -114,7 +115,7 @@ void Level::Setup()
     auto water_tiles = rg::tmx::GetTMXTiles(tmx_data, water_layer);
     for (auto &[water_pos, water_surf, atlas_pos]: water_tiles)
     {
-        new Water(water_pos, water_frames, {&all_sprites});
+        new Water(water_pos, water_frames, {&all_sprites}, this);
     }
 
     // wildflowers
@@ -129,8 +130,8 @@ void Level::Setup()
             auto *tileTexture = rg::tmx::GetTMXTileTexture(tmx_data->tiles[gid], &atlas_rect);
             new WildFlower(
                     {(float) decor->x, (float) (decor->y - decor->height)},
-                    rg::Surface::Create(tileTexture, atlas_rect),
-                    {&all_sprites, &collisionSprites});
+                    rg::Surface::Create(tileTexture, atlas_rect), {&all_sprites, &collisionSprites},
+                    this);
         }
         decor = decor->next;
     }
@@ -141,7 +142,8 @@ void Level::Setup()
     for (auto &[collision_pos, tileTexture, atlas_rect]: collision_tiles)
     {
         new GenericSprite(
-                collision_pos, rg::Surface::Create(tileTexture, atlas_rect), {&collisionSprites});
+                collision_pos, rg::Surface::Create(tileTexture, atlas_rect), {&collisionSprites},
+                this);
     }
 
 
@@ -153,22 +155,23 @@ void Level::Setup()
         if (!strcmp(playerObj->name, "Start"))
         {
             player = new Player(
-                    {(float) playerObj->x, (float) playerObj->y}, &all_sprites, &collisionSprites,
-                    &treeSprites, &interactionSprites, soil_layer, [this] { ToogleShop(); });
+                    {(float) playerObj->x, (float) playerObj->y}, &all_sprites, this,
+                    &collisionSprites, &treeSprites, &interactionSprites, soil_layer,
+                    [this] { ToogleShop(); });
         }
         if (!strcmp(playerObj->name, "Bed"))
         {
             new Interaction(
                     {(float) playerObj->x, (float) playerObj->y},
                     {(float) playerObj->width, (float) playerObj->height}, {&interactionSprites},
-                    playerObj->name);
+                    this, playerObj->name);
         }
         if (!strcmp(playerObj->name, "Trader"))
         {
             new Interaction(
                     {(float) playerObj->x, (float) playerObj->y},
                     {(float) playerObj->width, (float) playerObj->height}, {&interactionSprites},
-                    playerObj->name);
+                    this, playerObj->name);
         }
         playerObj = playerObj->next;
     }
@@ -193,7 +196,7 @@ void Level::Setup()
             new Tree(
                     {(float) tree->x, (float) (tree->y - tree->height)},
                     rg::Surface::Create(tileTexture, atlas_rect),
-                    {&all_sprites, &collisionSprites, &treeSprites}, tree->name,
+                    {&all_sprites, &collisionSprites, &treeSprites}, this, tree->name,
                     [this](const std::string &item) { this->PlayerAdd(item); });
         }
         tree = tree->next;
@@ -201,7 +204,7 @@ void Level::Setup()
 
     ground_surf = rg::image::Load("resources/graphics/world/ground.png");
     new GenericSprite(
-            {0, 0}, ground_surf, {&all_sprites},
+            {0, 0}, ground_surf, {&all_sprites}, this,
             LAYERS["ground"]); // GenericSprite will be deleted in ~Level.all_sprites
 }
 
@@ -223,7 +226,7 @@ void Level::Reset()
         // remove existing apples
         for (auto *apple: tree->apple_sprites.Sprites())
         {
-            apple->Kill(true);
+            apple->Kill();
         }
 
         // create new ones if tree is alive
@@ -254,9 +257,9 @@ void Level::PlantCollision()
             CheckCollisionRecs(plant->rect.rectangle, player->hitbox.rectangle))
         {
             PlayerAdd(plant->plant_type);
-            plant->Kill(true);
+            plant->Kill();
             // we can still use plant because the deletion is delayed until dislay::Update
-            new Particle(plant->rect.pos, plant->image, {&all_sprites}, LAYERS["main"]);
+            new Particle(plant->rect.pos, plant->image, {&all_sprites}, this, LAYERS["main"]);
             soil_layer->RemovePlant(plant->rect.center());
         }
     }

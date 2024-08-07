@@ -9,7 +9,7 @@
 #include "Transition.h"
 
 
-class Level
+class Level : public rg::sprite::SpriteOwner
 {
 public:
 

@@ -2,8 +2,9 @@
 
 Particle::Particle(
         const rg::math::Vector2 pos, rg::Surface *surf,
-        const std::vector<rg::sprite::Group *> &groups, const unsigned int z, const double duration)
-    : GenericSprite(pos, surf, groups, z), duration(duration)
+        const std::vector<rg::sprite::Group *> &groups, rg::sprite::SpriteOwner *owner,
+        const unsigned int z, const double duration)
+    : GenericSprite(pos, surf, groups, owner, z), duration(duration)
 {
     start_time = rl::GetTime();
 
@@ -21,6 +22,6 @@ void Particle::Update(float deltaTime)
     const double current_time = rl::GetTime();
     if (current_time - start_time > duration)
     {
-        Kill(true);
+        Kill();
     }
 }

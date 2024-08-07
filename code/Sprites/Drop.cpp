@@ -2,8 +2,9 @@
 
 Drop::Drop(
         const rg::math::Vector2 pos, rg::Surface *surface,
-        const std::vector<rg::sprite::Group *> &groups, const unsigned int z, const bool moving)
-    : GenericSprite(pos, surface, groups, z), moving(moving)
+        const std::vector<rg::sprite::Group *> &groups, rg::sprite::SpriteOwner *owner,
+        const unsigned int z, const bool moving)
+    : GenericSprite(pos, surface, groups, owner, z), moving(moving)
 {
     lifetime = rl::GetRandomValue(400, 500);
     start_time = rl::GetTime();
@@ -13,12 +14,6 @@ Drop::Drop(
         direction = {-2, 4};
         speed = rl::GetRandomValue(200, 250);
     }
-}
-
-Drop::~Drop()
-{
-    // this image is created and destroyed in Rain()
-    image = nullptr;
 }
 
 void Drop::Update(const float deltaTime)
@@ -31,6 +26,6 @@ void Drop::Update(const float deltaTime)
     const double current_time = rl::GetTime();
     if (current_time - start_time >= lifetime / 1000.0f)
     {
-        Kill(true);
+        Kill();
     }
 }

@@ -16,6 +16,12 @@ Overlay::Overlay(Player *player) : player(player)
     }
 }
 
+Overlay::~Overlay()
+{
+    rg::image::DeleteAllMap<std::string>(tools_surfaces);
+    rg::image::DeleteAllMap<std::string>(seeds_surfaces);
+}
+
 void Overlay::Display()
 {
     const auto tool_surf = tools_surfaces[player->selected_tool];

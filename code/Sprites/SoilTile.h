@@ -8,5 +8,5 @@ public:
 
     SoilTile(
             rg::math::Vector2 pos, rg::Surface *surface,
-            const std::vector<rg::sprite::Group *> &groups);
+            const std::vector<rg::sprite::Group *> &groups, rg::sprite::SpriteOwner *owner);
 };

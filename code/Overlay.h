@@ -7,6 +7,7 @@ class Overlay
 public:
 
     explicit Overlay(Player *player);
+    ~Overlay();
     void Display();
 
 private:

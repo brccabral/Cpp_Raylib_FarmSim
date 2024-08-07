@@ -9,7 +9,9 @@ public:
 
     GenericSprite(
             rg::math::Vector2 pos, rg::Surface *surf,
-            const std::vector<rg::sprite::Group *> &groups, unsigned int z = LAYERS["main"]);
+            const std::vector<rg::sprite::Group *> &groups, rg::sprite::SpriteOwner *owner,
+            unsigned int z = LAYERS["main"]);
+    void InitImage(rg::Surface *surf);
 
     rg::Rect hitbox{};
 };

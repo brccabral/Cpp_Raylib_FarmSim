@@ -5,6 +5,11 @@ Transition::Transition(const std::function<void()> &reset, Player *player)
     : reset(reset), player(player)
 {}
 
+Transition::~Transition()
+{
+    delete image;
+}
+
 void Transition::Play()
 {
     color += speed;

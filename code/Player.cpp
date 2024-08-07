@@ -9,10 +9,10 @@
 #define HITBOX_Y_OFFSET 15
 
 Player::Player(
-        const rg::math::Vector2 pos, rg::sprite::Group *group, rg::sprite::Group *collisionSprites,
+        const rg::math::Vector2 pos, rg::sprite::Group *group, rg::sprite::SpriteOwner *owner, rg::sprite::Group *collisionSprites,
         rg::sprite::Group *treeSprites, rg::sprite::Group *interactionSprites,
         SoilLayer *soil_layer, const std::function<void()> &toggle_shop)
-    : Sprite(group), collisionSprites(collisionSprites), treeSprites(treeSprites),
+    : Sprite(group, owner), collisionSprites(collisionSprites), treeSprites(treeSprites),
       interactionSprites(interactionSprites), soil_layer(soil_layer), toggle_shop(toggle_shop)
 {
     ImportAssets();

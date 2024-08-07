@@ -2,7 +2,7 @@
 #include <rygame.h>
 
 
-class SoilLayer
+class SoilLayer : public rg::sprite::SpriteOwner
 {
 public:
 
@@ -24,7 +24,7 @@ public:
     // Check if position contains a watered soil
     [[nodiscard]] bool CheckWatered(rg::math::Vector2 pos) const;
     // Update all plants
-    void UpdatePlants();
+    void UpdatePlants() const;
 
     bool raining{};
     rg::sprite::Group plant_sprites{};

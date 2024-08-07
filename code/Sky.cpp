@@ -1,6 +1,11 @@
 #include "Sky.h"
 
 
+Sky::~Sky()
+{
+    delete full_surf;
+}
+
 void Sky::Display(const float dt)
 {
     if (start_color.x > end_color.x)

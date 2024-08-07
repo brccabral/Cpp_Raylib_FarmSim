@@ -4,9 +4,9 @@
 
 Plant::Plant(
         const rg::math::Vector2 pos, const std::vector<rg::sprite::Group *> &groups,
-        const std::string &plant_type,
+        rg::sprite::SpriteOwner *owner, const std::string &plant_type,
         const std::function<bool(rg::math::Vector2 target)> &check_watered = nullptr)
-    : GenericSprite(pos, nullptr, groups, LAYERS["ground plant"]), plant_type(plant_type),
+    : GenericSprite(pos, nullptr, groups, owner, LAYERS["ground plant"]), plant_type(plant_type),
       check_watered(check_watered)
 {
     const std::string path = "resources/graphics/fruit/" + plant_type;

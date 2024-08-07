@@ -4,9 +4,9 @@
 
 Tree::Tree(
         const rg::math::Vector2 pos, rg::Surface *surf,
-        const std::vector<rg::sprite::Group *> &groups, const char *name,
-        const std::function<void(const std::string &item)> &player_add)
-    : GenericSprite(pos, surf, groups), name_(name), player_add(player_add)
+        const std::vector<rg::sprite::Group *> &groups, rg::sprite::SpriteOwner *owner,
+        const char *name, const std::function<void(const std::string &item)> &player_add)
+    : GenericSprite(pos, surf, groups, owner), name_(name), player_add(player_add)
 {
     apple_surf = rg::image::Load("resources/graphics/fruit/apple.png");
     apple_pos = APPLE_POS[name_];
@@ -47,7 +47,7 @@ void Tree::CreateFruit()
             const rg::math::Vector2 pos = rect.pos + position;
             new GenericSprite(
                     pos, rg::Surface::Create(&apple_surf->render.texture),
-                    {&apple_sprites, groups[0]}, LAYERS["fruit"]);
+                    {&apple_sprites, groups[0]}, this, LAYERS["fruit"]);
         }
     }
 }
@@ -56,7 +56,7 @@ void Tree::CheckDeath()
 {
     if (health <= 0)
     {
-        new Particle(rect.pos, image, {groups[0]}, LAYERS["fruit"], 0.3);
+        new Particle(rect.pos, image, {groups[0]}, this, LAYERS["fruit"], 0.3);
         image = stump_surf;
         const rg::math::Vector2 oldMidBottom = rect.midbottom();
         rect = image->GetRect();
@@ -87,10 +87,10 @@ void Tree::Damage()
         const int random_apple =
                 rl::GetRandomValue(0, apples.size() - 1); // GetRandomValue includes `max`
         const auto apple = apples[random_apple];
-        new Particle(apple->rect.pos, apple->image, {groups[0]}, LAYERS["fruit"]);
+        new Particle(apple->rect.pos, apple->image, {groups[0]}, this, LAYERS["fruit"]);
         player_add("apple");
 
-        apple->Kill(true);
+        apple->Kill();
     }
 }
 

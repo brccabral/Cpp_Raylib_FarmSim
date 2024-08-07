@@ -8,6 +8,7 @@ class Transition
 public:
 
     Transition(const std::function<void()> &reset, Player *player);
+    ~Transition();
 
     void Play();
 

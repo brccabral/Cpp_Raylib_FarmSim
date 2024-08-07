@@ -2,7 +2,7 @@
 #include "CameraGroup.h"
 
 
-class Rain
+class Rain : public rg::sprite::SpriteOwner
 {
 public:
 

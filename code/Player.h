@@ -9,7 +9,7 @@ class Player : public rg::sprite::Sprite
 {
 public:
 
-    Player(rg::math::Vector2 pos, rg::sprite::Group *group, rg::sprite::Group *collisionSprites,
+    Player(rg::math::Vector2 pos, rg::sprite::Group *group, rg::sprite::SpriteOwner *owner, rg::sprite::Group *collisionSprites,
            rg::sprite::Group *treeSprites, rg::sprite::Group *interactionSprites,
            SoilLayer *soil_layer, const std::function<void()> &toggle_shop);
     ~Player() override;

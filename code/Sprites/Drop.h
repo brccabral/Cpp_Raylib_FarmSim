@@ -7,8 +7,8 @@ class Drop : public GenericSprite
 public:
 
     Drop(rg::math::Vector2 pos, rg::Surface *surface,
-         const std::vector<rg::sprite::Group *> &groups, unsigned int z, bool moving);
-    ~Drop() override;
+         const std::vector<rg::sprite::Group *> &groups, rg::sprite::SpriteOwner *owner,
+         unsigned int z, bool moving);
     void Update(float deltaTime) override;
 
 private:

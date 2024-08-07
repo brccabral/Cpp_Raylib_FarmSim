@@ -2,8 +2,8 @@
 
 Water::Water(
         const rg::math::Vector2 pos, rg::Frames *frames,
-        const std::vector<rg::sprite::Group *> &sprite_groups)
-    : GenericSprite(pos, frames, sprite_groups, LAYERS["water"]), frames(frames)
+        const std::vector<rg::sprite::Group *> &sprite_groups, rg::sprite::SpriteOwner *owner)
+    : GenericSprite(pos, frames, sprite_groups, owner, LAYERS["water"]), frames(frames)
 {}
 
 Water::~Water()

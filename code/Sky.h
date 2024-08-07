@@ -8,6 +8,7 @@ class Sky
 public:
 
     Sky() = default;
+    ~Sky();
     void Display(float dt);
     rl::Vector3 start_color{255, 255, 255};
 

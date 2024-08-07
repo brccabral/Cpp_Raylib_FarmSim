@@ -2,12 +2,13 @@
 #include "GenericSprite.h"
 
 
-class Tree : public GenericSprite
+class Tree : public GenericSprite, rg::sprite::SpriteOwner
 {
 public:
 
     Tree(rg::math::Vector2 pos, rg::Surface *surf, const std::vector<rg::sprite::Group *> &groups,
-         const char *name, const std::function<void(const std::string &item)> &player_add);
+         rg::sprite::SpriteOwner *owner, const char *name,
+         const std::function<void(const std::string &item)> &player_add);
     ~Tree() override;
     void Damage();
     void Update(float deltaTime) override;
