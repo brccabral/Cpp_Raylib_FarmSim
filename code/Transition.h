@@ -7,19 +7,18 @@ class Transition
 {
 public:
 
-    Transition(const std::function<void()> &reset, Player *player);
-    ~Transition();
+    Transition(const std::function<void()> &reset, const std::shared_ptr<Player> &player);
 
     void Play();
 
 private:
 
-    rg::Surface *display_surface = rg::display::GetSurface();
+    std::shared_ptr<rg::Surface> display_surface = rg::display::GetSurface();
 
     std::function<void()> reset = nullptr;
-    Player *player = nullptr;
+    std::shared_ptr<Player> player = nullptr;
 
-    rg::Surface *image = rg::Surface::Create(SCREEN_WIDTH, SCREEN_HEIGHT);
+    std::shared_ptr<rg::Surface> image = std::make_shared<rg::Surface>(SCREEN_WIDTH, SCREEN_HEIGHT);
     int color = 255;
     int speed = -5; // fade to black speed = -2
 };

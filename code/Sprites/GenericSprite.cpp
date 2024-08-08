@@ -1,10 +1,7 @@
 #include "GenericSprite.h"
 
 GenericSprite::GenericSprite(
-        const rg::math::Vector2 pos, rg::Surface *surf,
-        const std::vector<rg::sprite::Group *> &groups, rg::sprite::SpriteOwner *owner,
-        const unsigned int z)
-    : Sprite(groups, owner)
+        const rg::math::Vector2 pos, const std::shared_ptr<rg::Surface> &surf, const unsigned int z)
 {
     this->z = z;
 
@@ -16,7 +13,7 @@ GenericSprite::GenericSprite(
     }
 }
 
-void GenericSprite::InitImage(rg::Surface *surf)
+void GenericSprite::InitImage(const std::shared_ptr<rg::Surface> &surf)
 {
     image = surf;
     rect.width = image->GetRect().width;

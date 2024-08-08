@@ -4,6 +4,9 @@
 #include "Sprites/SoilTile.h"
 #include "Sprites/WaterTile.h"
 
+#include <memory>
+#include <memory>
+
 
 SoilLayer::SoilLayer(rg::sprite::Group *all_sprites, rg::sprite::Group *collisionSprites)
     : all_sprites(all_sprites), collisionSprites(collisionSprites)
@@ -13,12 +16,6 @@ SoilLayer::SoilLayer(rg::sprite::Group *all_sprites, rg::sprite::Group *collisio
 
     CreateSoilGrid();
     CreateHitRects();
-}
-
-SoilLayer::~SoilLayer()
-{
-    rg::image::DeleteAllMap<std::string>(soil_surfs);
-    rg::image::DeleteAllVector(water_surfs);
 }
 
 void SoilLayer::GetHit(const rg::math::Vector2 point)
@@ -41,7 +38,7 @@ void SoilLayer::GetHit(const rg::math::Vector2 point)
 void SoilLayer::Water(const rg::math::Vector2 point)
 {
     // only if it is a SoilSprite (is in group soil_sprites)
-    for (const auto *sprite: soil_sprites.Sprites())
+    for (const auto &sprite: soil_sprites.Sprites())
     {
         if (sprite->rect.collidepoint(point))
         {
@@ -57,10 +54,9 @@ void SoilLayer::Water(const rg::math::Vector2 point)
 void SoilLayer::RemoveAllWater()
 {
     // destroy all water sprites
-    for (auto *water: water_sprites.Sprites())
+    for (const auto &water: water_sprites.Sprites())
     {
         const auto w = water->Kill();
-        delete w;
     }
 
     // clean up the grid
@@ -104,7 +100,7 @@ void SoilLayer::WaterAll()
 
 bool SoilLayer::PlantSeed(const rg::math::Vector2 pos, const std::string &seed)
 {
-    for (const auto *soil_sprite: soil_sprites.Sprites())
+    for (const auto &soil_sprite: soil_sprites.Sprites())
     {
         if (soil_sprite->rect.collidepoint(pos))
         {
@@ -114,11 +110,10 @@ bool SoilLayer::PlantSeed(const rg::math::Vector2 pos, const std::string &seed)
             if (!IsPlant(grid[y][x]))
             {
                 grid[y][x].emplace_back('P');
-                new Plant(
-                        soil_sprite->rect.midbottom(),
-                        {all_sprites, &plant_sprites, collisionSprites}, this, seed,
-                        [this](const rg::math::Vector2 target)
-                        { return this->CheckWatered(target); });
+                std::make_shared<Plant>(
+                        soil_sprite->rect.midbottom(), seed, [this](const rg::math::Vector2 target)
+                        { return this->CheckWatered(target); })
+                        ->add({all_sprites, &plant_sprites, collisionSprites});
                 return true;
             }
         }
@@ -138,7 +133,6 @@ void SoilLayer::CreateSoilGrid()
     const auto ground = rg::image::Load("resources/graphics/world/ground.png");
     const unsigned int h_tiles = ground->GetRect().width / TILE_SIZE;
     const unsigned int v_tiles = ground->GetRect().height / TILE_SIZE;
-    delete ground;
 
     for (int row = 0; row < v_tiles; ++row)
     {
@@ -270,7 +264,8 @@ void SoilLayer::CreateSoilTiles()
                 const float x = index_col * TILE_SIZE;
                 const float y = index_row * TILE_SIZE;
                 // TODO: this is adding the same x,y to all_sprites
-                new SoilTile({x, y}, soil_surfs[tyle_type], {all_sprites, &soil_sprites}, this);
+                std::make_shared<SoilTile>(rg::math::Vector2{x, y}, soil_surfs[tyle_type])
+                        ->add({all_sprites, &soil_sprites});
                 if (raining)
                 {
                     CreateWaterTile({x, y});
@@ -280,10 +275,10 @@ void SoilLayer::CreateSoilTiles()
     }
 }
 
-void SoilLayer::CreateWaterTile(const rg::math::Vector2 pos)
+void SoilLayer::CreateWaterTile(const rg::math::Vector2 &pos)
 {
     const unsigned int random_water = rl::GetRandomValue(0, water_surfs.size() - 1);
-    new WaterTile(pos, water_surfs[random_water], {all_sprites, &water_sprites}, this);
+    std::make_shared<WaterTile>(pos, water_surfs[random_water])->add({all_sprites, &water_sprites});
 }
 
 bool SoilLayer::IsFarmable(const std::vector<char> &cell)
@@ -308,9 +303,9 @@ bool SoilLayer::IsPlant(const std::vector<char> &cell)
 
 void SoilLayer::UpdatePlants() const
 {
-    for (auto *sprite: plant_sprites.Sprites())
+    for (const auto &sprite: plant_sprites.Sprites())
     {
-        const auto plant = (Plant *) sprite;
+        const auto plant = std::dynamic_pointer_cast<Plant>(sprite);
         plant->Grow();
     }
 }

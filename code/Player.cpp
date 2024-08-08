@@ -9,10 +9,10 @@
 #define HITBOX_Y_OFFSET 15
 
 Player::Player(
-        const rg::math::Vector2 pos, rg::sprite::Group *group, rg::sprite::SpriteOwner *owner, rg::sprite::Group *collisionSprites,
+        const rg::math::Vector2 pos, rg::sprite::Group *collisionSprites,
         rg::sprite::Group *treeSprites, rg::sprite::Group *interactionSprites,
-        SoilLayer *soil_layer, const std::function<void()> &toggle_shop)
-    : Sprite(group, owner), collisionSprites(collisionSprites), treeSprites(treeSprites),
+        const std::shared_ptr<SoilLayer> &soil_layer, const std::function<void()> &toggle_shop)
+    : collisionSprites(collisionSprites), treeSprites(treeSprites),
       interactionSprites(interactionSprites), soil_layer(soil_layer), toggle_shop(toggle_shop)
 {
     ImportAssets();
@@ -34,17 +34,6 @@ Player::Player(
     hoe_sound.SetVolume(0.1f);
     watering.SetVolume(0.2f);
     plant_sound.SetVolume(0.2f);
-}
-
-Player::~Player()
-{
-    for (auto &[key, surfaces]: animations)
-    {
-        rg::image::DeleteAllVector(surfaces);
-    }
-    // image is a pointer to one of the animations
-    // but it is also deleted in ~Sprite()
-    image = nullptr;
 }
 
 void Player::Input()
@@ -130,9 +119,11 @@ void Player::Input()
     if (IsKeyReleased(rl::KEY_ENTER))
     {
         // toggle_shop();
-        if (auto *collided_interation_sprite = spritecollideany(this, interactionSprites))
+        if (const auto &collided_interation_sprite =
+                    spritecollideany(shared_from_this(), interactionSprites))
         {
-            const auto *interaction_sprite = (Interaction *) collided_interation_sprite;
+            const auto interaction_sprite =
+                    std::dynamic_pointer_cast<Interaction>(collided_interation_sprite);
             if (!strcmp(interaction_sprite->name.c_str(), "Trader"))
             {
                 toggle_shop();
@@ -197,11 +188,11 @@ void Player::UseTool() const
     }
     else if (!strcmp(selected_tool.c_str(), "axe"))
     {
-        for (const auto treeSprite: treeSprites->Sprites())
+        for (const auto &treeSprite: treeSprites->Sprites())
         {
-            const auto tree = (Tree *) treeSprite;
-            if (tree->rect.collidepoint(target_pos))
+            if (treeSprite->rect.collidepoint(target_pos))
             {
+                const auto tree = std::dynamic_pointer_cast<Tree>(treeSprite);
                 tree->Damage();
                 axe_sound.Play();
             }
@@ -229,9 +220,9 @@ void Player::UseSeed()
 void Player::Collision(const rg::Axis axis)
 {
     // only GenericSprite should be added to collisionSprites as GenericSprite has hitbox
-    for (auto *collisionSprite: collisionSprites->Sprites())
+    for (const auto &collisionSprite: collisionSprites->Sprites())
     {
-        const auto *sprite = (GenericSprite *) collisionSprite;
+        const auto sprite = std::dynamic_pointer_cast<GenericSprite>(collisionSprite);
         if (CheckCollisionRecs(sprite->hitbox.rectangle, hitbox.rectangle))
         {
             if (axis == rg::HORIZONTAL)

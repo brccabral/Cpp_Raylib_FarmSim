@@ -6,15 +6,14 @@ class Overlay
 {
 public:
 
-    explicit Overlay(Player *player);
-    ~Overlay();
+    explicit Overlay(const std::shared_ptr<Player> &player);
     void Display();
 
 private:
 
-    rg::Surface *display_surface = rg::display::GetSurface();
-    Player *player;
+    std::shared_ptr<rg::Surface> display_surface = rg::display::GetSurface();
+    std::shared_ptr<Player> player;
 
-    std::map<std::string, rg::Surface *> tools_surfaces{};
-    std::map<std::string, rg::Surface *> seeds_surfaces{};
+    std::map<std::string, std::shared_ptr<rg::Surface>> tools_surfaces{};
+    std::map<std::string, std::shared_ptr<rg::Surface>> seeds_surfaces{};
 };

@@ -1,9 +1,7 @@
 #include "Water.h"
 
-Water::Water(
-        const rg::math::Vector2 pos, rg::Frames *frames,
-        const std::vector<rg::sprite::Group *> &sprite_groups, rg::sprite::SpriteOwner *owner)
-    : GenericSprite(pos, frames, sprite_groups, owner, LAYERS["water"]), frames(frames)
+Water::Water(const rg::math::Vector2 pos, const std::shared_ptr<rg::Frames> &frames)
+    : GenericSprite(pos, frames, LAYERS["water"]), frames(frames)
 {}
 
 Water::~Water()

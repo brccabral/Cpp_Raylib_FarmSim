@@ -1,10 +1,9 @@
 #include "Drop.h"
 
 Drop::Drop(
-        const rg::math::Vector2 pos, rg::Surface *surface,
-        const std::vector<rg::sprite::Group *> &groups, rg::sprite::SpriteOwner *owner,
+        const rg::math::Vector2 pos, const std::shared_ptr<rg::Surface> &surface,
         const unsigned int z, const bool moving)
-    : GenericSprite(pos, surface, groups, owner, z), moving(moving)
+    : GenericSprite(pos, surface, z), moving(moving)
 {
     lifetime = rl::GetRandomValue(400, 500);
     start_time = rl::GetTime();
@@ -33,6 +32,5 @@ void Drop::Update(const float deltaTime)
     if (current_time - start_time >= lifetime / 1000.0f)
     {
         const auto drop = Kill();
-        delete drop;
     }
 }

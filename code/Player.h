@@ -9,10 +9,9 @@ class Player : public rg::sprite::Sprite
 {
 public:
 
-    Player(rg::math::Vector2 pos, rg::sprite::Group *group, rg::sprite::SpriteOwner *owner, rg::sprite::Group *collisionSprites,
+    Player(rg::math::Vector2 pos, rg::sprite::Group *collisionSprites,
            rg::sprite::Group *treeSprites, rg::sprite::Group *interactionSprites,
-           SoilLayer *soil_layer, const std::function<void()> &toggle_shop);
-    ~Player() override;
+           const std::shared_ptr<SoilLayer> &soil_layer, const std::function<void()> &toggle_shop);
     void Update(float deltaTime) override;
 
     std::string direction_status = "down";
@@ -56,7 +55,7 @@ private:
     rg::math::Vector2 direction{};
     float speed = 200.0f;
 
-    std::map<std::string, std::vector<rg::Surface *>> animations{};
+    std::map<std::string, std::vector<std::shared_ptr<rg::Surface>>> animations{};
     std::string status = "down_idle";
     float frame_index = 0.0f;
 
@@ -68,7 +67,7 @@ private:
     rg::sprite::Group *collisionSprites = nullptr;
     rg::sprite::Group *treeSprites = nullptr;
     rg::sprite::Group *interactionSprites = nullptr;
-    SoilLayer *soil_layer = nullptr;
+    std::shared_ptr<SoilLayer> soil_layer = nullptr;
 
     rg::math::Vector2 target_pos{};
 

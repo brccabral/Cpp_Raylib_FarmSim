@@ -11,8 +11,8 @@ class Particle : public GenericSprite
 public:
 
     Particle(
-            rg::math::Vector2 pos, rg::Surface *surf,
-            const std::vector<rg::sprite::Group *> &groups, rg::sprite::SpriteOwner *owner, unsigned int z, double duration = 0.2);
+            rg::math::Vector2 pos, const std::shared_ptr<rg::Surface> &surf, unsigned int z,
+            double duration = 0.2);
     void Update(float deltaTime) override;
 
 private:

@@ -2,12 +2,11 @@
 #include "CameraGroup.h"
 
 
-class Rain : public rg::sprite::SpriteOwner
+class Rain
 {
 public:
 
     explicit Rain(CameraGroup *all_sprites);
-    ~Rain();
     void Update();
 
 private:
@@ -16,8 +15,8 @@ private:
     void CreateDrops();
 
     CameraGroup *all_sprites = nullptr;
-    std::vector<rg::Surface *> rain_drops{};
-    std::vector<rg::Surface *> rain_floor{};
+    std::vector<std::shared_ptr<rg::Surface>> rain_drops{};
+    std::vector<std::shared_ptr<rg::Surface>> rain_floor{};
     unsigned int ground_w;
     unsigned int ground_h;
 };

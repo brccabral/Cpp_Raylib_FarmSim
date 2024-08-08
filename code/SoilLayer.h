@@ -2,12 +2,11 @@
 #include <rygame.h>
 
 
-class SoilLayer : public rg::sprite::SpriteOwner
+class SoilLayer
 {
 public:
 
     explicit SoilLayer(rg::sprite::Group *all_sprites, rg::sprite::Group *collisionSprites);
-    ~SoilLayer();
 
     // Check if point is in a hittable tile, if so, adds a SoilTile to it
     void GetHit(rg::math::Vector2 point);
@@ -34,7 +33,7 @@ private:
     void CreateSoilGrid();
     void CreateHitRects();
     void CreateSoilTiles();
-    void CreateWaterTile(rg::math::Vector2 pos);
+    void CreateWaterTile(const rg::math::Vector2 &pos);
     static bool IsFarmable(const std::vector<char> &cell);
     static bool IsHit(const std::vector<char> &cell);
     static bool IsWater(const std::vector<char> &cell);
@@ -45,8 +44,8 @@ private:
     rg::sprite::Group soil_sprites{};
     rg::sprite::Group water_sprites{};
 
-    std::map<std::string, rg::Surface *> soil_surfs{};
-    std::vector<rg::Surface *> water_surfs{};
+    std::map<std::string, std::shared_ptr<rg::Surface>> soil_surfs{};
+    std::vector<std::shared_ptr<rg::Surface>> water_surfs{};
 
     std::vector<std::vector<std::vector<char>>> grid;
     std::vector<rg::Rect> hit_rects{};

@@ -6,9 +6,8 @@ class Drop : public GenericSprite
 {
 public:
 
-    Drop(rg::math::Vector2 pos, rg::Surface *surface,
-         const std::vector<rg::sprite::Group *> &groups, rg::sprite::SpriteOwner *owner,
-         unsigned int z, bool moving);
+    Drop(rg::math::Vector2 pos, const std::shared_ptr<rg::Surface> &surface, unsigned int z,
+         bool moving);
     ~Drop() override;
     void Update(float deltaTime) override;
 

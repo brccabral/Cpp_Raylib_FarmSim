@@ -2,7 +2,7 @@
 
 #include "Settings.h"
 
-Menu::Menu(Player *player, const std::function<void()> &toggle_menu)
+Menu::Menu(const std::shared_ptr<Player> &player, const std::function<void()> &toggle_menu)
     : player(player), toggle_menu(toggle_menu)
 {
     auto s = rg::getKeys<std::string, decltype(player->seed_inventory)>(player->seed_inventory);
@@ -10,13 +10,6 @@ Menu::Menu(Player *player, const std::function<void()> &toggle_menu)
     options.insert(options.end(), s.begin(), s.end());
     sell_border = player->item_inventory.size() - 1;
     Setup();
-}
-
-Menu::~Menu()
-{
-    rg::image::DeleteAllVector(text_surfs);
-    delete buy_text;
-    delete sell_text;
 }
 
 void Menu::Update()
@@ -121,11 +114,10 @@ void Menu::DisplayMoney() const
 
     rg::draw::rect(*display_surface, rl::WHITE, text_rect.inflate(10, 10), 0, 4);
     display_surface->Blit(text_surf, text_rect.pos);
-    delete text_surf;
 }
 
 void Menu::ShowEntry(
-        rg::Surface *text_surf, const unsigned int amount, const float top,
+        const std::shared_ptr<rg::Surface> &text_surf, const unsigned int amount, const float top,
         const bool selected) const
 {
     // background
@@ -143,7 +135,6 @@ void Menu::ShowEntry(
     rg::Rect amount_rect = amount_surf->GetRect();
     amount_rect.midright({main_rect.right() - 20, bg_rect.centery()});
     display_surface->Blit(amount_surf, amount_rect.pos);
-    delete amount_surf;
 
     // selected
     if (selected)

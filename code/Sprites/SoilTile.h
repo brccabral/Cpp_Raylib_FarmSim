@@ -6,8 +6,6 @@ class SoilTile : public rg::sprite::Sprite
 {
 public:
 
-    SoilTile(
-            rg::math::Vector2 pos, rg::Surface *surface,
-            const std::vector<rg::sprite::Group *> &groups, rg::sprite::SpriteOwner *owner);
+    SoilTile(rg::math::Vector2 pos, const std::shared_ptr<rg::Surface> &surface);
     ~SoilTile() override;
 };

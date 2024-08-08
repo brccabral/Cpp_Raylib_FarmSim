@@ -1,14 +1,9 @@
 #include "Transition.h"
 
 
-Transition::Transition(const std::function<void()> &reset, Player *player)
+Transition::Transition(const std::function<void()> &reset, const std::shared_ptr<Player> &player)
     : reset(reset), player(player)
 {}
-
-Transition::~Transition()
-{
-    delete image;
-}
 
 void Transition::Play()
 {

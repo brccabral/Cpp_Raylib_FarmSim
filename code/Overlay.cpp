@@ -2,7 +2,7 @@
 #include "Settings.h"
 
 
-Overlay::Overlay(Player *player) : player(player)
+Overlay::Overlay(const std::shared_ptr<Player> &player) : player(player)
 {
     for (auto &tool: player->tools)
     {
@@ -14,12 +14,6 @@ Overlay::Overlay(Player *player) : player(player)
         std::string path = "resources/graphics/overlay/" + seed + ".png";
         seeds_surfaces[seed] = rg::image::Load(path.c_str());
     }
-}
-
-Overlay::~Overlay()
-{
-    rg::image::DeleteAllMap<std::string>(tools_surfaces);
-    rg::image::DeleteAllMap<std::string>(seeds_surfaces);
 }
 
 void Overlay::Display()

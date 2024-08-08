@@ -9,10 +9,10 @@ public:
 
     CameraGroup() = default;
 
-    void CustomDraw(const Player *player);
+    void CustomDraw(const std::shared_ptr<Player> &player);
 
 private:
 
-    rg::Surface *display_surface = rg::display::GetSurface();
+    std::shared_ptr<rg::Surface> display_surface = rg::display::GetSurface();
     rg::math::Vector2 offset{};
 };
