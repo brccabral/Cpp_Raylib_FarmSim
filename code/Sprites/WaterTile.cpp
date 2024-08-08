@@ -11,3 +11,9 @@ WaterTile::WaterTile(
     rect = image->GetRect().topleft(pos);
     z = LAYERS["soil water"];
 }
+
+WaterTile::~WaterTile()
+{
+    // image is deleted in ~SoilLayer();
+    image = nullptr;
+}

@@ -226,7 +226,8 @@ void Level::Reset()
         // remove existing apples
         for (auto *apple: tree->apple_sprites.Sprites())
         {
-            apple->Kill();
+            const auto a = apple->Kill();
+            delete a;
         }
 
         // create new ones if tree is alive
@@ -257,7 +258,8 @@ void Level::PlantCollision()
             CheckCollisionRecs(plant->rect.rectangle, player->hitbox.rectangle))
         {
             PlayerAdd(plant->plant_type);
-            plant->Kill();
+            const auto p = plant->Kill();
+            delete p;
             // we can still use plant because the deletion is delayed until dislay::Update
             new Particle(plant->rect.pos, plant->image, {&all_sprites}, this, LAYERS["main"]);
             soil_layer->RemovePlant(plant->rect.center());

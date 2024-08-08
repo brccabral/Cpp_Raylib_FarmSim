@@ -45,6 +45,7 @@ void Tree::CreateFruit()
         if (rl::GetRandomValue(0, 9) < 2) // 20%
         {
             const rg::math::Vector2 pos = rect.pos + position;
+            // create a new Surface from the render.texture so it won't be deleted in GenericSprite
             new GenericSprite(
                     pos, rg::Surface::Create(&apple_surf->render.texture),
                     {&apple_sprites, groups[0]}, this, LAYERS["fruit"]);
@@ -90,7 +91,8 @@ void Tree::Damage()
         new Particle(apple->rect.pos, apple->image, {groups[0]}, this, LAYERS["fruit"]);
         player_add("apple");
 
-        apple->Kill();
+        // do not delete apple, it will be deleted with ~Tree()
+        static_cast<void>(apple->Kill());
     }
 }
 

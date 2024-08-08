@@ -4,6 +4,8 @@ project(FarmSim)
 include(GNUInstallDirs)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 find_package(raylib REQUIRED)
 find_package(rygame REQUIRED)
@@ -36,11 +38,12 @@ target_link_libraries(${PROJECT_NAME} raylib rygame tmx raylib-tmx)
 
 if (WIN32)
     target_link_libraries(${PROJECT_NAME} gdi32 msvcrt winmm)
-    set(COMPILE_FLAGS "/NODEFAULTLIB:libcmt")
+    target_compile_options(${PROJECT_NAME} PRIVATE "/WX" "/NODEFAULTLIB:libcmt")
 else ()
+    set(CMAKE_CXX_COMPILER "clang++") # Sprite::Kill() has [[nodiscard]]
     target_link_libraries(${PROJECT_NAME} m)
     #    target_compile_options(${PROJECT_NAME} PRIVATE "-fsanitize=address")
-    target_compile_options(${PROJECT_NAME} PRIVATE "-Werror" "-Wreturn-type")
+    target_compile_options(${PROJECT_NAME} PRIVATE "-Werror")
 endif ()
 
 if (SHOW_HITBOX)

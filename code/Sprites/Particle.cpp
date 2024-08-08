@@ -13,7 +13,6 @@ Particle::Particle(
     const auto mask_surf = rg::mask::FromSurface(image);
     const auto new_surf = mask_surf.ToSurface();
     new_surf->SetColorKey(rl::BLACK);
-    // new_surf->Fill(rl::YELLOW);
     image = new_surf;
 }
 
@@ -22,6 +21,7 @@ void Particle::Update(float deltaTime)
     const double current_time = rl::GetTime();
     if (current_time - start_time > duration)
     {
-        Kill();
+        const auto p = Kill();
+        delete p;
     }
 }
