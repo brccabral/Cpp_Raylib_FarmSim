@@ -25,7 +25,7 @@ void Menu::Update()
     for (int text_index = 0; text_index < text_surfs.size(); ++text_index)
     {
         const float top = main_rect.top() + text_index * (text_surfs[text_index]->GetRect().height +
-                                                          (padding * 2) + space);
+                                                          padding * 2 + space);
         ShowEntry(text_surfs[text_index], amount_list[text_index], top, index == text_index);
     }
 }
@@ -94,7 +94,7 @@ void Menu::Setup()
     {
         auto text_surf = font.render(item.c_str(), rl::BLACK);
         text_surfs.emplace_back(text_surf);
-        total_height += text_surf->GetRect().height + (padding * 2);
+        total_height += text_surf->GetRect().height + padding * 2;
     }
     total_height += (text_surfs.size() - 1) * space;
     menu_top = SCREEN_HEIGHT / 2.0f - total_height / 2.0f;
