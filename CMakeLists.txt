@@ -43,7 +43,7 @@ else ()
     set(CMAKE_CXX_COMPILER "clang++") # Sprite::Kill() has [[nodiscard]]
     target_link_libraries(${PROJECT_NAME} m)
     #    target_compile_options(${PROJECT_NAME} PRIVATE "-fsanitize=address")
-    target_compile_options(${PROJECT_NAME} PRIVATE "-Werror")
+    target_compile_options(${PROJECT_NAME} PRIVATE "-Wall" "-Werror" "-Wno-missing-braces")
 endif ()
 
 if (SHOW_HITBOX)
