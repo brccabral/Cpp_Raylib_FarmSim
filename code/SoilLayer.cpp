@@ -270,9 +270,7 @@ void SoilLayer::CreateSoilTiles()
                 const float x = index_col * TILE_SIZE;
                 const float y = index_row * TILE_SIZE;
                 // TODO: this is adding the same x,y to all_sprites
-                new SoilTile(
-                        {x, y}, rg::Surface::Create(&soil_surfs[tyle_type]->render.texture),
-                        {all_sprites, &soil_sprites}, this);
+                new SoilTile({x, y}, soil_surfs[tyle_type], {all_sprites, &soil_sprites}, this);
                 if (raining)
                 {
                     CreateWaterTile({x, y});

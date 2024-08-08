@@ -30,8 +30,7 @@ void Rain::CreateFloor()
     const unsigned int random_floor = rl::GetRandomValue(0, rain_floor.size() - 1);
     const float x = rl::GetRandomValue(0, ground_w);
     const float y = rl::GetRandomValue(0, ground_h);
-    const auto floor_surf = rg::Surface::Create(&rain_floor[random_floor]->render.texture);
-    new Drop({x, y}, floor_surf, {all_sprites}, this, LAYERS["rain floor"], false);
+    new Drop({x, y}, rain_floor[random_floor], {all_sprites}, this, LAYERS["rain floor"], false);
 }
 
 void Rain::CreateDrops()
@@ -39,6 +38,5 @@ void Rain::CreateDrops()
     const unsigned int random_drop = rl::GetRandomValue(0, rain_drops.size() - 1);
     const float x = rl::GetRandomValue(0, ground_w);
     const float y = rl::GetRandomValue(0, ground_h);
-    const auto drop_surf = rg::Surface::Create(&rain_drops[random_drop]->render.texture);
-    new Drop({x, y}, drop_surf, {all_sprites}, this, LAYERS["rain drops"], true);
+    new Drop({x, y}, rain_drops[random_drop], {all_sprites}, this, LAYERS["rain drops"], true);
 }

@@ -16,6 +16,12 @@ Drop::Drop(
     }
 }
 
+Drop::~Drop()
+{
+    // image is deleted in ~Rain()
+    image = nullptr;
+}
+
 void Drop::Update(const float deltaTime)
 {
     if (moving)
