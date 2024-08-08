@@ -56,7 +56,7 @@ void SoilLayer::RemoveAllWater()
     // destroy all water sprites
     for (const auto &water: water_sprites.Sprites())
     {
-        const auto w = water->Kill();
+        water->Kill();
     }
 
     // clean up the grid

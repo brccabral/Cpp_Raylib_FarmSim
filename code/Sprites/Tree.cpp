@@ -80,8 +80,7 @@ void Tree::Damage()
         std::make_shared<Particle>(apple->rect.pos, apple->image, LAYERS["fruit"])->add(groups[0]);
         player_add("apple");
 
-        // do not delete apple, it will be deleted with ~Tree()
-        auto a = apple->Kill();
+        apple->Kill();
     }
 }
 

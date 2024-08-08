@@ -31,6 +31,6 @@ void Drop::Update(const float deltaTime)
     const double current_time = rl::GetTime();
     if (current_time - start_time >= lifetime / 1000.0f)
     {
-        const auto drop = Kill();
+        Kill();
     }
 }
