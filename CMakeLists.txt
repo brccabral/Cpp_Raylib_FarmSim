@@ -7,10 +7,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-find_package(raylib REQUIRED)
 find_package(rygame REQUIRED)
-find_package(tmx REQUIRED)
-find_package(raylib-tmx REQUIRED)
 
 add_executable(${PROJECT_NAME} code/main.cpp
         code/Game.cpp
@@ -34,14 +31,11 @@ add_executable(${PROJECT_NAME} code/main.cpp
         code/Sky.cpp
         code/Menu.cpp
 )
-target_link_libraries(${PROJECT_NAME} raylib rygame tmx raylib-tmx)
+target_link_libraries(${PROJECT_NAME} PRIVATE rygame)
 
 if (WIN32)
-    target_link_libraries(${PROJECT_NAME} gdi32 msvcrt winmm)
-    target_compile_options(${PROJECT_NAME} PRIVATE "/WX" "/NODEFAULTLIB:libcmt")
 else ()
     set(CMAKE_CXX_COMPILER "clang++") # Sprite::Kill() has [[nodiscard]]
-    target_link_libraries(${PROJECT_NAME} m)
     #    target_compile_options(${PROJECT_NAME} PRIVATE "-fsanitize=address")
     target_compile_options(${PROJECT_NAME} PRIVATE "-Wall" "-Werror" "-Wpedantic" "-Wno-missing-braces" "-Wno-gnu-anonymous-struct" "-Wno-nested-anon-types")
 endif ()
