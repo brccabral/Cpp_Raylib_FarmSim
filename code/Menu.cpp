@@ -112,7 +112,7 @@ void Menu::DisplayMoney() const
     const rg::Rect text_rect =
             text_surf->GetRect().midbottom({SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - 20});
 
-    rg::draw::rect(*display_surface, rl::WHITE, text_rect.inflate(10, 10), 0, 4);
+    rg::draw::rect(display_surface, rl::WHITE, text_rect.inflate(10, 10), 0, 4);
     display_surface->Blit(text_surf, text_rect.pos);
 }
 
@@ -123,7 +123,7 @@ void Menu::ShowEntry(
     // background
     const rg::Rect bg_rect = {
             main_rect.left(), top, width, text_surf->GetRect().height + padding * 2};
-    rg::draw::rect(*display_surface, rl::WHITE, bg_rect, 0, 4);
+    rg::draw::rect(display_surface, rl::WHITE, bg_rect, 0, 4);
 
     // text
     rg::Rect text_rect = text_surf->GetRect();
@@ -139,7 +139,7 @@ void Menu::ShowEntry(
     // selected
     if (selected)
     {
-        rg::draw::rect(*display_surface, rl::BLACK, bg_rect, 4, 4);
+        rg::draw::rect(display_surface, rl::BLACK, bg_rect, 4, 4);
         if (index <= sell_border)
         {
             rg::Rect pos_rect = sell_text->GetRect();
