@@ -1,5 +1,5 @@
 #pragma once
-#include "GenericSprite.h"
+#include "GenericSprite.hpp"
 
 
 // Quickly shows an image on screen and self destroys

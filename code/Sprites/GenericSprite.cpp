@@ -1,4 +1,5 @@
-#include "GenericSprite.h"
+#include "GenericSprite.hpp"
+
 
 GenericSprite::GenericSprite(
         const rg::math::Vector2 pos, const std::shared_ptr<rg::Surface> &surf, const unsigned int z)

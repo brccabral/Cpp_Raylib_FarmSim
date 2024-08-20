@@ -1,6 +1,6 @@
 #pragma once
-#include "Player.h"
-#include "Settings.h"
+#include "Player.hpp"
+#include "Settings.hpp"
 
 
 class Transition

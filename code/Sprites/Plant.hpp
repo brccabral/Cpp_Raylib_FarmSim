@@ -1,6 +1,6 @@
 #pragma once
 #include <rygame.hpp>
-#include "GenericSprite.h"
+#include "GenericSprite.hpp"
 
 
 class Plant : public GenericSprite

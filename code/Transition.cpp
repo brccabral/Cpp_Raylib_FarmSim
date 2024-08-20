@@ -1,4 +1,4 @@
-#include "Transition.h"
+#include "Transition.hpp"
 
 
 Transition::Transition(const std::function<void()> &reset, const std::shared_ptr<Player> &player)

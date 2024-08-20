@@ -1,5 +1,5 @@
 #include <rygame.hpp>
-#include "Game.h"
+#include "Game.hpp"
 
 Game::Game(const int width, const int height)
 {

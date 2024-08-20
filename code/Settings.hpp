@@ -36,7 +36,7 @@ inline rg::InsertOrderMap<std::string, std::vector<rg::math::Vector2>> APPLE_POS
 inline std::map<std::string, rg::math::Vector2> PLAYER_TOOL_OFFSET = {
         {"left", {-50, 40}}, //
         {"right", {50, 40}}, //
-        // up/down values are different from tutorial due to HITBOX_Y_OFFSET in Player.h
+        // up/down values are different from tutorial due to HITBOX_Y_OFFSET in Player.hpp
         {"up", {0, -25}}, //
         {"down", {0, 35}}, //
 };

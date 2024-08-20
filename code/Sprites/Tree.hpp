@@ -1,5 +1,5 @@
 #pragma once
-#include "GenericSprite.h"
+#include "GenericSprite.hpp"
 
 
 class Tree : public GenericSprite

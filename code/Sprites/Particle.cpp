@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Particle.h"
+#include "Particle.hpp"
 
 Particle::Particle(
         const rg::math::Vector2 pos, const std::shared_ptr<rg::Surface> &surf, const unsigned int z,

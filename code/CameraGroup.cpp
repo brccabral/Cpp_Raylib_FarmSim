@@ -1,5 +1,5 @@
-#include "CameraGroup.h"
-#include "Settings.h"
+#include "CameraGroup.hpp"
+#include "Settings.hpp"
 
 
 void CameraGroup::CustomDraw(const std::shared_ptr<Player> &player)

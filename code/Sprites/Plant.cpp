@@ -1,5 +1,5 @@
-#include "Plant.h"
-#include "../Settings.h"
+#include "Plant.hpp"
+#include "../Settings.hpp"
 
 
 Plant::Plant(

@@ -1,5 +1,5 @@
-#include "Rain.h"
-#include "Sprites/Drop.h"
+#include "Rain.hpp"
+#include "Sprites/Drop.hpp"
 
 
 Rain::Rain(CameraGroup *all_sprites) : all_sprites(all_sprites)

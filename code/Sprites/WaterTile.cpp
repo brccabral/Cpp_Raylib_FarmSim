@@ -1,5 +1,5 @@
-#include "WaterTile.h"
-#include "../Settings.h"
+#include "WaterTile.hpp"
+#include "../Settings.hpp"
 
 
 WaterTile::WaterTile(

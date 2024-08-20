@@ -1,6 +1,6 @@
 #pragma once
 #include <rygame.hpp>
-#include "../Settings.h"
+#include "../Settings.hpp"
 
 
 class GenericSprite : public rg::sprite::Sprite

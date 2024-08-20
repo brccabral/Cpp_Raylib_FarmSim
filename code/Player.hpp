@@ -2,7 +2,7 @@
 #include <map>
 #include <string>
 #include <rygame.hpp>
-#include "SoilLayer.h"
+#include "SoilLayer.hpp"
 
 
 class Player : public rg::sprite::Sprite

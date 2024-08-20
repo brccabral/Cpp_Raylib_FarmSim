@@ -1,5 +1,5 @@
-#include "Overlay.h"
-#include "Settings.h"
+#include "Overlay.hpp"
+#include "Settings.hpp"
 
 
 Overlay::Overlay(const std::shared_ptr<Player> &player) : player(player)

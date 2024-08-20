@@ -1,6 +1,6 @@
-#include "Menu.h"
+#include "Menu.hpp"
 
-#include "Settings.h"
+#include "Settings.hpp"
 
 Menu::Menu(const std::shared_ptr<Player> &player, const std::function<void()> &toggle_menu)
     : player(player), toggle_menu(toggle_menu)

@@ -1,10 +1,8 @@
-#include "SoilLayer.h"
-#include "Settings.h"
-#include "Sprites/Plant.h"
-#include "Sprites/SoilTile.h"
-#include "Sprites/WaterTile.h"
-
-#include <memory>
+#include "SoilLayer.hpp"
+#include "Settings.hpp"
+#include "Sprites/Plant.hpp"
+#include "Sprites/SoilTile.hpp"
+#include "Sprites/WaterTile.hpp"
 #include <memory>
 
 

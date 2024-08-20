@@ -1,5 +1,5 @@
-#include "Tree.h"
-#include "Particle.h"
+#include "Tree.hpp"
+#include "Particle.hpp"
 
 
 Tree::Tree(

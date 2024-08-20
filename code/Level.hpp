@@ -1,12 +1,12 @@
 #pragma once
-#include "CameraGroup.h"
-#include "Menu.h"
-#include "Player.h"
-#include "Overlay.h"
-#include "Rain.h"
-#include "Sky.h"
-#include "SoilLayer.h"
-#include "Transition.h"
+#include "CameraGroup.hpp"
+#include "Menu.hpp"
+#include "Player.hpp"
+#include "Overlay.hpp"
+#include "Rain.hpp"
+#include "Sky.hpp"
+#include "SoilLayer.hpp"
+#include "Transition.hpp"
 
 
 class Level

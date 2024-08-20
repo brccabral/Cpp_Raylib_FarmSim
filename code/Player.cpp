@@ -1,10 +1,10 @@
 #include <cstdio>
 #include <cstring>
-#include "Player.h"
-#include "Settings.h"
-#include "Sprites/GenericSprite.h"
-#include "Sprites/Interaction.h"
-#include "Sprites/Tree.h"
+#include "Player.hpp"
+#include "Settings.hpp"
+#include "Sprites/GenericSprite.hpp"
+#include "Sprites/Interaction.hpp"
+#include "Sprites/Tree.hpp"
 
 #define HITBOX_Y_OFFSET 15
 

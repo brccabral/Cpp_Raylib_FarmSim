@@ -1,4 +1,4 @@
-#include "Sky.h"
+#include "Sky.hpp"
 
 
 void Sky::Display(const float dt)

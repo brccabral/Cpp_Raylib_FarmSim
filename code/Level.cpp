@@ -1,19 +1,13 @@
 #include <cstring>
-#include "Level.h"
-#include "Sprites/GenericSprite.h"
-#include "Sprites/Interaction.h"
-#include "Sprites/Particle.h"
-#include "Sprites/Plant.h"
-#include "Sprites/Tree.h"
-#include "Sprites/Water.h"
-#include "Sprites/WildFlower.h"
+#include "Level.hpp"
+#include "Sprites/GenericSprite.hpp"
+#include "Sprites/Interaction.hpp"
+#include "Sprites/Particle.hpp"
+#include "Sprites/Plant.hpp"
+#include "Sprites/Tree.hpp"
+#include "Sprites/Water.hpp"
+#include "Sprites/WildFlower.hpp"
 
-#include <memory>
-#include <memory>
-#include <memory>
-#include <memory>
-#include <memory>
-#include <memory>
 
 #define RAIN_CHANCE (6)
 

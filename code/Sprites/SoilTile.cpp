@@ -1,6 +1,5 @@
-#include "SoilTile.h"
-
-#include "../Settings.h"
+#include "SoilTile.hpp"
+#include "../Settings.hpp"
 
 
 SoilTile::SoilTile(const rg::math::Vector2 pos, const std::shared_ptr<rg::Surface> &surface)

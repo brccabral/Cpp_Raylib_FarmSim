@@ -1,4 +1,4 @@
-#include "Water.h"
+#include "Water.hpp"
 
 Water::Water(const rg::math::Vector2 pos, const std::shared_ptr<rg::Frames> &frames)
     : GenericSprite(pos, frames, LAYERS["water"]), frames(frames)
