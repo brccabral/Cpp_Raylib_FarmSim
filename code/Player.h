@@ -1,7 +1,7 @@
 #pragma once
 #include <map>
 #include <string>
-#include <rygame.h>
+#include <rygame.hpp>
 #include "SoilLayer.h"
 
 

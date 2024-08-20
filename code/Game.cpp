@@ -1,4 +1,4 @@
-#include <rygame.h>
+#include <rygame.hpp>
 #include "Game.h"
 
 Game::Game(const int width, const int height)

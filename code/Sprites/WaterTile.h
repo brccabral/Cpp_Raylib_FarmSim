@@ -1,5 +1,5 @@
 #pragma once
-#include <rygame.h>
+#include <rygame.hpp>
 
 
 class WaterTile : public rg::sprite::Sprite

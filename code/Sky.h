@@ -1,6 +1,6 @@
 #pragma once
 #include "Settings.h"
-#include <rygame.h>
+#include <rygame.hpp>
 
 
 class Sky
