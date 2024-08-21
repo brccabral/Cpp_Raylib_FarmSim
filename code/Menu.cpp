@@ -22,11 +22,11 @@ void Menu::Update()
             rg::getValues<unsigned int, decltype(player->item_inventory)>(player->item_inventory);
     amount_list.insert(amount_list.end(), s.begin(), s.end());
 
-    for (int text_index = 0; text_index < text_surfs.size(); ++text_index)
+    for (unsigned int text_index = 0; text_index < text_surfs.size(); ++text_index)
     {
         const float top = main_rect.top() + text_index * (text_surfs[text_index]->GetRect().height +
                                                           padding * 2 + space);
-        ShowEntry(text_surfs[text_index], amount_list[text_index], top, index == text_index);
+        ShowEntry(text_surfs[text_index], amount_list[text_index], top, index == (int) text_index);
     }
 }
 
@@ -51,6 +51,17 @@ void Menu::Input()
             ++index;
             timer.Activate();
         }
+        // clamp the values
+        // circular list
+        if (index < 0)
+        {
+            index = options.size() - 1;
+        }
+        else if (index > (int) options.size() - 1)
+        {
+            index = 0;
+        }
+
         if (IsKeyReleased(rl::KEY_SPACE))
         {
             timer.Activate();
@@ -75,16 +86,6 @@ void Menu::Input()
                 }
             }
         }
-    }
-    // clamp the values
-    // circular list
-    if (index < 0)
-    {
-        index = options.size() - 1;
-    }
-    else if (index > options.size() - 1)
-    {
-        index = 0;
     }
 }
 

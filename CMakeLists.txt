@@ -35,7 +35,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE rygame)
 
 if (WIN32)
 else ()
-    set(CMAKE_CXX_COMPILER "clang++") # Sprite::Kill() has [[nodiscard]]
+    #    set(CMAKE_CXX_COMPILER "clang++") # Sprite::Kill() has [[nodiscard]]
     #    target_compile_options(${PROJECT_NAME} PRIVATE "-fsanitize=address")
     target_compile_options(${PROJECT_NAME} PRIVATE "-Wall" "-Werror" "-Wpedantic" "-Wno-missing-braces" "-Wno-gnu-anonymous-struct" "-Wno-nested-anon-types")
     if (CMAKE_BUILD_TYPE STREQUAL "Debug")

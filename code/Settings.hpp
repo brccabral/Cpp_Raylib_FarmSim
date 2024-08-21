@@ -12,7 +12,7 @@ inline std::map<std::string, rg::math::Vector2> OVERLAY_POSITIONS = {
         {"seed", {70, SCREEN_HEIGHT - 5}}, //
 };
 
-inline rg::InsertOrderMap<std::string, unsigned int> LAYERS = {
+inline rg::InsertOrderMap<std::string, int> LAYERS = {
         {"water", 0}, //
         {"ground", 1}, //
         {"soil", 2}, //
@@ -53,7 +53,7 @@ inline std::map<std::string, unsigned int> SALE_PRICES = {
         {"tomato", 20}, //
 };
 
-inline std::map<std::string, unsigned int> PURCHASE_PRICES = {
+inline std::map<std::string, int> PURCHASE_PRICES = {
         {"corn", 4}, //
         {"tomato", 5}, //
 };

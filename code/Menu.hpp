@@ -29,7 +29,7 @@ private:
 
     // entries
     std::vector<std::string> options;
-    unsigned int sell_border = 0;
+    int sell_border = 0;
 
     std::vector<std::shared_ptr<rg::Surface>> text_surfs{};
     float total_height{};
