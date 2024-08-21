@@ -27,7 +27,7 @@ void CameraGroup::CustomDraw(const std::shared_ptr<Player> &player)
                 rg::Rect offset_rect = sprite->rect;
                 offset_rect.pos -= offset;
 
-                display_surface->Blit(sprite->image, offset_rect.pos);
+                display_surface->Blit(sprite->image, offset_rect);
 
                 // debug
 #ifdef SHOW_HITBOX

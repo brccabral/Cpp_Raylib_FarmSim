@@ -114,7 +114,7 @@ void Menu::DisplayMoney() const
             text_surf->GetRect().midbottom({SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - 20});
 
     rg::draw::rect(display_surface, rl::WHITE, text_rect.inflate(10, 10), 0, 4);
-    display_surface->Blit(text_surf, text_rect.pos);
+    display_surface->Blit(text_surf, text_rect);
 }
 
 void Menu::ShowEntry(
@@ -129,13 +129,13 @@ void Menu::ShowEntry(
     // text
     rg::Rect text_rect = text_surf->GetRect();
     text_rect.midleft({main_rect.left() + 20, bg_rect.centery()});
-    display_surface->Blit(text_surf, text_rect.pos);
+    display_surface->Blit(text_surf, text_rect);
 
     // amount
     auto amount_surf = font.render(std::to_string(amount).c_str(), rl::BLACK);
     rg::Rect amount_rect = amount_surf->GetRect();
     amount_rect.midright({main_rect.right() - 20, bg_rect.centery()});
-    display_surface->Blit(amount_surf, amount_rect.pos);
+    display_surface->Blit(amount_surf, amount_rect);
 
     // selected
     if (selected)
@@ -145,13 +145,13 @@ void Menu::ShowEntry(
         {
             rg::Rect pos_rect = sell_text->GetRect();
             pos_rect.midleft({main_rect.left() + 150.0f, bg_rect.centery()});
-            display_surface->Blit(sell_text, pos_rect.pos);
+            display_surface->Blit(sell_text, pos_rect);
         }
         else
         {
             rg::Rect pos_rect = buy_text->GetRect();
             pos_rect.midleft({main_rect.left() + 150.0f, bg_rect.centery()});
-            display_surface->Blit(buy_text, pos_rect.pos);
+            display_surface->Blit(buy_text, pos_rect);
         }
     }
 }

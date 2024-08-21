@@ -23,5 +23,5 @@ void Transition::Play()
     }
 
     image->Fill({(unsigned char) color, (unsigned char) color, (unsigned char) color, 255});
-    display_surface->Blit(image, {}, rl::BLEND_MULTIPLIED);
+    display_surface->Blit(image, rg::math::Vector2{}, rl::BLEND_MULTIPLIED);
 }
