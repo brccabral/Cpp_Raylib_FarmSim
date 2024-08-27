@@ -40,7 +40,7 @@ private:
     std::shared_ptr<Menu> menu = nullptr;
 
     rl::tmx_map *tmx_data = nullptr;
-    std::shared_ptr<rg::Frames> water_frames = nullptr;
+    rg::Frames_Ptr water_frames = nullptr;
 
     bool raining{};
     bool shop_active{};
