@@ -14,13 +14,12 @@ Game::Game(const int width, const int height)
 
 Game::~Game()
 {
-    delete level;
     rg::Quit();
 }
 
 void Game::run() const
 {
-    while (!rl::WindowShouldClose())
+    while (!rg::WindowCloseOrQuit())
     {
         level->run(rl::GetFrameTime());
         rg::display::Update();
