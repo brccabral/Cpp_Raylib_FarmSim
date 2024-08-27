@@ -9,7 +9,7 @@ Game::Game(const int width, const int height)
 
     // need to init level after rg::display::SetMode as it calls rl::InitWindow()
     // and InitWindow starts raylib resources that are needed in Level()
-    level = new Level();
+    level = std::make_shared<Level>();
 }
 
 Game::~Game()

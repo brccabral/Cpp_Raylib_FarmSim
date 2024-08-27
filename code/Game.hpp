@@ -14,5 +14,5 @@ private:
 
     void UnloadResources();
 
-    Level *level = nullptr;
+    std::shared_ptr<Level> level = nullptr;
 };
