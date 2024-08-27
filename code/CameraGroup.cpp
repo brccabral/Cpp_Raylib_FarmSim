@@ -11,8 +11,7 @@ void CameraGroup::CustomDraw(const std::shared_ptr<Player> &player)
     // stable_sort keeps original order in case of equality
     std::stable_sort(
             sprites.begin(), sprites.end(),
-            [](const std::shared_ptr<rg::sprite::Sprite> &l,
-               const std::shared_ptr<rg::sprite::Sprite> &r)
+            [](const rg::sprite::Sprite_Ptr &l, const rg::sprite::Sprite_Ptr &r)
             {
                 const float yl = l->rect.centery();
                 const float yr = r->rect.centery();
