@@ -25,7 +25,7 @@ private:
     void PlantCollision();
     void ToogleShop();
 
-    std::shared_ptr<rg::Surface> display_surface = rg::display::GetSurface();
+    rg::Surface_Ptr display_surface = rg::display::GetSurface();
 
     CameraGroup all_sprites{};
     rg::sprite::Group collisionSprites{};
@@ -49,5 +49,5 @@ private:
     rg::mixer::Sound success = rg::mixer::Sound("resources/audio/success.wav");
     rg::mixer::Sound music = rg::mixer::Sound("resources/audio/music.mp3", true);
 
-    std::shared_ptr<rg::Surface> ground_surf = nullptr;
+    rg::Surface_Ptr ground_surf = nullptr;
 };

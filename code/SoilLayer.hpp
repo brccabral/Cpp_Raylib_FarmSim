@@ -44,8 +44,8 @@ private:
     rg::sprite::Group soil_sprites{};
     rg::sprite::Group water_sprites{};
 
-    std::map<std::string, std::shared_ptr<rg::Surface>> soil_surfs{};
-    std::vector<std::shared_ptr<rg::Surface>> water_surfs{};
+    std::map<std::string, rg::Surface_Ptr> soil_surfs{};
+    std::vector<rg::Surface_Ptr> water_surfs{};
 
     std::vector<std::vector<std::vector<char>>> grid;
     std::vector<rg::Rect> hit_rects{};

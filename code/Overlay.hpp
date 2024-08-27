@@ -11,9 +11,9 @@ public:
 
 private:
 
-    std::shared_ptr<rg::Surface> display_surface = rg::display::GetSurface();
+    rg::Surface_Ptr display_surface = rg::display::GetSurface();
     std::shared_ptr<Player> player;
 
-    std::map<std::string, std::shared_ptr<rg::Surface>> tools_surfaces{};
-    std::map<std::string, std::shared_ptr<rg::Surface>> seeds_surfaces{};
+    std::map<std::string, rg::Surface_Ptr> tools_surfaces{};
+    std::map<std::string, rg::Surface_Ptr> seeds_surfaces{};
 };

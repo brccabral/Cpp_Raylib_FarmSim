@@ -13,6 +13,6 @@ public:
 
 private:
 
-    std::shared_ptr<rg::Surface> display_surface = rg::display::GetSurface();
+    rg::Surface_Ptr display_surface = rg::display::GetSurface();
     rg::math::Vector2 offset{};
 };

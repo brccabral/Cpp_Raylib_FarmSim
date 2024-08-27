@@ -118,7 +118,7 @@ void Menu::DisplayMoney() const
 }
 
 void Menu::ShowEntry(
-        const std::shared_ptr<rg::Surface> &text_surf, const unsigned int amount, const float top,
+        const rg::Surface_Ptr &text_surf, const unsigned int amount, const float top,
         const bool selected) const
 {
     // background

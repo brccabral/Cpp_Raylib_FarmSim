@@ -15,8 +15,8 @@ private:
     void CreateDrops();
 
     CameraGroup *all_sprites = nullptr;
-    std::vector<std::shared_ptr<rg::Surface>> rain_drops{};
-    std::vector<std::shared_ptr<rg::Surface>> rain_floor{};
+    std::vector<rg::Surface_Ptr> rain_drops{};
+    std::vector<rg::Surface_Ptr> rain_floor{};
     unsigned int ground_w;
     unsigned int ground_h;
 };

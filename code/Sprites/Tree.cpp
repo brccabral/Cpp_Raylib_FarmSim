@@ -3,7 +3,7 @@
 
 
 Tree::Tree(
-        const rg::math::Vector2 pos, const std::shared_ptr<rg::Surface> &surf, const char *name,
+        const rg::math::Vector2 pos, const rg::Surface_Ptr &surf, const char *name,
         const std::function<void(const std::string &item)> &player_add)
     : GenericSprite(pos, surf), name_(name), player_add(player_add)
 {

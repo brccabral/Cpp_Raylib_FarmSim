@@ -1,7 +1,7 @@
 #include "Drop.hpp"
 
 Drop::Drop(
-        const rg::math::Vector2 pos, const std::shared_ptr<rg::Surface> &surface,
+        const rg::math::Vector2 pos, const rg::Surface_Ptr &surface,
         const unsigned int z, const bool moving)
     : GenericSprite(pos, surface, z), moving(moving)
 {

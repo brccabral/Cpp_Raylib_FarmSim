@@ -55,7 +55,7 @@ private:
     rg::math::Vector2 direction{};
     float speed = 200.0f;
 
-    std::map<std::string, std::vector<std::shared_ptr<rg::Surface>>> animations{};
+    std::map<std::string, std::vector<rg::Surface_Ptr>> animations{};
     std::string status = "down_idle";
     float frame_index = 0.0f;
 

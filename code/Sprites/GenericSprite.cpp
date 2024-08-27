@@ -2,7 +2,7 @@
 
 
 GenericSprite::GenericSprite(
-        const rg::math::Vector2 pos, const std::shared_ptr<rg::Surface> &surf, const unsigned int z)
+        const rg::math::Vector2 pos, const rg::Surface_Ptr &surf, const unsigned int z)
 {
     this->z = z;
 
@@ -14,7 +14,7 @@ GenericSprite::GenericSprite(
     }
 }
 
-void GenericSprite::InitImage(const std::shared_ptr<rg::Surface> &surf)
+void GenericSprite::InitImage(const rg::Surface_Ptr &surf)
 {
     image = surf;
     rect.width = image->GetRect().width;
