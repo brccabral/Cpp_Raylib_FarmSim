@@ -54,7 +54,7 @@ void Level::run(const float dt)
     // weather
     overlay->Display();
     // rain
-    if (raining and !shop_active)
+    if (raining && !shop_active)
     {
         rain->Update();
     }
