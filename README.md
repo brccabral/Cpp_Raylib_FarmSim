@@ -8,7 +8,8 @@ This project is similar to **Stardew Valley**.
 
 - Raylib  
   Main library to manage window, inputs, screen  
-  Compile and install raylib https://github.com/raysan5/raylib
+  Compile and install raylib https://github.com/raysan5/raylib  
+  On Windows, compile with `cmake *** -DCUSTOMIZE_BUILD=ON -DSUPPORT_WINMM_HIGHRES_TIMER=OFF`
 - Rygame  
   https://github.com/brccabral/rygame.git  
   I created this library to have my Raylib in the same style as Pygame.  
