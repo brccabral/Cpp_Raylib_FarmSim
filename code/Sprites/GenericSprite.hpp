@@ -8,9 +8,9 @@ class GenericSprite : public rg::sprite::Sprite
 public:
 
     GenericSprite(
-            rg::math::Vector2 pos, const rg::Surface_Ptr &surf,
+            rg::math::Vector2 pos, rg::Surface *surf,
             unsigned int z = LAYERS["main"]);
-    void InitImage(const rg::Surface_Ptr &surf);
+    void InitImage(rg::Surface *surf);
 
     rg::Rect hitbox{};
 };

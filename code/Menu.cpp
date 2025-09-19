@@ -2,11 +2,12 @@
 
 #include "Settings.hpp"
 
-Menu::Menu(const std::shared_ptr<Player> &player, const std::function<void()> &toggle_menu)
+Menu::Menu(Player *player, const std::function<void()> &toggle_menu)
     : player(player), toggle_menu(toggle_menu)
 {
-    auto s = rg::getKeys<std::string, decltype(player->seed_inventory)>(player->seed_inventory);
     options = rg::getKeys<std::string, decltype(player->item_inventory)>(player->item_inventory);
+    // append seed into options
+    auto s = rg::getKeys<std::string, decltype(player->seed_inventory)>(player->seed_inventory);
     options.insert(options.end(), s.begin(), s.end());
     sell_border = player->item_inventory.size() - 1;
     Setup();
@@ -24,9 +25,9 @@ void Menu::Update()
 
     for (unsigned int text_index = 0; text_index < text_surfs.size(); ++text_index)
     {
-        const float top = main_rect.top() + text_index * (text_surfs[text_index]->GetRect().height +
+        const float top = main_rect.top() + text_index * (text_surfs[text_index].GetRect().height +
                                                           padding * 2 + space);
-        ShowEntry(text_surfs[text_index], amount_list[text_index], top, index == (int) text_index);
+        ShowEntry(&text_surfs[text_index], amount_list[text_index], top, index == (int) text_index);
     }
 }
 
@@ -94,8 +95,8 @@ void Menu::Setup()
     for (auto &item: options)
     {
         auto text_surf = font.render(item.c_str(), rl::BLACK);
-        text_surfs.emplace_back(text_surf);
-        total_height += text_surf->GetRect().height + padding * 2;
+        text_surfs.push_back(std::move(text_surf));
+        total_height += text_surf.GetRect().height + padding * 2;
     }
     total_height += (text_surfs.size() - 1) * space;
     menu_top = SCREEN_HEIGHT / 2.0f - total_height / 2.0f;
@@ -106,20 +107,20 @@ void Menu::Setup()
     sell_text = font.render("sell", rl::BLACK);
 }
 
-void Menu::DisplayMoney() const
+void Menu::DisplayMoney()
 {
-    const auto text_surf =
+    auto text_surf =
             font.render(rl::TextFormat("$%s", std::to_string(player->money).c_str()), rl::BLACK);
     const rg::Rect text_rect =
-            text_surf->GetRect().midbottom({SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - 20});
+            text_surf.GetRect().midbottom({SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - 20});
 
     rg::draw::rect(display_surface, rl::WHITE, text_rect.inflate(10, 10), 0, 4);
-    display_surface->Blit(text_surf, text_rect);
+    display_surface->Blit(&text_surf, text_rect);
 }
 
 void Menu::ShowEntry(
-        const rg::Surface_Ptr &text_surf, const unsigned int amount, const float top,
-        const bool selected) const
+        const rg::Surface *text_surf, const unsigned int amount, const float top,
+        const bool selected)
 {
     // background
     const rg::Rect bg_rect = {
@@ -133,9 +134,9 @@ void Menu::ShowEntry(
 
     // amount
     auto amount_surf = font.render(std::to_string(amount).c_str(), rl::BLACK);
-    rg::Rect amount_rect = amount_surf->GetRect();
+    rg::Rect amount_rect = amount_surf.GetRect();
     amount_rect.midright({main_rect.right() - 20, bg_rect.centery()});
-    display_surface->Blit(amount_surf, amount_rect);
+    display_surface->Blit(&amount_surf, amount_rect);
 
     // selected
     if (selected)
@@ -143,15 +144,15 @@ void Menu::ShowEntry(
         rg::draw::rect(display_surface, rl::BLACK, bg_rect, 4, 4);
         if (index <= sell_border)
         {
-            rg::Rect pos_rect = sell_text->GetRect();
+            rg::Rect pos_rect = sell_text.GetRect();
             pos_rect.midleft({main_rect.left() + 150.0f, bg_rect.centery()});
-            display_surface->Blit(sell_text, pos_rect);
+            display_surface->Blit(&sell_text, pos_rect);
         }
         else
         {
-            rg::Rect pos_rect = buy_text->GetRect();
+            rg::Rect pos_rect = buy_text.GetRect();
             pos_rect.midleft({main_rect.left() + 150.0f, bg_rect.centery()});
-            display_surface->Blit(buy_text, pos_rect);
+            display_surface->Blit(&buy_text, pos_rect);
         }
     }
 }

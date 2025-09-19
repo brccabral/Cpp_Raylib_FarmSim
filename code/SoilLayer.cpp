@@ -1,9 +1,11 @@
+#include <algorithm>
+#include <memory>
+
 #include "SoilLayer.hpp"
 #include "Settings.hpp"
 #include "Sprites/Plant.hpp"
 #include "Sprites/SoilTile.hpp"
 #include "Sprites/WaterTile.hpp"
-#include <memory>
 
 
 SoilLayer::SoilLayer(rg::sprite::Group *all_sprites, rg::sprite::Group *collisionSprites)
@@ -36,7 +38,7 @@ void SoilLayer::GetHit(const rg::math::Vector2 point)
 void SoilLayer::Water(const rg::math::Vector2 point)
 {
     // only if it is a SoilSprite (is in group soil_sprites)
-    for (const auto &sprite: soil_sprites.Sprites())
+    for (const auto *sprite: soil_sprites.Sprites())
     {
         if (sprite->rect.collidepoint(point))
         {
@@ -98,7 +100,7 @@ void SoilLayer::WaterAll()
 
 bool SoilLayer::PlantSeed(const rg::math::Vector2 pos, const std::string &seed)
 {
-    for (const auto &soil_sprite: soil_sprites.Sprites())
+    for (const auto *soil_sprite: soil_sprites.Sprites())
     {
         if (soil_sprite->rect.collidepoint(pos))
         {
@@ -108,10 +110,13 @@ bool SoilLayer::PlantSeed(const rg::math::Vector2 pos, const std::string &seed)
             if (!IsPlant(grid[y][x]))
             {
                 grid[y][x].emplace_back('P');
-                std::make_shared<Plant>(
-                        soil_sprite->rect.midbottom(), seed, [this](const rg::math::Vector2 target)
-                        { return this->CheckWatered(target); })
-                        ->add({all_sprites, &plant_sprites, collisionSprites});
+                auto plant = Plant(
+                        soil_sprite->rect.midbottom(), seed, [this](
+                        const rg::math::Vector2 target)
+                        {
+                            return this->CheckWatered(target);
+                        });
+                plant.add({all_sprites, &plant_sprites, collisionSprites});
                 return true;
             }
         }
@@ -129,8 +134,8 @@ bool SoilLayer::CheckWatered(const rg::math::Vector2 pos) const
 void SoilLayer::CreateSoilGrid()
 {
     const auto ground = rg::image::Load("resources/graphics/world/ground.png");
-    const unsigned int h_tiles = ground->GetRect().width / TILE_SIZE;
-    const unsigned int v_tiles = ground->GetRect().height / TILE_SIZE;
+    const unsigned int h_tiles = ground.GetRect().width / TILE_SIZE;
+    const unsigned int v_tiles = ground.GetRect().height / TILE_SIZE;
 
     for (unsigned int row = 0; row < v_tiles; ++row)
     {
@@ -262,8 +267,8 @@ void SoilLayer::CreateSoilTiles()
                 const float x = index_col * TILE_SIZE;
                 const float y = index_row * TILE_SIZE;
                 // TODO: this is adding the same x,y to all_sprites
-                std::make_shared<SoilTile>(rg::math::Vector2{x, y}, soil_surfs[tyle_type])
-                        ->add({all_sprites, &soil_sprites});
+                auto soil = SoilTile(rg::math::Vector2{x, y}, &soil_surfs[tyle_type]);
+                soil.add({all_sprites, &soil_sprites});
                 if (raining)
                 {
                     CreateWaterTile({x, y});
@@ -276,7 +281,8 @@ void SoilLayer::CreateSoilTiles()
 void SoilLayer::CreateWaterTile(const rg::math::Vector2 &pos)
 {
     const unsigned int random_water = rl::GetRandomValue(0, water_surfs.size() - 1);
-    std::make_shared<WaterTile>(pos, water_surfs[random_water])->add({all_sprites, &water_sprites});
+    const auto water = new WaterTile(pos, &water_surfs[random_water]);
+    water->add({all_sprites, &water_sprites});
 }
 
 bool SoilLayer::IsFarmable(const std::vector<char> &cell)
@@ -301,9 +307,9 @@ bool SoilLayer::IsPlant(const std::vector<char> &cell)
 
 void SoilLayer::UpdatePlants() const
 {
-    for (const auto &sprite: plant_sprites.Sprites())
+    for (auto *sprite: plant_sprites.Sprites())
     {
-        const auto plant = std::dynamic_pointer_cast<Plant>(sprite);
+        const auto plant = dynamic_cast<Plant *>(sprite);
         plant->Grow();
     }
 }

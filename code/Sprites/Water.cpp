@@ -1,15 +1,15 @@
 #include "Water.hpp"
 
-Water::Water(const rg::math::Vector2 pos, const rg::Frames_Ptr &frames)
+Water::Water(const rg::math::Vector2 pos, rg::Frames *frames)
     : GenericSprite(pos, frames, LAYERS["water"]), frames(frames)
-{}
+{
+}
 
 Water::~Water()
 {
     // image is a pointer to frames
     // but frames is deleted in the Level class
     // and the image is deleted in ~Sprite()
-    image = nullptr;
 }
 
 void Water::Update(const float deltaTime)

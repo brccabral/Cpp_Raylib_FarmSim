@@ -1,9 +1,10 @@
 #include "Transition.hpp"
 
 
-Transition::Transition(const std::function<void()> &reset, const std::shared_ptr<Player> &player)
+Transition::Transition(const std::function<void()> &reset, Player *player)
     : reset(reset), player(player)
-{}
+{
+}
 
 void Transition::Play()
 {
@@ -22,6 +23,6 @@ void Transition::Play()
         player->sleep = false;
     }
 
-    image->Fill({(unsigned char) color, (unsigned char) color, (unsigned char) color, 255});
-    display_surface->Blit(image, rg::math::Vector2{}, rl::BLEND_MULTIPLIED);
+    image.Fill({(unsigned char) color, (unsigned char) color, (unsigned char) color, 255});
+    display_surface->Blit(&image, rg::math::Vector2{}, rl::BLEND_MULTIPLIED);
 }

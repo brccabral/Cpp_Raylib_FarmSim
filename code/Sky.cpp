@@ -16,8 +16,8 @@ void Sky::Display(const float dt)
         start_color.z -= 2 * dt;
     }
 
-    full_surf->Fill(
-            {(unsigned char) start_color.x, (unsigned char) start_color.y,
-             (unsigned char) start_color.z, 255});
-    display_surface->Blit(full_surf, rg::math::Vector2{}, rl::BLEND_MULTIPLIED);
+    full_surf.Fill(
+    {(unsigned char) start_color.x, (unsigned char) start_color.y,
+     (unsigned char) start_color.z, 255});
+    display_surface->Blit(&full_surf, rg::math::Vector2{}, rl::BLEND_MULTIPLIED);
 }

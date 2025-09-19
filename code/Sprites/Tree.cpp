@@ -3,7 +3,7 @@
 
 
 Tree::Tree(
-        const rg::math::Vector2 pos, const rg::Surface_Ptr &surf, const char *name,
+        const rg::math::Vector2 pos, rg::Surface *surf, const char *name,
         const std::function<void(const std::string &item)> &player_add)
     : GenericSprite(pos, surf), name_(name), player_add(player_add)
 {
@@ -34,10 +34,11 @@ void Tree::CreateFruit()
         {
             const rg::math::Vector2 pos = rect.pos + position;
             // create a new Surface from the render.texture so it won't be deleted in GenericSprite
-            std::make_shared<GenericSprite>(
-                    pos, std::make_shared<rg::Surface>(&apple_surf->render.texture),
-                    LAYERS["fruit"])
-                    ->add({&apple_sprites, groups[0]});
+            auto apple_surface = rg::Surface(&apple_surf.render.texture);
+            const auto apple = new GenericSprite(
+                    pos, &apple_surface,
+                    LAYERS["fruit"]);
+            apple->add({&apple_sprites, groups[0]});
         }
     }
 }
@@ -47,7 +48,7 @@ void Tree::CheckDeath()
     if (health <= 0)
     {
         std::make_shared<Particle>(rect.pos, image, LAYERS["fruit"], 0.3)->add(groups[0]);
-        image = stump_surf;
+        image = &stump_surf;
         const rg::math::Vector2 oldMidBottom = rect.midbottom();
         rect = image->GetRect();
         rect.midbottom(oldMidBottom);

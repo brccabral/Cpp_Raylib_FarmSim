@@ -13,16 +13,23 @@
 
 Level::Level()
 {
-    soil_layer = std::make_shared<SoilLayer>(&all_sprites, &collisionSprites);
+    soil_layer = SoilLayer(&all_sprites, &collisionSprites);
     Setup();
-    overlay = std::make_shared<Overlay>(player);
-    transition = std::make_shared<Transition>([this] { Reset(); }, player);
-    rain = std::make_shared<Rain>(&all_sprites);
+    overlay = Overlay(&player);
+    transition = Transition(
+            [this]
+            {
+                Reset();
+            }, &player);
+    rain = Rain(&all_sprites);
     raining = rl::GetRandomValue(0, 9) > RAIN_CHANCE;
-    soil_layer->raining = raining;
+    soil_layer.raining = raining;
 
-    sky = std::make_shared<Sky>();
-    menu = std::make_shared<Menu>(player, [this] { ToogleShop(); });
+    menu = Menu(
+            &player, [this]
+            {
+                ToogleShop();
+            });
 
     success.SetVolume(0.3f);
     music.SetVolume(0.5f);
@@ -38,12 +45,12 @@ void Level::run(const float dt)
 {
     // drawing logic
     display_surface->Fill(rl::BLACK);
-    all_sprites.CustomDraw(player);
+    all_sprites.CustomDraw(&player);
 
     // updates
     if (shop_active)
     {
-        menu->Update();
+        menu.Update();
     }
     else
     {
@@ -52,19 +59,19 @@ void Level::run(const float dt)
     }
 
     // weather
-    overlay->Display();
+    overlay.Display();
     // rain
     if (raining && !shop_active)
     {
-        rain->Update();
+        rain.Update();
     }
     // day
-    sky->Display(dt);
+    sky.Display(dt);
 
     // transition overlay
-    if (player->sleep)
+    if (player.sleep)
     {
-        transition->Play();
+        transition.Play();
     }
 }
 
@@ -86,8 +93,8 @@ void Level::Setup()
         auto tiles = rg::tmx::GetTMXTiles(tmx_data, layer);
         for (auto &[tilePos, tileTexture, atlas_rect]: tiles)
         {
-            auto tileSurf = std::make_shared<rg::Surface>(tileTexture, atlas_rect);
-            std::make_shared<GenericSprite>(tilePos, tileSurf, order)->add(&all_sprites);
+            auto tileSurf = rg::Surface(tileTexture, atlas_rect);
+            GenericSprite(tilePos, &tileSurf, order).add(&all_sprites);
         }
     }
 
@@ -96,9 +103,9 @@ void Level::Setup()
     auto fence_tiles = rg::tmx::GetTMXTiles(tmx_data, fence_layer);
     for (auto &[fence_pos, tileTexture, atlas_rect]: fence_tiles)
     {
-        std::make_shared<GenericSprite>(
-                fence_pos, std::make_shared<rg::Surface>(tileTexture, atlas_rect))
-                ->add({&all_sprites, &collisionSprites});
+        GenericSprite(
+                        fence_pos, rg::Surface(tileTexture, atlas_rect))
+                .add({&all_sprites, &collisionSprites});
     }
 
     // water
@@ -108,7 +115,7 @@ void Level::Setup()
     auto water_tiles = rg::tmx::GetTMXTiles(tmx_data, water_layer);
     for (auto &[water_pos, water_surf, atlas_pos]: water_tiles)
     {
-        std::make_shared<Water>(water_pos, water_frames)->add(&all_sprites);
+        Water(water_pos, &water_frames).add(&all_sprites);
     }
 
     // wildflowers
@@ -121,10 +128,10 @@ void Level::Setup()
         {
             rg::Rect atlas_rect{};
             auto *tileTexture = rg::tmx::GetTMXTileTexture(tmx_data->tiles[gid], &atlas_rect);
-            std::make_shared<WildFlower>(
-                    rg::math::Vector2{(float) decor->x, (float) (decor->y - decor->height)},
-                    std::make_shared<rg::Surface>(tileTexture, atlas_rect))
-                    ->add({&all_sprites, &collisionSprites});
+            WildFlower(
+                            rg::math::Vector2{(float) decor->x, (float) (decor->y - decor->height)},
+                            rg::Surface(tileTexture, atlas_rect))
+                    .add({&all_sprites, &collisionSprites});
         }
         decor = decor->next;
     }
@@ -134,9 +141,9 @@ void Level::Setup()
     auto collision_tiles = rg::tmx::GetTMXTiles(tmx_data, collision_layer);
     for (auto &[collision_pos, tileTexture, atlas_rect]: collision_tiles)
     {
-        std::make_shared<GenericSprite>(
-                collision_pos, std::make_shared<rg::Surface>(tileTexture, atlas_rect))
-                ->add(&collisionSprites);
+        GenericSprite(
+                        collision_pos, rg::Surface(tileTexture, atlas_rect))
+                .add(&collisionSprites);
     }
 
 
@@ -147,35 +154,32 @@ void Level::Setup()
     {
         if (!strcmp(playerObj->name, "Start"))
         {
-            player = std::make_shared<Player>(
+            player = Player(
                     rg::math::Vector2{(float) playerObj->x, (float) playerObj->y},
-                    &collisionSprites, &treeSprites, &interactionSprites, soil_layer,
-                    [this] { ToogleShop(); });
-            player->add(&all_sprites);
+                    &collisionSprites, &treeSprites, &interactionSprites, &soil_layer,
+                    [this]
+                    {
+                        ToogleShop();
+                    });
+            player.add(&all_sprites);
         }
         if (!strcmp(playerObj->name, "Bed"))
         {
-            std::make_shared<Interaction>(
-                    rg::math::Vector2{(float) playerObj->x, (float) playerObj->y},
-                    rg::math::Vector2{(float) playerObj->width, (float) playerObj->height},
-                    playerObj->name)
-                    ->add(&interactionSprites);
+            Interaction(
+                            rg::math::Vector2{(float) playerObj->x, (float) playerObj->y},
+                            rg::math::Vector2{(float) playerObj->width, (float) playerObj->height},
+                            playerObj->name)
+                    .add(&interactionSprites);
         }
         if (!strcmp(playerObj->name, "Trader"))
         {
-            std::make_shared<Interaction>(
-                    rg::math::Vector2{(float) playerObj->x, (float) playerObj->y},
-                    rg::math::Vector2{(float) playerObj->width, (float) playerObj->height},
-                    playerObj->name)
-                    ->add(&interactionSprites);
+            Interaction(
+                            rg::math::Vector2{(float) playerObj->x, (float) playerObj->y},
+                            rg::math::Vector2{(float) playerObj->width, (float) playerObj->height},
+                            playerObj->name)
+                    .add(&interactionSprites);
         }
         playerObj = playerObj->next;
-    }
-
-    // player must exist
-    if (!player)
-    {
-        throw;
     }
 
     // trees
@@ -189,38 +193,41 @@ void Level::Setup()
         {
             rg::Rect atlas_rect;
             auto *tileTexture = rg::tmx::GetTMXTileTexture(tmx_data->tiles[gid], &atlas_rect);
-            auto t = std::make_shared<Tree>(
+            auto t = Tree(
                     rg::math::Vector2{(float) tree->x, (float) (tree->y - tree->height)},
-                    std::make_shared<rg::Surface>(tileTexture, atlas_rect), tree->name,
-                    [this](const std::string &item) { this->PlayerAdd(item); });
-            t->add({&all_sprites, &collisionSprites, &treeSprites});
-            t->CreateFruit();
+                    rg::Surface(tileTexture, atlas_rect), tree->name,
+                    [this](const std::string &item)
+                    {
+                        this->PlayerAdd(item);
+                    });
+            t.add({&all_sprites, &collisionSprites, &treeSprites});
+            t.CreateFruit();
         }
         tree = tree->next;
     }
 
     ground_surf = rg::image::Load("resources/graphics/world/ground.png");
-    std::make_shared<GenericSprite>(
-            rg::math::Vector2{0, 0}, ground_surf,
-            LAYERS["ground"])
-            ->add(&all_sprites); // GenericSprite will be deleted in ~Level.all_sprites
+    GenericSprite(
+                    rg::math::Vector2{0, 0}, &ground_surf,
+                    LAYERS["ground"])
+            .add(&all_sprites); // GenericSprite will be deleted in ~Level.all_sprites
 }
 
-void Level::PlayerAdd(const std::string &item) const
+void Level::PlayerAdd(const std::string &item)
 {
-    player->item_inventory[item] += 1;
+    player.item_inventory[item] += 1;
     success.Play();
 }
 
 void Level::Reset()
 {
     // plants
-    soil_layer->UpdatePlants(); // must call before RemoveWater
+    soil_layer.UpdatePlants(); // must call before RemoveWater
 
     // apples on the trees
-    for (const auto &treeSprite: treeSprites.Sprites())
+    for (auto *treeSprite: treeSprites.Sprites())
     {
-        const auto tree = std::dynamic_pointer_cast<Tree>(treeSprite);
+        const auto tree = dynamic_cast<Tree *>(treeSprite);
         // remove existing apples
         for (const auto &apple: tree->apple_sprites.Sprites())
         {
@@ -232,34 +239,34 @@ void Level::Reset()
     }
 
     // Soil
-    soil_layer->RemoveAllWater();
+    soil_layer.RemoveAllWater();
 
     // randomize rain
     raining = rl::GetRandomValue(0, 9) > RAIN_CHANCE;
-    soil_layer->raining = raining;
+    soil_layer.raining = raining;
     if (raining)
     {
-        soil_layer->WaterAll();
+        soil_layer.WaterAll();
     }
 
     // sky
-    sky->start_color = {255, 255, 255};
+    sky.start_color = {255, 255, 255};
 }
 
 void Level::PlantCollision()
 {
-    for (const auto &plantSprite: soil_layer->plant_sprites.Sprites())
+    for (auto *plantSprite: soil_layer.plant_sprites.Sprites())
     {
-        const auto plant = std::dynamic_pointer_cast<Plant>(plantSprite);
+        const auto plant = dynamic_cast<Plant *>(plantSprite);
         if (plant->harvestable &&
-            CheckCollisionRecs(plant->rect.rectangle, player->hitbox.rectangle))
+            CheckCollisionRecs(plant->rect.rectangle, player.hitbox.rectangle))
         {
             PlayerAdd(plant->plant_type);
             plant->Kill();
             // we can still use plant because the deletion is delayed until dislay::Update
             std::make_shared<Particle>(plant->rect.pos, plant->image, LAYERS["main"])
                     ->add(&all_sprites);
-            soil_layer->RemovePlant(plant->rect.center());
+            soil_layer.RemovePlant(plant->rect.center());
         }
     }
 }

@@ -8,11 +8,9 @@ public:
 
     Game(int width, int height);
     ~Game();
-    void run() const;
+    void run();
 
 private:
 
-    void UnloadResources();
-
-    std::shared_ptr<Level> level = nullptr;
+    Level level{};
 };

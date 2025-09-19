@@ -9,9 +9,9 @@ Plant::Plant(
       check_watered(check_watered)
 {
     const std::string path = "resources/graphics/fruit/" + plant_type;
-    const auto plantsSurfaces = rg::image::ImportFolder(path.c_str());
+    frames = rg::image::ImportFolder(path.c_str());
 
-    max_age = plantsSurfaces.size() - 1;
+    max_age = frames.size() - 1;
     grow_speed = GROW_SPEED[plant_type];
 
     if (!strcmp(plant_type.c_str(), "corn"))
@@ -22,7 +22,7 @@ Plant::Plant(
     {
         y_offset = -8;
     }
-    image = rg::Frames::Merge(plantsSurfaces, 1, plantsSurfaces.size());
+    image = &frames[int(age)];
     rect = image->GetRect().midbottom(pos);
     rect.pos += {0, y_offset};
 
@@ -48,7 +48,7 @@ void Plant::Grow()
             harvestable = true;
         }
         const rg::math::Vector2 oldCenter = rect.center();
-        std::dynamic_pointer_cast<rg::Frames>(image)->SetAtlas(int(age));
+        image = &frames[int(age)];
         rect = image->GetRect();
         rect.center(oldCenter);
         if (age >= 1)
