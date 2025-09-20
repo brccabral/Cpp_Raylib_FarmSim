@@ -14,6 +14,10 @@ GenericSprite::GenericSprite(
 void GenericSprite::InitImage(rg::Surface *surf)
 {
     image = surf;
+    if (!image)
+    {
+        return;
+    }
     rect.width = image->GetRect().width;
     rect.height = image->GetRect().height;
 
