@@ -7,6 +7,11 @@ public:
 
     Menu() = default;
     Menu(Player *player, const std::function<void()> &toggle_menu);
+    Menu(const Menu &other) = delete;
+    Menu &operator=(const Menu &other) = delete;
+    Menu(Menu &&other) = default;
+    Menu &operator=(Menu &&other) = default;
+
     void Update();
     void Input();
 
