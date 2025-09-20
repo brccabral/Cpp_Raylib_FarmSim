@@ -9,4 +9,5 @@ public:
     Interaction(rg::math::Vector2 pos, rg::math::Vector2 size, std::string name);
 
     std::string name;
+    rg::Surface surface;
 };

@@ -20,7 +20,7 @@ void CameraGroup::CustomDraw(const Player *player)
             });
     for (const auto &[layer, order]: LAYERS)
     {
-        for (const auto &sprite: sprites)
+        for (const auto *sprite: sprites)
         {
             if (sprite->z == order)
             {

@@ -35,7 +35,7 @@ void SoilLayer::GetHit(const rg::math::Vector2 point)
     }
 }
 
-void SoilLayer::Water(const rg::math::Vector2 point)
+void SoilLayer::AddWater(const rg::math::Vector2 point)
 {
     // only if it is a SoilSprite (is in group soil_sprites)
     for (const auto *sprite: soil_sprites.Sprites())
@@ -54,7 +54,7 @@ void SoilLayer::Water(const rg::math::Vector2 point)
 void SoilLayer::RemoveAllWater()
 {
     // destroy all water sprites
-    for (const auto &water: water_sprites.Sprites())
+    for (auto *water: water_sprites.Sprites())
     {
         water->Kill();
     }
@@ -86,10 +86,10 @@ void SoilLayer::WaterAll()
     {
         for (unsigned int index_col = 0; index_col < grid[index_row].size(); ++index_col)
         {
-            const auto cell = &grid[index_row][index_col];
-            if (IsHit(*cell) && !IsWater(*cell))
+            auto &cell = grid[index_row][index_col];
+            if (IsHit(cell) && !IsWater(cell))
             {
-                cell->emplace_back('W');
+                cell.emplace_back('W');
                 const float x = index_col * TILE_SIZE;
                 const float y = index_row * TILE_SIZE;
                 CreateWaterTile({x, y});
@@ -110,13 +110,13 @@ bool SoilLayer::PlantSeed(const rg::math::Vector2 pos, const std::string &seed)
             if (!IsPlant(grid[y][x]))
             {
                 grid[y][x].emplace_back('P');
-                auto plant = Plant(
+                plants_sprites_.emplace_back(
                         soil_sprite->rect.midbottom(), seed, [this](
                         const rg::math::Vector2 target)
                         {
                             return this->CheckWatered(target);
                         });
-                plant.add({all_sprites, &plant_sprites, collisionSprites});
+                plants_sprites_.back().add({all_sprites, &plant_sprites, collisionSprites});
                 return true;
             }
         }
@@ -137,20 +137,21 @@ void SoilLayer::CreateSoilGrid()
     const unsigned int h_tiles = ground.GetRect().width / TILE_SIZE;
     const unsigned int v_tiles = ground.GetRect().height / TILE_SIZE;
 
+    grid.resize(v_tiles);
+    soil_tiles_sprites_.resize(v_tiles);
+    waters_sprites_.resize(v_tiles);
     for (unsigned int row = 0; row < v_tiles; ++row)
     {
-        grid.emplace_back();
-        for (unsigned int col = 0; col < h_tiles; ++col)
-        {
-            grid[row].emplace_back();
-        }
+        grid[row].resize(h_tiles);
+        soil_tiles_sprites_[row].reserve(h_tiles);
+        waters_sprites_[row].reserve(h_tiles);
     }
 
     rl::tmx_map *map = rl::LoadTMX("resources/data/map.tmx");
 
     const rl::tmx_layer *farmableLayer = tmx_find_layer_by_name(map, "Farmable");
     auto tiles = rg::tmx::GetTMXTiles(map, farmableLayer);
-    for (auto [position, surface, atlas]: tiles)
+    for (auto &[position, gid]: tiles)
     {
         const unsigned int x = position.x / TILE_SIZE;
         const unsigned int y = position.y / TILE_SIZE;
@@ -266,9 +267,9 @@ void SoilLayer::CreateSoilTiles()
 
                 const float x = index_col * TILE_SIZE;
                 const float y = index_row * TILE_SIZE;
-                // TODO: this is adding the same x,y to all_sprites
-                auto soil = SoilTile(rg::math::Vector2{x, y}, &soil_surfs[tyle_type]);
-                soil.add({all_sprites, &soil_sprites});
+                soil_tiles_sprites_[index_row][index_col] = SoilTile(
+                        rg::math::Vector2{x, y}, &soil_surfs[tyle_type]);
+                soil_tiles_sprites_[index_row][index_col].add({all_sprites, &soil_sprites});
                 if (raining)
                 {
                     CreateWaterTile({x, y});
@@ -281,8 +282,10 @@ void SoilLayer::CreateSoilTiles()
 void SoilLayer::CreateWaterTile(const rg::math::Vector2 &pos)
 {
     const unsigned int random_water = rl::GetRandomValue(0, water_surfs.size() - 1);
-    const auto water = new WaterTile(pos, &water_surfs[random_water]);
-    water->add({all_sprites, &water_sprites});
+    const int index_row = pos.y / TILE_SIZE;
+    const int index_col = pos.x / TILE_SIZE;
+    waters_sprites_[index_row][index_col] = WaterTile(pos, &water_surfs[random_water]);
+    waters_sprites_[index_row][index_col].add({all_sprites, &water_sprites});
 }
 
 bool SoilLayer::IsFarmable(const std::vector<char> &cell)

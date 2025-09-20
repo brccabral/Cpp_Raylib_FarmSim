@@ -10,13 +10,17 @@ class Particle : public GenericSprite
 {
 public:
 
+    Particle() = default;
     Particle(
             rg::math::Vector2 pos, rg::Surface *surf, unsigned int z,
             double duration = 0.2);
     void Update(float deltaTime) override;
 
+    bool is_alive{};
+
 private:
 
     double start_time = 0;
     double duration = 0;
+    rg::Surface mask;
 };

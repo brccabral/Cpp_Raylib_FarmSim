@@ -8,20 +8,21 @@ Game::Game(const int width, const int height)
     rg::display::SetCaption("Sprout Land");
 
     // need to init level after rg::display::SetMode as it calls rl::InitWindow()
-    // and InitWindow starts raylib resources that are needed in Level()
-    level = Level();
+    // and InitWindow starts raylib/OpenGL resources that are needed in Level()
+    level = new Level();
 }
 
 Game::~Game()
 {
+    delete level;
     rg::Quit();
 }
 
-void Game::run()
+void Game::run() const
 {
     while (!rg::WindowCloseOrQuit())
     {
-        level.run(rl::GetFrameTime());
+        level->run(rl::GetFrameTime());
         rg::display::Update();
     }
 }

@@ -78,6 +78,12 @@ void Level::run(const float dt)
 void Level::Setup()
 {
     tmx_data = rl::LoadTMX("resources/data/map.tmx");
+    level_surfaces = rg::tmx::GetTMXSurfaces(tmx_data);
+    generic_sprites_.reserve(tmx_data->width * tmx_data->height * 6);
+    water_sprites_.reserve(tmx_data->width * tmx_data->height);
+    wild_flowers_sprites_.reserve(tmx_data->width * tmx_data->height);
+    trees_sprites_.reserve(tmx_data->width * tmx_data->height);
+    interactions_sprites_.reserve(tmx_data->width * tmx_data->height);
 
     // static layers
     const std::vector<std::pair<std::string, unsigned int>> layers = {
@@ -91,31 +97,29 @@ void Level::Setup()
         const rl::tmx_layer *layer = tmx_find_layer_by_name(tmx_data, layer_name.c_str());
         // can't draw as a single sprite because we need to sort them on Y before drawing
         auto tiles = rg::tmx::GetTMXTiles(tmx_data, layer);
-        for (auto &[tilePos, tileTexture, atlas_rect]: tiles)
+        for (auto &[tilePos, gid]: tiles)
         {
-            auto tileSurf = rg::Surface(tileTexture, atlas_rect);
-            GenericSprite(tilePos, &tileSurf, order).add(&all_sprites);
+            generic_sprites_.emplace_back(tilePos, &level_surfaces[gid], order).add(&all_sprites);
         }
     }
 
     // fence
     const rl::tmx_layer *fence_layer = tmx_find_layer_by_name(tmx_data, "Fence");
     auto fence_tiles = rg::tmx::GetTMXTiles(tmx_data, fence_layer);
-    for (auto &[fence_pos, tileTexture, atlas_rect]: fence_tiles)
+    for (auto &[fence_pos, gid]: fence_tiles)
     {
-        GenericSprite(
-                        fence_pos, rg::Surface(tileTexture, atlas_rect))
-                .add({&all_sprites, &collisionSprites});
+        generic_sprites_.emplace_back(fence_pos, &level_surfaces[gid]).add(
+                {&all_sprites, &collisionSprites});
     }
 
     // water
-    auto waterSurfaces = rg::image::ImportFolder("resources/graphics/water");
+    const auto waterSurfaces = rg::image::ImportFolder("resources/graphics/water");
     water_frames = rg::Frames::Merge(waterSurfaces, 1, waterSurfaces.size());
     const rl::tmx_layer *water_layer = tmx_find_layer_by_name(tmx_data, "Water");
     auto water_tiles = rg::tmx::GetTMXTiles(tmx_data, water_layer);
-    for (auto &[water_pos, water_surf, atlas_pos]: water_tiles)
+    for (auto &[water_pos, gid]: water_tiles)
     {
-        Water(water_pos, &water_frames).add(&all_sprites);
+        water_sprites_.emplace_back(water_pos, &water_frames).add(&all_sprites);
     }
 
     // wildflowers
@@ -123,15 +127,12 @@ void Level::Setup()
     const auto *decor = decor_layer->content.objgr->head;
     while (decor)
     {
-        const int gid = decor->content.gid;
-        if (tmx_data->tiles[gid])
+        if (const int gid = decor->content.gid)
         {
-            rg::Rect atlas_rect{};
-            auto *tileTexture = rg::tmx::GetTMXTileTexture(tmx_data->tiles[gid], &atlas_rect);
-            WildFlower(
-                            rg::math::Vector2{(float) decor->x, (float) (decor->y - decor->height)},
-                            rg::Surface(tileTexture, atlas_rect))
-                    .add({&all_sprites, &collisionSprites});
+            const auto pos = rg::math::Vector2
+                    {(float) decor->x, (float) (decor->y - decor->height)};
+            wild_flowers_sprites_.emplace_back(pos, &level_surfaces[gid]).add(
+                    {&all_sprites, &collisionSprites});
         }
         decor = decor->next;
     }
@@ -139,11 +140,9 @@ void Level::Setup()
     // collision tiles
     const rl::tmx_layer *collision_layer = tmx_find_layer_by_name(tmx_data, "Collision");
     auto collision_tiles = rg::tmx::GetTMXTiles(tmx_data, collision_layer);
-    for (auto &[collision_pos, tileTexture, atlas_rect]: collision_tiles)
+    for (auto &[collision_pos, gid]: collision_tiles)
     {
-        GenericSprite(
-                        collision_pos, rg::Surface(tileTexture, atlas_rect))
-                .add(&collisionSprites);
+        generic_sprites_.emplace_back(collision_pos, &level_surfaces[gid]).add(&collisionSprites);
     }
 
 
@@ -165,52 +164,47 @@ void Level::Setup()
         }
         if (!strcmp(playerObj->name, "Bed"))
         {
-            Interaction(
-                            rg::math::Vector2{(float) playerObj->x, (float) playerObj->y},
-                            rg::math::Vector2{(float) playerObj->width, (float) playerObj->height},
-                            playerObj->name)
-                    .add(&interactionSprites);
+            interactions_sprites_.emplace_back(
+                    rg::math::Vector2{(float) playerObj->x, (float) playerObj->y},
+                    rg::math::Vector2{(float) playerObj->width, (float) playerObj->height},
+                    playerObj->name).add(&interactionSprites);
         }
         if (!strcmp(playerObj->name, "Trader"))
         {
-            Interaction(
-                            rg::math::Vector2{(float) playerObj->x, (float) playerObj->y},
-                            rg::math::Vector2{(float) playerObj->width, (float) playerObj->height},
-                            playerObj->name)
-                    .add(&interactionSprites);
+            interactions_sprites_.emplace_back(
+                    rg::math::Vector2{(float) playerObj->x, (float) playerObj->y},
+                    rg::math::Vector2{(float) playerObj->width, (float) playerObj->height},
+                    playerObj->name).add(&interactionSprites);
         }
         playerObj = playerObj->next;
     }
 
     // trees
+    stump_surfaces = rg::image::LoadFolderDict("resources/graphics/stumps");
+    apple_surf = rg::image::Load("resources/graphics/fruit/apple.png");
     // Tree() depends on Player
     const rl::tmx_layer *trees_layer = tmx_find_layer_by_name(tmx_data, "Trees");
     const auto *tree = trees_layer->content.objgr->head;
     while (tree)
     {
-        const int gid = tree->content.gid;
-        if (tmx_data->tiles[gid])
+        if (const int gid = tree->content.gid)
         {
-            rg::Rect atlas_rect;
-            auto *tileTexture = rg::tmx::GetTMXTileTexture(tmx_data->tiles[gid], &atlas_rect);
-            auto t = Tree(
-                    rg::math::Vector2{(float) tree->x, (float) (tree->y - tree->height)},
-                    rg::Surface(tileTexture, atlas_rect), tree->name,
+            const auto pos = rg::math::Vector2{(float) tree->x, (float) (tree->y - tree->height)};
+            trees_sprites_.emplace_back(
+                    pos, &level_surfaces[gid], &apple_surf, &stump_surfaces[tree->name], tree->name,
                     [this](const std::string &item)
                     {
                         this->PlayerAdd(item);
-                    });
-            t.add({&all_sprites, &collisionSprites, &treeSprites});
-            t.CreateFruit();
+                    }).add({&all_sprites, &collisionSprites, &treeSprites});
+            trees_sprites_.back().CreateFruit();
         }
         tree = tree->next;
     }
 
     ground_surf = rg::image::Load("resources/graphics/world/ground.png");
-    GenericSprite(
-                    rg::math::Vector2{0, 0}, &ground_surf,
-                    LAYERS["ground"])
-            .add(&all_sprites); // GenericSprite will be deleted in ~Level.all_sprites
+    generic_sprites_.emplace_back(
+            rg::math::Vector2{0, 0}, &ground_surf,
+            LAYERS["ground"]).add(&all_sprites);
 }
 
 void Level::PlayerAdd(const std::string &item)
@@ -229,7 +223,7 @@ void Level::Reset()
     {
         const auto tree = dynamic_cast<Tree *>(treeSprite);
         // remove existing apples
-        for (const auto &apple: tree->apple_sprites.Sprites())
+        for (auto *apple: tree->apple_sprites.Sprites())
         {
             apple->Kill();
         }

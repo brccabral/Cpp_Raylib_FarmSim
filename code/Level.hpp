@@ -7,6 +7,11 @@
 #include "Sky.hpp"
 #include "SoilLayer.hpp"
 #include "Transition.hpp"
+#include "Sprites/GenericSprite.hpp"
+#include "Sprites/Interaction.hpp"
+#include "Sprites/Tree.hpp"
+#include "Sprites/Water.hpp"
+#include "Sprites/WildFlower.hpp"
 
 
 class Level
@@ -42,8 +47,15 @@ private:
     Sky sky{};
     Rain rain{};
     Menu menu{};
+    std::vector<GenericSprite> generic_sprites_;
+    std::vector<Water> water_sprites_;
+    std::vector<WildFlower> wild_flowers_sprites_;
+    std::vector<Tree> trees_sprites_;
+    std::vector<Interaction> interactions_sprites_;
 
     rl::tmx_map *tmx_data = nullptr;
+    std::unordered_map<unsigned int, rg::Surface> level_surfaces{};
+    std::unordered_map<std::string, rg::Surface> stump_surfaces{};
     rg::Frames water_frames{};
 
     bool raining{};
@@ -54,4 +66,5 @@ private:
     rg::mixer::Sound music = rg::mixer::Sound("resources/audio/music.mp3", true);
 
     rg::Surface ground_surf{};
+    rg::Surface apple_surf{};
 };

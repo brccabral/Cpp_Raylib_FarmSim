@@ -1,5 +1,6 @@
 #pragma once
 #include "CameraGroup.hpp"
+#include "Sprites/Drop.hpp"
 
 
 class Rain
@@ -20,4 +21,6 @@ private:
     std::vector<rg::Surface> rain_floor{};
     unsigned int ground_w{};
     unsigned int ground_h{};
+
+    std::vector<Drop> drops_sprites_;
 };

@@ -6,11 +6,13 @@ class Drop : public GenericSprite
 {
 public:
 
+    Drop() = default;
     Drop(
             rg::math::Vector2 pos, rg::Surface *surface, unsigned int z,
             bool moving);
-    ~Drop() override;
     void Update(float deltaTime) override;
+
+    bool is_alive{};
 
 private:
 

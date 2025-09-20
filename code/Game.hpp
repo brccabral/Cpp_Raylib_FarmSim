@@ -8,9 +8,9 @@ public:
 
     Game(int width, int height);
     ~Game();
-    void run();
+    void run() const;
 
 private:
 
-    Level level{};
+    Level *level = nullptr;
 };

@@ -5,13 +5,6 @@ Water::Water(const rg::math::Vector2 pos, rg::Frames *frames)
 {
 }
 
-Water::~Water()
-{
-    // image is a pointer to frames
-    // but frames is deleted in the Level class
-    // and the image is deleted in ~Sprite()
-}
-
 void Water::Update(const float deltaTime)
 {
     Animate(deltaTime);

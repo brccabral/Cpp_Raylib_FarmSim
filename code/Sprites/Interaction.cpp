@@ -4,7 +4,7 @@
 
 Interaction::Interaction(
         const rg::math::Vector2 pos, const rg::math::Vector2 size, std::string name)
-    : GenericSprite(pos, new rg::Surface((int) size.x, (int) size.y)),
-      name(std::move(name))
+    : GenericSprite(pos, &surface),
+      name(std::move(name)), surface((int) size.x, (int) size.y)
 {
 }

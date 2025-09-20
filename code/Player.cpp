@@ -196,7 +196,7 @@ void Player::UseTool() const
     }
     else if (!strcmp(selected_tool.c_str(), "axe"))
     {
-        for (const auto &treeSprite: treeSprites->Sprites())
+        for (auto *treeSprite: treeSprites->Sprites())
         {
             if (treeSprite->rect.collidepoint(target_pos))
             {
@@ -208,7 +208,7 @@ void Player::UseTool() const
     }
     else if (!strcmp(selected_tool.c_str(), "water"))
     {
-        soil_layer->Water(target_pos);
+        soil_layer->AddWater(target_pos);
         watering.Play();
     }
 }
@@ -228,7 +228,7 @@ void Player::UseSeed()
 void Player::Collision(const rg::Axis axis)
 {
     // only GenericSprite should be added to collisionSprites as GenericSprite has hitbox
-    for (const auto &collisionSprite: collisionSprites->Sprites())
+    for (auto *collisionSprite: collisionSprites->Sprites())
     {
         const auto sprite = dynamic_cast<GenericSprite *>(collisionSprite);
         if (CheckCollisionRecs(sprite->hitbox.rectangle, hitbox.rectangle))
