@@ -143,8 +143,8 @@ void SoilLayer::CreateSoilGrid()
     for (unsigned int row = 0; row < v_tiles; ++row)
     {
         grid[row].resize(h_tiles);
-        soil_tiles_sprites_[row].reserve(h_tiles);
-        waters_sprites_[row].reserve(h_tiles);
+        soil_tiles_sprites_[row].resize(h_tiles);
+        waters_sprites_[row].resize(h_tiles);
     }
 
     rl::tmx_map *map = rl::LoadTMX("resources/data/map.tmx");
