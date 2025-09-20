@@ -48,11 +48,12 @@ private:
     Sky sky{};
     Rain rain{};
     Menu menu{};
-    std::vector<GenericSprite> generic_sprites_;
-    std::vector<Water> water_sprites_;
-    std::vector<WildFlower> wild_flowers_sprites_;
-    std::vector<Tree> trees_sprites_;
-    std::vector<Interaction> interactions_sprites_;
+    std::vector<GenericSprite> generic_sprites_{};
+    std::vector<Water> water_sprites_{};
+    std::vector<WildFlower> wild_flowers_sprites_{};
+    std::vector<Tree> trees_sprites_{};
+    std::vector<Interaction> interactions_sprites_{};
+    std::vector<Particle> particle_sprites_{};
 
     rl::tmx_map *tmx_data = nullptr;
     std::unordered_map<unsigned int, rg::Surface> level_surfaces{};

@@ -49,7 +49,7 @@ private:
     rg::sprite::Group soil_sprites{};
     rg::sprite::Group water_sprites{};
 
-    std::vector<Plant> plants_sprites_;
+    std::vector<std::vector<Plant>> plants_sprites_;
     std::vector<std::vector<SoilTile>> soil_tiles_sprites_;
     std::vector<std::vector<WaterTile>> waters_sprites_;
 

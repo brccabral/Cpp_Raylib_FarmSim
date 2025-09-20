@@ -110,13 +110,13 @@ bool SoilLayer::PlantSeed(const rg::math::Vector2 pos, const std::string &seed)
             if (!IsPlant(grid[y][x]))
             {
                 grid[y][x].emplace_back('P');
-                plants_sprites_.emplace_back(
+                plants_sprites_[y][x] = Plant(
                         soil_sprite->rect.midbottom(), seed, [this](
                         const rg::math::Vector2 target)
                         {
                             return this->CheckWatered(target);
                         });
-                plants_sprites_.back().add({all_sprites, &plant_sprites, collisionSprites});
+                plants_sprites_[y][x].add({all_sprites, &plant_sprites, collisionSprites});
                 return true;
             }
         }
@@ -140,11 +140,16 @@ void SoilLayer::CreateSoilGrid()
     grid.resize(v_tiles);
     soil_tiles_sprites_.resize(v_tiles);
     waters_sprites_.resize(v_tiles);
+    plants_sprites_.resize(v_tiles);
+    plant_sprites.reserve(v_tiles * h_tiles);
+    soil_sprites.reserve(v_tiles * h_tiles);
+    water_sprites.reserve(v_tiles * h_tiles);
     for (unsigned int row = 0; row < v_tiles; ++row)
     {
         grid[row].resize(h_tiles);
         soil_tiles_sprites_[row].resize(h_tiles);
         waters_sprites_[row].resize(h_tiles);
+        plants_sprites_[row].resize(h_tiles);
     }
 
     rl::tmx_map *map = rl::LoadTMX("resources/data/map.tmx");

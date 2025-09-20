@@ -1,20 +1,13 @@
 #include <cstring>
 #include "Level.hpp"
-#include "Sprites/GenericSprite.hpp"
-#include "Sprites/Interaction.hpp"
-#include "Sprites/Particle.hpp"
-#include "Sprites/Plant.hpp"
-#include "Sprites/Tree.hpp"
-#include "Sprites/Water.hpp"
-#include "Sprites/WildFlower.hpp"
 
 
 #define RAIN_CHANCE (6)
 
 Level::Level()
 {
-    soil_layer = SoilLayer(&all_sprites, &collisionSprites);
     Setup();
+    soil_layer = SoilLayer(&all_sprites, &collisionSprites);
     overlay = Overlay(player);
     transition = Transition(
             [this]
@@ -85,6 +78,12 @@ void Level::Setup()
     wild_flowers_sprites_.reserve(tmx_data->width * tmx_data->height);
     trees_sprites_.reserve(tmx_data->width * tmx_data->height);
     interactions_sprites_.reserve(tmx_data->width * tmx_data->height);
+    particle_sprites_.reserve(20);
+
+    all_sprites.reserve(tmx_data->width * tmx_data->height * 6);
+    collisionSprites.reserve(tmx_data->width * tmx_data->height);
+    treeSprites.reserve(tmx_data->width * tmx_data->height);
+    interactionSprites.reserve(tmx_data->width * tmx_data->height);
 
     // static layers
     const std::vector<std::pair<std::string, unsigned int>> layers = {
@@ -259,8 +258,15 @@ void Level::PlantCollision()
             PlayerAdd(plant->plant_type);
             plant->Kill();
             // we can still use plant because the deletion is delayed until dislay::Update
-            std::make_shared<Particle>(plant->rect.pos, plant->image, LAYERS["main"])
-                    ->add(&all_sprites);
+            for (auto &ps: particle_sprites_)
+            {
+                if (!ps.is_alive)
+                {
+                    ps = Particle(plant->rect.pos, plant->image, LAYERS["main"]);
+                    ps.add(&all_sprites);
+                    break;
+                }
+            }
             soil_layer.RemovePlant(plant->rect.center());
         }
     }

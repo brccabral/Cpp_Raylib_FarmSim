@@ -14,10 +14,6 @@ public:
             rg::math::Vector2 pos, rg::sprite::Group *collisionSprites,
             rg::sprite::Group *treeSprites, rg::sprite::Group *interactionSprites,
             SoilLayer *soil_layer, const std::function<void()> &toggle_shop);
-    Player(const Player &other) = delete;
-    Player &operator=(const Player &other) = delete;
-    Player(Player &&other) = default;
-    Player &operator=(Player &&other) = default;
     void Update(float deltaTime) override;
 
     std::string direction_status = "down";

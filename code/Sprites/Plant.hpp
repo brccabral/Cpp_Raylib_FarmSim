@@ -7,13 +7,14 @@ class Plant : public GenericSprite
 {
 public:
 
+    Plant() = default;
     Plant(
             rg::math::Vector2 pos, const std::string &plant_type,
             const std::function<bool(rg::math::Vector2 target)> &check_watered);
     void Grow();
 
     bool harvestable{};
-    std::string plant_type;
+    std::string plant_type{};
 
 private:
 
@@ -22,5 +23,5 @@ private:
     int max_age{};
     float grow_speed{};
     float y_offset{};
-    std::function<bool(rg::math::Vector2 target)> check_watered;
+    std::function<bool(rg::math::Vector2 target)> check_watered{};
 };
