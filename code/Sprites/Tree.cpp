@@ -52,6 +52,7 @@ void Tree::CheckDeath()
             {
                 particles_sprites_[p] = Particle(rect.pos, image, LAYERS["fruit"], 0.3);
                 particles_sprites_[p].add(groups[0]);
+                break;
             }
         }
         image = stump_surf;
@@ -90,6 +91,7 @@ void Tree::Damage()
             {
                 particles_sprites_[p] = Particle(apple->rect.pos, apple->image, LAYERS["fruit"]);
                 particles_sprites_[p].add(groups[0]);
+                break;
             }
         }
         player_add("apple");
