@@ -16,6 +16,25 @@ Particle::Particle(
     image = &mask;
 }
 
+Particle::Particle(Particle &&other) noexcept
+    : is_alive(other.is_alive), start_time(other.start_time), duration(other.duration),
+      mask(std::move(other.mask))
+{
+    image = &mask;
+    other.image = nullptr;
+}
+
+Particle &Particle::operator=(Particle &&other) noexcept
+{
+    is_alive = other.is_alive;
+    start_time = other.start_time;
+    duration = other.duration;
+    mask = std::move(other.mask);
+    image = &mask;
+    other.image = nullptr;
+    return *this;
+}
+
 void Particle::Update(float deltaTime)
 {
     const double current_time = rl::GetTime();

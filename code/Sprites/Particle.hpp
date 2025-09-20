@@ -14,6 +14,11 @@ public:
     Particle(
             rg::math::Vector2 pos, rg::Surface *surf, unsigned int z,
             double duration = 0.2);
+    Particle(const Particle &other) = delete;
+    Particle &operator=(const Particle &other) = delete;
+    Particle(Particle &&other) noexcept;
+    Particle &operator=(Particle &&other) noexcept;
+
     void Update(float deltaTime) override;
 
     bool is_alive{};
