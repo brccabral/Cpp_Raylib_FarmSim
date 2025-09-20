@@ -78,7 +78,7 @@ void Level::Setup()
     wild_flowers_sprites_.reserve(tmx_data->width * tmx_data->height);
     trees_sprites_.reserve(tmx_data->width * tmx_data->height);
     interactions_sprites_.reserve(tmx_data->width * tmx_data->height);
-    particle_sprites_.reserve(20);
+    particle_sprites_.resize(20);
 
     all_sprites.reserve(tmx_data->width * tmx_data->height * 6);
     collisionSprites.reserve(tmx_data->width * tmx_data->height);
