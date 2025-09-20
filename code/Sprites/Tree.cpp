@@ -46,12 +46,12 @@ void Tree::CheckDeath()
 {
     if (health <= 0)
     {
-        for (size_t p = 0; p < particles_sprites_.size(); ++p)
+        for (auto &ps: particles_sprites_)
         {
-            if (!particles_sprites_[p].is_alive)
+            if (!ps.is_alive)
             {
-                particles_sprites_[p] = Particle(rect.pos, image, LAYERS["fruit"], 0.3);
-                particles_sprites_[p].add(groups[0]);
+                ps = Particle(rect.pos, image, LAYERS["fruit"], 0.3);
+                ps.add(groups[0]);
                 break;
             }
         }
@@ -85,12 +85,13 @@ void Tree::Damage()
         const int random_apple =
                 rl::GetRandomValue(0, apples.size() - 1); // GetRandomValue includes `max`
         auto *apple = apples[random_apple];
-        for (size_t p = 0; p < particles_sprites_.size(); ++p)
+        for (auto &ps: particles_sprites_)
         {
-            if (!particles_sprites_[p].is_alive)
+            if (!ps.is_alive)
             {
-                particles_sprites_[p] = Particle(apple->rect.pos, apple->image, LAYERS["fruit"]);
-                particles_sprites_[p].add(groups[0]);
+                ps = Particle(
+                        apple->rect.pos, apple->image, LAYERS["fruit"]);
+                ps.add(groups[0]);
                 break;
             }
         }

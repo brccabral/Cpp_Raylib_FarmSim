@@ -24,14 +24,14 @@ void Rain::CreateFloor()
     const unsigned int random_floor = rl::GetRandomValue(0, rain_floor.size() - 1);
     const int x = rl::GetRandomValue(0, ground_w);
     const int y = rl::GetRandomValue(0, ground_h);
-    for (size_t i = 0; i < drops_sprites_.size(); ++i)
+    for (auto &drop: drops_sprites_)
     {
-        if (!drops_sprites_[i].is_alive)
+        if (!drop.is_alive)
         {
-            drops_sprites_[i] = Drop(
+            drop = Drop(
                     rg::math::Vector2{(float) x, (float) y}, &rain_floor[random_floor],
                     LAYERS["rain floor"], false);
-            drops_sprites_[i].add(all_sprites);
+            drop.add(all_sprites);
             break;
         }
     }
@@ -42,14 +42,14 @@ void Rain::CreateDrops()
     const unsigned int random_drop = rl::GetRandomValue(0, rain_drops.size() - 1);
     const int x = rl::GetRandomValue(0, ground_w);
     const int y = rl::GetRandomValue(0, ground_h);
-    for (size_t i = 0; i < drops_sprites_.size(); ++i)
+    for (auto &drop: drops_sprites_)
     {
-        if (!drops_sprites_[i].is_alive)
+        if (!drop.is_alive)
         {
-            drops_sprites_[i] = Drop(
+            drop = Drop(
                     rg::math::Vector2{(float) x, (float) y}, &rain_drops[random_drop],
                     LAYERS["rain drops"], true);
-            drops_sprites_[i].add(all_sprites);
+            drop.add(all_sprites);
             break;
         }
     }

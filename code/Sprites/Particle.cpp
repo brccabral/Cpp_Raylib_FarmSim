@@ -1,4 +1,3 @@
-#include <iostream>
 #include "Particle.hpp"
 
 Particle::Particle(
@@ -17,7 +16,8 @@ Particle::Particle(
 }
 
 Particle::Particle(Particle &&other) noexcept
-    : is_alive(other.is_alive), start_time(other.start_time), duration(other.duration),
+    : GenericSprite(std::move(other)), is_alive(other.is_alive), start_time(other.start_time),
+      duration(other.duration),
       mask(std::move(other.mask))
 {
     image = &mask;
@@ -26,12 +26,16 @@ Particle::Particle(Particle &&other) noexcept
 
 Particle &Particle::operator=(Particle &&other) noexcept
 {
-    is_alive = other.is_alive;
-    start_time = other.start_time;
-    duration = other.duration;
-    mask = std::move(other.mask);
-    image = &mask;
-    other.image = nullptr;
+    if (this != &other)
+    {
+        GenericSprite::operator=(std::move(other));
+        is_alive = other.is_alive;
+        start_time = other.start_time;
+        duration = other.duration;
+        mask = std::move(other.mask);
+        image = &mask;
+        other.image = nullptr;
+    }
     return *this;
 }
 
