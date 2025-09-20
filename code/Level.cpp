@@ -15,18 +15,18 @@ Level::Level()
 {
     soil_layer = SoilLayer(&all_sprites, &collisionSprites);
     Setup();
-    overlay = Overlay(&player);
+    overlay = Overlay(player);
     transition = Transition(
             [this]
             {
                 Reset();
-            }, &player);
+            }, player);
     rain = Rain(&all_sprites);
     raining = rl::GetRandomValue(0, 9) > RAIN_CHANCE;
     soil_layer.raining = raining;
 
     menu = Menu(
-            &player, [this]
+            player, [this]
             {
                 ToogleShop();
             });
@@ -38,6 +38,7 @@ Level::Level()
 
 Level::~Level()
 {
+    delete player;
     UnloadTMX(tmx_data);
 }
 
@@ -45,7 +46,7 @@ void Level::run(const float dt)
 {
     // drawing logic
     display_surface->Fill(rl::BLACK);
-    all_sprites.CustomDraw(&player);
+    all_sprites.CustomDraw(player);
 
     // updates
     if (shop_active)
@@ -69,7 +70,7 @@ void Level::run(const float dt)
     sky.Display(dt);
 
     // transition overlay
-    if (player.sleep)
+    if (player->sleep)
     {
         transition.Play();
     }
@@ -153,14 +154,14 @@ void Level::Setup()
     {
         if (!strcmp(playerObj->name, "Start"))
         {
-            player = Player(
+            player = new Player(
                     rg::math::Vector2{(float) playerObj->x, (float) playerObj->y},
                     &collisionSprites, &treeSprites, &interactionSprites, &soil_layer,
                     [this]
                     {
                         ToogleShop();
                     });
-            player.add(&all_sprites);
+            player->add(&all_sprites);
         }
         if (!strcmp(playerObj->name, "Bed"))
         {
@@ -207,9 +208,9 @@ void Level::Setup()
             LAYERS["ground"]).add(&all_sprites);
 }
 
-void Level::PlayerAdd(const std::string &item)
+void Level::PlayerAdd(const std::string &item) const
 {
-    player.item_inventory[item] += 1;
+    player->item_inventory[item] += 1;
     success.Play();
 }
 
@@ -253,7 +254,7 @@ void Level::PlantCollision()
     {
         const auto plant = dynamic_cast<Plant *>(plantSprite);
         if (plant->harvestable &&
-            CheckCollisionRecs(plant->rect.rectangle, player.hitbox.rectangle))
+            CheckCollisionRecs(plant->rect.rectangle, player->hitbox.rectangle))
         {
             PlayerAdd(plant->plant_type);
             plant->Kill();

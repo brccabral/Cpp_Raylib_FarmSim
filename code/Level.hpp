@@ -29,7 +29,7 @@ public:
 
 private:
 
-    void PlayerAdd(const std::string &item);
+    void PlayerAdd(const std::string &item) const;
     void Reset();
     void PlantCollision();
     void ToogleShop();
@@ -40,7 +40,8 @@ private:
     rg::sprite::Group collisionSprites{};
     rg::sprite::Group treeSprites{};
     rg::sprite::Group interactionSprites{};
-    Player player{};
+    // player must be allocated on Heap due to Timer lambda functions are temporary
+    Player *player{};
     Overlay overlay{};
     Transition transition{};
     SoilLayer soil_layer{};
