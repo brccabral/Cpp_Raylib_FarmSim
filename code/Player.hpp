@@ -14,6 +14,10 @@ public:
             rg::math::Vector2 pos, rg::sprite::Group *collisionSprites,
             rg::sprite::Group *treeSprites, rg::sprite::Group *interactionSprites,
             SoilLayer *soil_layer, const std::function<void()> &toggle_shop);
+    Player(const Player &other) = delete;
+    Player &operator=(const Player &other) = delete;
+    Player(Player &&other) = default;
+    Player &operator=(Player &&other) = default;
     void Update(float deltaTime) override;
 
     std::string direction_status = "down";
@@ -69,7 +73,7 @@ private:
     rg::sprite::Group *collisionSprites = nullptr;
     rg::sprite::Group *treeSprites = nullptr;
     rg::sprite::Group *interactionSprites = nullptr;
-    std::shared_ptr<SoilLayer> soil_layer = nullptr;
+    SoilLayer *soil_layer = nullptr;
 
     rg::math::Vector2 target_pos{};
 
