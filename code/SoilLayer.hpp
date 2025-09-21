@@ -58,7 +58,4 @@ private:
 
     std::vector<std::vector<std::vector<char>>> grid{};
     std::vector<rg::Rect> hit_rects{};
-
-    int width;
-    int height;
 };
