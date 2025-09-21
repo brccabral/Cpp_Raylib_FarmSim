@@ -1,9 +1,11 @@
+#include <algorithm>
+#include <memory>
+
 #include "SoilLayer.hpp"
 #include "Settings.hpp"
 #include "Sprites/Plant.hpp"
 #include "Sprites/SoilTile.hpp"
 #include "Sprites/WaterTile.hpp"
-#include <memory>
 
 
 SoilLayer::SoilLayer(rg::sprite::Group *all_sprites, rg::sprite::Group *collisionSprites)
@@ -109,8 +111,11 @@ bool SoilLayer::PlantSeed(const rg::math::Vector2 pos, const std::string &seed)
             {
                 grid[y][x].emplace_back('P');
                 std::make_shared<Plant>(
-                        soil_sprite->rect.midbottom(), seed, [this](const rg::math::Vector2 target)
-                        { return this->CheckWatered(target); })
+                                soil_sprite->rect.midbottom(), seed, [this](
+                                const rg::math::Vector2 target)
+                                {
+                                    return this->CheckWatered(target);
+                                })
                         ->add({all_sprites, &plant_sprites, collisionSprites});
                 return true;
             }

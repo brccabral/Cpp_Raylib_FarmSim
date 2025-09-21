@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "CameraGroup.hpp"
 #include "Settings.hpp"
 
