@@ -16,12 +16,9 @@ Particle::Particle(
 }
 
 Particle::Particle(Particle &&other) noexcept
-    : GenericSprite(std::move(other)), is_alive(other.is_alive), start_time(other.start_time),
-      duration(other.duration),
-      mask(std::move(other.mask))
+    : Particle()
 {
-    image = &mask;
-    other.image = nullptr;
+    *this = std::move(other);
 }
 
 Particle &Particle::operator=(Particle &&other) noexcept
