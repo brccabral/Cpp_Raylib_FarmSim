@@ -1,19 +1,39 @@
-#include <iostream>
 #include "Particle.hpp"
 
 Particle::Particle(
-        const rg::math::Vector2 pos, const rg::Surface_Ptr &surf, const unsigned int z,
+        const rg::math::Vector2 pos, rg::Surface *surf, const unsigned int z,
         const double duration)
-    : GenericSprite(pos, surf, z), duration(duration)
+    : GenericSprite(pos, surf, z), is_alive(true), duration(duration)
 {
     start_time = rl::GetTime();
 
     // the passed surf is going to be used as mask and replaced with a new surface
     // we don't need to delete the passed surf here, but in the class that creates the particle
-    const auto mask_surf = rg::mask::FromSurface(image);
-    const auto new_surf = mask_surf.ToSurface();
-    new_surf->SetColorKey(rl::BLACK);
-    image = new_surf;
+    const auto mask_surf = rg::mask::FromSurface(surf);
+    mask = mask_surf.ToSurface();
+    mask.SetColorKey(rl::BLACK);
+    image = &mask;
+}
+
+Particle::Particle(Particle &&other) noexcept
+    : Particle()
+{
+    *this = std::move(other);
+}
+
+Particle &Particle::operator=(Particle &&other) noexcept
+{
+    if (this != &other)
+    {
+        GenericSprite::operator=(std::move(other));
+        is_alive = other.is_alive;
+        start_time = other.start_time;
+        duration = other.duration;
+        mask = std::move(other.mask);
+        image = &mask;
+        other.image = nullptr;
+    }
+    return *this;
 }
 
 void Particle::Update(float deltaTime)
@@ -22,5 +42,6 @@ void Particle::Update(float deltaTime)
     if (current_time - start_time > duration)
     {
         Kill();
+        is_alive = false;
     }
 }

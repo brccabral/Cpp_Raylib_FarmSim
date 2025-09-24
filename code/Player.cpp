@@ -11,21 +11,29 @@
 Player::Player(
         const rg::math::Vector2 pos, rg::sprite::Group *collisionSprites,
         rg::sprite::Group *treeSprites, rg::sprite::Group *interactionSprites,
-        const std::shared_ptr<SoilLayer> &soil_layer, const std::function<void()> &toggle_shop)
+        SoilLayer *soil_layer, const std::function<void()> &toggle_shop)
     : collisionSprites(collisionSprites), treeSprites(treeSprites),
       interactionSprites(interactionSprites), soil_layer(soil_layer), toggle_shop(toggle_shop)
 {
     ImportAssets();
 
-    image = animations[status][frame_index];
+    image = &animations[status][frame_index];
 
     rect = image->GetRect().center(pos);
 
     z = LAYERS["main"];
 
-    timers["tool use"] = rg::Timer(0.350f, false, false, [this] { UseTool(); });
+    timers["tool use"] = rg::Timer(
+            0.350f, false, false, [this]
+            {
+                UseTool();
+            });
     timers["tool switch"] = rg::Timer(0.2f);
-    timers["seed use"] = rg::Timer(0.350f, false, false, [this] { UseSeed(); });
+    timers["seed use"] = rg::Timer(
+            0.350f, false, false, [this]
+            {
+                UseSeed();
+            });
     timers["seed switch"] = rg::Timer(0.2f);
 
     hitbox = rect.inflate(-126, -70);
@@ -119,11 +127,10 @@ void Player::Input()
     if (IsKeyReleased(rl::KEY_ENTER))
     {
         // toggle_shop();
-        if (const auto &collided_interation_sprite =
-                    spritecollideany(shared_from_this(), interactionSprites))
+        if (auto *collided_interation_sprite =
+                spritecollideany(this, interactionSprites))
         {
-            const auto interaction_sprite =
-                    std::dynamic_pointer_cast<Interaction>(collided_interation_sprite);
+            const auto interaction_sprite = dynamic_cast<Interaction *>(collided_interation_sprite);
             if (!strcmp(interaction_sprite->name.c_str(), "Trader"))
             {
                 toggle_shop();
@@ -145,6 +152,7 @@ void Player::UpdateTimers()
         timer.Update();
     }
 }
+
 void Player::Update(const float deltaTime)
 {
     Input();
@@ -163,7 +171,7 @@ void Player::Animate(const float dt)
     {
         frame_index = 0;
     }
-    image = animations[status][int(frame_index)];
+    image = &animations[status][int(frame_index)];
 }
 
 void Player::UpdateStatus()
@@ -188,11 +196,11 @@ void Player::UseTool() const
     }
     else if (!strcmp(selected_tool.c_str(), "axe"))
     {
-        for (const auto &treeSprite: treeSprites->Sprites())
+        for (auto *treeSprite: treeSprites->Sprites())
         {
             if (treeSprite->rect.collidepoint(target_pos))
             {
-                const auto tree = std::dynamic_pointer_cast<Tree>(treeSprite);
+                const auto tree = dynamic_cast<Tree *>(treeSprite);
                 tree->Damage();
                 axe_sound.Play();
             }
@@ -200,7 +208,7 @@ void Player::UseTool() const
     }
     else if (!strcmp(selected_tool.c_str(), "water"))
     {
-        soil_layer->Water(target_pos);
+        soil_layer->AddWater(target_pos);
         watering.Play();
     }
 }
@@ -220,9 +228,9 @@ void Player::UseSeed()
 void Player::Collision(const rg::Axis axis)
 {
     // only GenericSprite should be added to collisionSprites as GenericSprite has hitbox
-    for (const auto &collisionSprite: collisionSprites->Sprites())
+    for (auto *collisionSprite: collisionSprites->Sprites())
     {
-        const auto sprite = std::dynamic_pointer_cast<GenericSprite>(collisionSprite);
+        const auto sprite = dynamic_cast<GenericSprite *>(collisionSprite);
         if (CheckCollisionRecs(sprite->hitbox.rectangle, hitbox.rectangle))
         {
             if (axis == rg::HORIZONTAL)
@@ -284,31 +292,17 @@ void Player::Move(const float dt)
 
 void Player::ImportAssets()
 {
-    animations["up"] = {};
-    animations["down"] = {};
-    animations["left"] = {};
-    animations["right"] = {};
-    animations["up_idle"] = {};
-    animations["down_idle"] = {};
-    animations["left_idle"] = {};
-    animations["right_idle"] = {};
-    animations["up_hoe"] = {};
-    animations["down_hoe"] = {};
-    animations["left_hoe"] = {};
-    animations["right_hoe"] = {};
-    animations["up_axe"] = {};
-    animations["down_axe"] = {};
-    animations["left_axe"] = {};
-    animations["right_axe"] = {};
-    animations["up_water"] = {};
-    animations["down_water"] = {};
-    animations["left_water"] = {};
-    animations["right_water"] = {};
-
-    for (auto &[key, surfaces]: animations)
+    const std::array<std::string, 20> keys = {
+            "up", "down", "left", "right",
+            "up_idle", "down_idle", "right_idle", "left_idle",
+            "up_hoe", "down_hoe", "right_hoe", "left_hoe",
+            "up_axe", "down_axe", "right_axe", "left_axe",
+            "up_water", "down_water", "right_water", "left_water",
+    };
+    for (auto &key: keys)
     {
         std::string path = "resources/graphics/character/" + key;
-        surfaces = rg::image::ImportFolder(path.c_str());
+        animations[key] = rg::image::ImportFolder(path.c_str());
 
 #ifdef SHOW_HITBOX
         for (const auto *surface: surfaces)

@@ -3,7 +3,7 @@
 #include "Settings.hpp"
 
 
-void CameraGroup::CustomDraw(const std::shared_ptr<Player> &player)
+void CameraGroup::CustomDraw(const Player *player)
 {
     offset = player->rect.center();
     offset.x -= SCREEN_WIDTH / 2.0f;
@@ -12,7 +12,7 @@ void CameraGroup::CustomDraw(const std::shared_ptr<Player> &player)
     // stable_sort keeps original order in case of equality
     std::stable_sort(
             sprites.begin(), sprites.end(),
-            [](const rg::sprite::Sprite_Ptr &l, const rg::sprite::Sprite_Ptr &r)
+            [](const rg::sprite::Sprite *l, const rg::sprite::Sprite *r)
             {
                 const float yl = l->rect.centery();
                 const float yr = r->rect.centery();
@@ -20,7 +20,7 @@ void CameraGroup::CustomDraw(const std::shared_ptr<Player> &player)
             });
     for (const auto &[layer, order]: LAYERS)
     {
-        for (const auto &sprite: sprites)
+        for (const auto *sprite: sprites)
         {
             if (sprite->z == order)
             {

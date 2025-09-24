@@ -5,21 +5,27 @@ class Menu
 {
 public:
 
-    Menu(const std::shared_ptr<Player> &player, const std::function<void()> &toggle_menu);
+    Menu() = default;
+    Menu(Player *player, const std::function<void()> &toggle_menu);
+    Menu(const Menu &other) = delete;
+    Menu &operator=(const Menu &other) = delete;
+    Menu(Menu &&other) = default;
+    Menu &operator=(Menu &&other) = default;
+
     void Update();
     void Input();
 
 private:
 
     void Setup();
-    void DisplayMoney() const;
+    void DisplayMoney();
     void ShowEntry(
-            const rg::Surface_Ptr &text_surf, unsigned int amount, float top,
-            bool selected) const;
+            const rg::Surface *text_surf, unsigned int amount, float top,
+            bool selected);
 
-    std::shared_ptr<Player> player = nullptr;
+    Player *player = nullptr;
     std::function<void()> toggle_menu = nullptr;
-    rg::Surface_Ptr display_surface = rg::display::GetSurface();
+    rg::Surface *display_surface = &rg::display::GetSurface();
     rg::font::Font font = rg::font::Font("resources/font/LycheeSoda.ttf", 30);
 
     // options
@@ -28,10 +34,10 @@ private:
     float padding = 8;
 
     // entries
-    std::vector<std::string> options;
+    std::vector<std::string> options{};
     int sell_border = 0;
 
-    std::vector<rg::Surface_Ptr> text_surfs{};
+    std::vector<rg::Surface> text_surfs{};
     float total_height{};
     float menu_top{};
     rg::Rect main_rect{};
@@ -41,6 +47,6 @@ private:
     rg::Timer timer = rg::Timer(0.2f);
 
     // buy or sell text surface
-    rg::Surface_Ptr buy_text = nullptr;
-    rg::Surface_Ptr sell_text = nullptr;
+    rg::Surface buy_text{};
+    rg::Surface sell_text{};
 };

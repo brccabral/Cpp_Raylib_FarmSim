@@ -4,6 +4,12 @@
 
 Interaction::Interaction(
         const rg::math::Vector2 pos, const rg::math::Vector2 size, std::string name)
-    : GenericSprite(pos, std::make_shared<rg::Surface>((int) size.x, (int) size.y)),
+    : GenericSprite(pos, new rg::Surface(size)),
       name(std::move(name))
-{}
+{
+}
+
+Interaction::~Interaction()
+{
+    delete image;
+}

@@ -13,8 +13,8 @@ public:
 
 private:
 
-    rg::Surface_Ptr display_surface = rg::display::GetSurface();
-    rg::Surface_Ptr full_surf =
-            std::make_shared<rg::Surface>(SCREEN_WIDTH, SCREEN_HEIGHT);
+    rg::Surface *display_surface = &rg::display::GetSurface();
+    rg::Surface full_surf = rg::Surface(SCREEN_WIDTH, SCREEN_HEIGHT);
     rl::Vector3 end_color{38, 101, 189};
+    rg::math::Vector3uc current_color{start_color};
 };

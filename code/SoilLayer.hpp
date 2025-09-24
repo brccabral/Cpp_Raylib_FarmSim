@@ -1,17 +1,22 @@
 #pragma once
 #include <rygame.hpp>
 
+#include "Sprites/Plant.hpp"
+#include "Sprites/SoilTile.hpp"
+#include "Sprites/WaterTile.hpp"
+
 
 class SoilLayer
 {
 public:
 
+    SoilLayer() = default;
     explicit SoilLayer(rg::sprite::Group *all_sprites, rg::sprite::Group *collisionSprites);
 
     // Check if point is in a hittable tile, if so, adds a SoilTile to it
     void GetHit(rg::math::Vector2 point);
     // Adds WaterTile to an existing SoilTile
-    void Water(rg::math::Vector2 point);
+    void AddWater(rg::math::Vector2 point);
     // Remove all WaterTile, called when player goes to sleep (reset Level)
     void RemoveAllWater();
     // Remove Plant from position (during harvesting)
@@ -44,9 +49,13 @@ private:
     rg::sprite::Group soil_sprites{};
     rg::sprite::Group water_sprites{};
 
-    std::map<std::string, rg::Surface_Ptr> soil_surfs{};
-    std::vector<rg::Surface_Ptr> water_surfs{};
+    std::vector<std::vector<Plant>> plants_sprites_;
+    std::vector<std::vector<SoilTile>> soil_tiles_sprites_;
+    std::vector<std::vector<WaterTile>> waters_sprites_;
 
-    std::vector<std::vector<std::vector<char>>> grid;
+    std::unordered_map<std::string, rg::Surface> soil_surfs{};
+    std::vector<rg::Surface> water_surfs{};
+
+    std::vector<std::vector<std::vector<char>>> grid{};
     std::vector<rg::Rect> hit_rects{};
 };

@@ -7,5 +7,5 @@ class WildFlower : public GenericSprite
 {
 public:
 
-    WildFlower(rg::math::Vector2 pos, const rg::Surface_Ptr &surf);
+    WildFlower(rg::math::Vector2 pos, rg::Surface *surf);
 };

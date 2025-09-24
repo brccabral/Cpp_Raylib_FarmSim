@@ -7,6 +7,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+option(SHOW_HITBOX "Draw hitbox boundaries" OFF)
+
 if (NOT TARGET rygame)
     find_package(rygame REQUIRED)
 endif ()
@@ -44,11 +46,11 @@ else ()
     target_compile_options(
         ${PROJECT_NAME}
         PRIVATE "-Wall"
-                "-Werror"
-                "-Wpedantic"
-                "-Wno-missing-braces"
-                "-Wno-gnu-anonymous-struct"
-                "-Wno-nested-anon-types")
+        "-Werror"
+        "-Wpedantic"
+        "-Wno-missing-braces"
+        "-Wno-gnu-anonymous-struct"
+        "-Wno-nested-anon-types")
     if (CMAKE_BUILD_TYPE STREQUAL "Debug")
         target_compile_options(${PROJECT_NAME} PRIVATE "-Wno-unused-variable")
     endif ()
@@ -63,7 +65,7 @@ add_custom_command(
     TARGET ${PROJECT_NAME}
     POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/resources
-            $<TARGET_FILE_DIR:${PROJECT_NAME}>/resources)
+    $<TARGET_FILE_DIR:${PROJECT_NAME}>/resources)
 
 option(INSTALL_GAME "Whether or not to install the game" OFF)
 if (INSTALL_GAME)
@@ -71,4 +73,27 @@ if (INSTALL_GAME)
     # copy resources to Install location
     install(DIRECTORY ${PROJECT_SOURCE_DIR}/resources
             DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR})
+endif ()
+
+if (EMSCRIPTEN)
+    target_link_options(
+        ${PROJECT_NAME}
+        PRIVATE
+        -sALLOW_MEMORY_GROWTH=1
+        -sEXPORTED_RUNTIME_METHODS=[requestFullscreen]
+        -sUSE_GLFW=3
+        --shell-file
+        "$ENV{EMSCRIPTEN}/src/shell.html")
+    set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".html")
+
+    set(resources_dir ${CMAKE_CURRENT_SOURCE_DIR}/resources)
+    if (EXISTS ${resources_dir})
+        # The local resources path needs to be mapped to /resources virtual path
+        string(APPEND resources_dir "@resources")
+        target_link_options(
+            ${PROJECT_NAME}
+            PRIVATE
+            --preload-file
+            "${resources_dir}")
+    endif ()
 endif ()

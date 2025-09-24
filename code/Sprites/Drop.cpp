@@ -1,9 +1,9 @@
 #include "Drop.hpp"
 
 Drop::Drop(
-        const rg::math::Vector2 pos, const rg::Surface_Ptr &surface,
+        const rg::math::Vector2 pos, rg::Surface *surface,
         const unsigned int z, const bool moving)
-    : GenericSprite(pos, surface, z), moving(moving)
+    : GenericSprite(pos, surface, z), is_alive(true), moving(moving)
 {
     lifetime = rl::GetRandomValue(400, 500);
     start_time = rl::GetTime();
@@ -13,12 +13,6 @@ Drop::Drop(
         direction = {-2, 4};
         speed = rl::GetRandomValue(200, 250);
     }
-}
-
-Drop::~Drop()
-{
-    // image is deleted in ~Rain()
-    image = nullptr;
 }
 
 void Drop::Update(const float deltaTime)
@@ -32,5 +26,6 @@ void Drop::Update(const float deltaTime)
     if (current_time - start_time >= lifetime / 1000.0f)
     {
         Kill();
+        is_alive = false;
     }
 }

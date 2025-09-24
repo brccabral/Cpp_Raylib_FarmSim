@@ -3,15 +3,14 @@
 
 
 Tree::Tree(
-        const rg::math::Vector2 pos, const rg::Surface_Ptr &surf, const char *name,
+        const rg::math::Vector2 pos, rg::Surface *surf, rg::Surface *apple_surf,
+        rg::Surface *stump_surf, const char *name,
         const std::function<void(const std::string &item)> &player_add)
-    : GenericSprite(pos, surf), name_(name), player_add(player_add)
+    : GenericSprite(pos, surf), name_(name), stump_surf(stump_surf), apple_surf(apple_surf),
+      player_add(player_add)
 {
-    apple_surf = rg::image::Load("resources/graphics/fruit/apple.png");
-    apple_pos = APPLE_POS[name_];
-
-    const std::string path = "resources/graphics/stumps/" + name_ + ".png";
-    stump_surf = rg::image::Load(path.c_str());
+    apples_sprites_.resize(APPLE_POS[name_].size());
+    particles_sprites_.resize(APPLE_POS[name_].size() + 1);
 
 #ifdef SHOW_HITBOX
     const rg::Rect rd = {0, 0, rect.size};
@@ -28,16 +27,17 @@ void Tree::CreateFruit()
     {
         return;
     }
-    for (const auto position: apple_pos)
+    int apple = 0;
+    for (const auto &position: APPLE_POS[name_])
     {
         if (rl::GetRandomValue(0, 9) < 2) // 20%
         {
             const rg::math::Vector2 pos = rect.pos + position;
-            // create a new Surface from the render.texture so it won't be deleted in GenericSprite
-            std::make_shared<GenericSprite>(
-                    pos, std::make_shared<rg::Surface>(&apple_surf->render.texture),
-                    LAYERS["fruit"])
-                    ->add({&apple_sprites, groups[0]});
+            apples_sprites_[apple] = GenericSprite(
+                    pos, apple_surf,
+                    LAYERS["fruit"]);
+            apples_sprites_[apple].add({&apple_sprites, groups[0]}); // groups[0] is all_sprites
+            ++apple;
         }
     }
 }
@@ -46,7 +46,15 @@ void Tree::CheckDeath()
 {
     if (health <= 0)
     {
-        std::make_shared<Particle>(rect.pos, image, LAYERS["fruit"], 0.3)->add(groups[0]);
+        for (auto &ps: particles_sprites_)
+        {
+            if (!ps.is_alive)
+            {
+                ps = Particle(rect.pos, image, LAYERS["fruit"], 0.3);
+                ps.add(groups[0]);
+                break;
+            }
+        }
         image = stump_surf;
         const rg::math::Vector2 oldMidBottom = rect.midbottom();
         rect = image->GetRect();
@@ -70,14 +78,23 @@ void Tree::Damage()
     // damaging tree
     health -= 1;
 
-    const auto apples = apple_sprites.Sprites();
+    const auto &apples = apple_sprites.Sprites();
     // remove an apple
     if (!apples.empty())
     {
         const int random_apple =
                 rl::GetRandomValue(0, apples.size() - 1); // GetRandomValue includes `max`
-        const auto &apple = apples[random_apple];
-        std::make_shared<Particle>(apple->rect.pos, apple->image, LAYERS["fruit"])->add(groups[0]);
+        auto *apple = apples[random_apple];
+        for (auto &ps: particles_sprites_)
+        {
+            if (!ps.is_alive)
+            {
+                ps = Particle(
+                        apple->rect.pos, apple->image, LAYERS["fruit"]);
+                ps.add(groups[0]);
+                break;
+            }
+        }
         player_add("apple");
 
         apple->Kill();
