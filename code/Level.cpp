@@ -191,7 +191,8 @@ void Level::Setup()
         {
             const auto pos = rg::math::Vector2{(float) tree->x, (float) (tree->y - tree->height)};
             trees_sprites_.emplace_back(
-                    pos, &level_surfaces[gid], &apple_surf, &stump_surfaces[tree->name], tree->name,
+                    pos, &level_surfaces[gid], &apple_surf, &stump_surfaces[tree->name],
+                    tree->name, &all_sprites,
                     [this](const std::string &item)
                     {
                         this->PlayerAdd(item);

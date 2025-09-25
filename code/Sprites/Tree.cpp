@@ -4,10 +4,10 @@
 
 Tree::Tree(
         const rg::math::Vector2 pos, rg::Surface *surf, rg::Surface *apple_surf,
-        rg::Surface *stump_surf, const char *name,
+        rg::Surface *stump_surf, const char *name, CameraGroup *all_sprites,
         const std::function<void(const std::string &item)> &player_add)
-    : GenericSprite(pos, surf), name_(name), stump_surf(stump_surf), apple_surf(apple_surf),
-      player_add(player_add)
+    : GenericSprite(pos, surf), all_sprites(all_sprites), name_(name), stump_surf(stump_surf),
+      apple_surf(apple_surf), player_add(player_add)
 {
     apples_sprites_.resize(APPLE_POS[name_].size());
     particles_sprites_.resize(APPLE_POS[name_].size() + 1);
@@ -36,7 +36,7 @@ void Tree::CreateFruit()
             apples_sprites_[apple] = GenericSprite(
                     pos, apple_surf,
                     LAYERS["fruit"]);
-            apples_sprites_[apple].add({&apple_sprites, groups[0]}); // groups[0] is all_sprites
+            apples_sprites_[apple].add({&apple_sprites, all_sprites}); // groups[0] is all_sprites
             ++apple;
         }
     }

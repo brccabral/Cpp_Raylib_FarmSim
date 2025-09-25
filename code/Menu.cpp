@@ -5,10 +5,16 @@
 Menu::Menu(Player *player, const std::function<void()> &toggle_menu)
     : player(player), toggle_menu(toggle_menu)
 {
-    options = rg::getKeys<std::string, decltype(player->item_inventory)>(player->item_inventory);
-    // append seed into options
-    auto s = rg::getKeys<std::string, decltype(player->seed_inventory)>(player->seed_inventory);
-    options.insert(options.end(), s.begin(), s.end());
+    options.reserve(player->item_inventory.size() + player->seed_inventory.size());
+    for (auto &item_name: player->item_inventory | std::views::keys)
+    {
+        options.push_back(item_name);
+    }
+    for (auto &seed_name: player->seed_inventory | std::views::keys)
+    {
+        options.push_back(seed_name);
+    }
+
     sell_border = player->item_inventory.size() - 1;
     Setup();
 }
