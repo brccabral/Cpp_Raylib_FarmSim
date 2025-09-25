@@ -78,6 +78,8 @@ if (EMSCRIPTEN)
         -sALLOW_MEMORY_GROWTH=1
         -sEXPORTED_RUNTIME_METHODS=[requestFullscreen]
         -sUSE_GLFW=3
+        -sSTACK_SIZE=131072
+        -sASYNCIFY=1
         --shell-file
         "$ENV{EMSCRIPTEN}/src/shell.html")
     set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".html")
