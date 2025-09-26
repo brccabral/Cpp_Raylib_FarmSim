@@ -28,7 +28,7 @@ public:
     // Check if position contains a watered soil
     [[nodiscard]] bool CheckWatered(rg::math::Vector2 pos) const;
     // Update all plants
-    void UpdatePlants() const;
+    void UpdatePlants();
 
     bool raining{};
     rg::sprite::Group plant_sprites{};

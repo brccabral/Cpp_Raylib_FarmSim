@@ -20,7 +20,7 @@ SoilLayer::SoilLayer(rg::sprite::Group *all_sprites, rg::sprite::Group *collisio
 
 void SoilLayer::GetHit(const rg::math::Vector2 point)
 {
-    for (const auto rect: hit_rects)
+    for (const auto &rect: hit_rects)
     {
         if (rect.collidepoint(point))
         {
@@ -66,7 +66,7 @@ void SoilLayer::RemoveAllWater()
         {
             if (IsWater(cell))
             {
-                cell.erase(std::remove(cell.begin(), cell.end(), 'W'), cell.end());
+                std::erase(cell, 'W');
             }
         }
     }
@@ -76,8 +76,7 @@ void SoilLayer::RemovePlant(const rg::math::Vector2 pos)
 {
     const unsigned int x = pos.x / TILE_SIZE;
     const unsigned int y = pos.y / TILE_SIZE;
-    auto *cell = &grid[y][x];
-    cell->erase(std::remove(cell->begin(), cell->end(), 'P'), cell->end());
+    std::erase(grid[y][x], 'P');
 }
 
 void SoilLayer::WaterAll()
@@ -295,25 +294,25 @@ void SoilLayer::CreateWaterTile(const rg::math::Vector2 &pos)
 
 bool SoilLayer::IsFarmable(const std::vector<char> &cell)
 {
-    return std::find(cell.begin(), cell.end(), 'F') != cell.end();
+    return std::ranges::find(cell, 'F') != cell.end();
 }
 
 bool SoilLayer::IsHit(const std::vector<char> &cell)
 {
-    return std::find(cell.begin(), cell.end(), 'X') != cell.end();
+    return std::ranges::find(cell, 'X') != cell.end();
 }
 
 bool SoilLayer::IsWater(const std::vector<char> &cell)
 {
-    return std::find(cell.begin(), cell.end(), 'W') != cell.end();
+    return std::ranges::find(cell, 'W') != cell.end();
 }
 
 bool SoilLayer::IsPlant(const std::vector<char> &cell)
 {
-    return std::find(cell.begin(), cell.end(), 'P') != cell.end();
+    return std::ranges::find(cell, 'P') != cell.end();
 }
 
-void SoilLayer::UpdatePlants() const
+void SoilLayer::UpdatePlants()
 {
     for (auto *sprite: plant_sprites.Sprites())
     {

@@ -51,7 +51,7 @@ void Tree::CheckDeath()
             if (!ps.is_alive)
             {
                 ps = Particle(rect.pos, image, LAYERS["fruit"], 0.3);
-                ps.add(groups[0]);
+                ps.add(all_sprites);
                 break;
             }
         }
@@ -91,7 +91,7 @@ void Tree::Damage()
             {
                 ps = Particle(
                         apple->rect.pos, apple->image, LAYERS["fruit"]);
-                ps.add(groups[0]);
+                ps.add(all_sprites);
                 break;
             }
         }

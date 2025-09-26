@@ -10,8 +10,7 @@ void CameraGroup::CustomDraw(const Player *player)
     offset.y -= SCREEN_HEIGHT / 2.0f;
 
     // stable_sort keeps original order in case of equality
-    static std::vector<rg::sprite::Sprite *> sorted;
-    sorted = Sprites();
+    auto sorted = Sprites();
     std::ranges::stable_sort(
             sorted,
             [](const rg::sprite::Sprite *l, const rg::sprite::Sprite *r)

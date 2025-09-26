@@ -25,13 +25,13 @@ Particle &Particle::operator=(Particle &&other) noexcept
 {
     if (this != &other)
     {
-        GenericSprite::operator=(std::move(other));
         is_alive = other.is_alive;
         start_time = other.start_time;
         duration = other.duration;
         mask = std::move(other.mask);
+        GenericSprite::operator=(std::move(other));
+
         image = &mask;
-        other.image = nullptr;
     }
     return *this;
 }

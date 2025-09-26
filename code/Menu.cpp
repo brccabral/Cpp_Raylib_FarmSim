@@ -33,7 +33,9 @@ void Menu::Update()
     {
         const float top = main_rect.top() + text_index * (text_surfs[text_index].GetRect().height +
                                                           padding * 2 + space);
-        ShowEntry(&text_surfs[text_index], amount_list[text_index], top, index == (int) text_index);
+        ShowEntry(
+                &text_surfs[text_index], amount_list[text_index], top,
+                index == static_cast<int>(text_index));
     }
 }
 
@@ -101,8 +103,8 @@ void Menu::Setup()
     for (auto &item: options)
     {
         auto text_surf = font.render(item.c_str(), rl::BLACK);
-        text_surfs.push_back(std::move(text_surf));
         total_height += text_surf.GetRect().height + padding * 2;
+        text_surfs.push_back(std::move(text_surf));
     }
     total_height += (text_surfs.size() - 1) * space;
     menu_top = SCREEN_HEIGHT / 2.0f - total_height / 2.0f;
@@ -113,9 +115,9 @@ void Menu::Setup()
     sell_text = font.render("sell", rl::BLACK);
 }
 
-void Menu::DisplayMoney()
+void Menu::DisplayMoney() const
 {
-    auto text_surf =
+    const auto text_surf =
             font.render(rl::TextFormat("$%s", std::to_string(player->money).c_str()), rl::BLACK);
     const rg::Rect text_rect =
             text_surf.GetRect().midbottom({SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - 20});
@@ -126,7 +128,7 @@ void Menu::DisplayMoney()
 
 void Menu::ShowEntry(
         const rg::Surface *text_surf, const unsigned int amount, const float top,
-        const bool selected)
+        const bool selected) const
 {
     // background
     const rg::Rect bg_rect = {

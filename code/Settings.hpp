@@ -7,6 +7,8 @@ constexpr int SCREEN_WIDTH = 1280;
 constexpr int SCREEN_HEIGHT = 720;
 constexpr int TILE_SIZE = 64;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
 inline std::map<std::string, rg::math::Vector2> OVERLAY_POSITIONS = {
         {"tool", {40, SCREEN_HEIGHT - 15}}, //
         {"seed", {70, SCREEN_HEIGHT - 5}}, //
@@ -57,3 +59,4 @@ inline std::map<std::string, int> PURCHASE_PRICES = {
         {"corn", 4}, //
         {"tomato", 5}, //
 };
+#pragma clang diagnostic pop

@@ -147,7 +147,7 @@ void Player::Input()
 
 void Player::UpdateTimers()
 {
-    for (auto &[key, timer]: timers)
+    for (auto &timer: timers | std::views::values)
     {
         timer.Update();
     }

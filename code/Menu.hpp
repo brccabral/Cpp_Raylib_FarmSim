@@ -18,10 +18,10 @@ public:
 private:
 
     void Setup();
-    void DisplayMoney();
+    void DisplayMoney() const;
     void ShowEntry(
             const rg::Surface *text_surf, unsigned int amount, float top,
-            bool selected);
+            bool selected) const;
 
     Player *player = nullptr;
     std::function<void()> toggle_menu = nullptr;
