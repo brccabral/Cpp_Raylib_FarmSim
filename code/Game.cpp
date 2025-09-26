@@ -14,6 +14,7 @@ Game::Game(const int width, const int height)
 
 Game::~Game()
 {
+    Settings::Destroy();
     delete level;
     rg::Quit();
 }
@@ -26,3 +27,5 @@ void Game::run() const
         rg::display::Update();
     }
 }
+
+Settings *Settings::instance = nullptr;

@@ -30,7 +30,7 @@ void Rain::CreateFloor()
         {
             drop = Drop(
                     rg::math::Vector2{(float) x, (float) y}, &rain_floor[random_floor],
-                    LAYERS["rain floor"], false);
+                    Settings::GetInstance().LAYERS["rain floor"], false);
             drop.add(all_sprites);
             break;
         }
@@ -48,7 +48,7 @@ void Rain::CreateDrops()
         {
             drop = Drop(
                     rg::math::Vector2{(float) x, (float) y}, &rain_drops[random_drop],
-                    LAYERS["rain drops"], true);
+                    Settings::GetInstance().LAYERS["rain drops"], true);
             drop.add(all_sprites);
             break;
         }

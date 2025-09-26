@@ -5,14 +5,15 @@
 Plant::Plant(
         const rg::math::Vector2 pos, const std::string &plant_type,
         const std::function<bool(rg::math::Vector2 target)> &check_watered = nullptr)
-    : GenericSprite(pos, nullptr, LAYERS["ground plant"]), plant_type(plant_type),
+    : GenericSprite(pos, nullptr, Settings::GetInstance().LAYERS["ground plant"]),
+      plant_type(plant_type),
       check_watered(check_watered)
 {
     const std::string path = "resources/graphics/fruit/" + plant_type;
     frames = rg::image::ImportFolder(path.c_str());
 
     max_age = frames.size() - 1;
-    grow_speed = GROW_SPEED[plant_type];
+    grow_speed = Settings::GetInstance().GROW_SPEED[plant_type];
 
     if (!strcmp(plant_type.c_str(), "corn"))
     {
@@ -53,7 +54,7 @@ void Plant::Grow()
         rect.center(oldCenter);
         if (age >= 1)
         {
-            z = LAYERS["main"];
+            z = Settings::GetInstance().LAYERS["main"];
             hitbox = rect.inflate(-26, -rect.height * 0.4);
         }
     }

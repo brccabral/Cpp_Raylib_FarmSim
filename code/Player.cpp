@@ -21,7 +21,7 @@ Player::Player(
 
     rect = image->GetRect().center(pos);
 
-    z = LAYERS["main"];
+    z = Settings::GetInstance().LAYERS["main"];
 
     timers["tool use"] = rg::Timer(
             0.350f, false, false, [this]
@@ -264,7 +264,7 @@ void Player::Collision(const rg::Axis axis)
 
 void Player::GetTargetPos()
 {
-    target_pos = rect.center() + PLAYER_TOOL_OFFSET[direction_status];
+    target_pos = rect.center() + Settings::GetInstance().PLAYER_TOOL_OFFSET[direction_status];
 }
 
 void Player::SetStatus(const std::string &animation_status)

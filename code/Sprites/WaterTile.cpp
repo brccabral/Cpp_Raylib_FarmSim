@@ -6,5 +6,5 @@ WaterTile::WaterTile(const rg::math::Vector2 pos, rg::Surface *surface)
 {
     image = surface;
     rect = image->GetRect().topleft(pos);
-    z = LAYERS["soil water"];
+    z = Settings::GetInstance().LAYERS["soil water"];
 }

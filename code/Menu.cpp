@@ -82,12 +82,12 @@ void Menu::Input()
                 if (player->item_inventory[current_item] > 0)
                 {
                     --player->item_inventory[current_item];
-                    player->money += SALE_PRICES[current_item];
+                    player->money += Settings::GetInstance().SALE_PRICES[current_item];
                 }
             }
             else
             {
-                const auto seed_price = PURCHASE_PRICES[current_item];
+                const auto seed_price = Settings::GetInstance().PURCHASE_PRICES[current_item];
                 if (player->money >= seed_price)
                 {
                     ++player->seed_inventory[current_item];

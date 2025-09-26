@@ -9,8 +9,8 @@ Tree::Tree(
     : GenericSprite(pos, surf), all_sprites(all_sprites), name_(name), stump_surf(stump_surf),
       apple_surf(apple_surf), player_add(player_add)
 {
-    apples_sprites_.resize(APPLE_POS[name_].size());
-    particles_sprites_.resize(APPLE_POS[name_].size() + 1);
+    apples_sprites_.resize(Settings::GetInstance().APPLE_POS[name_].size());
+    particles_sprites_.resize(Settings::GetInstance().APPLE_POS[name_].size() + 1);
 
 #ifdef SHOW_HITBOX
     const rg::Rect rd = {0, 0, rect.size};
@@ -28,14 +28,14 @@ void Tree::CreateFruit()
         return;
     }
     int apple = 0;
-    for (const auto &position: APPLE_POS[name_])
+    for (const auto &position: Settings::GetInstance().APPLE_POS[name_])
     {
         if (rl::GetRandomValue(0, 9) < 2) // 20%
         {
             const rg::math::Vector2 pos = rect.pos + position;
             apples_sprites_[apple] = GenericSprite(
                     pos, apple_surf,
-                    LAYERS["fruit"]);
+                    Settings::GetInstance().LAYERS["fruit"]);
             apples_sprites_[apple].add({&apple_sprites, all_sprites}); // groups[0] is all_sprites
             ++apple;
         }
@@ -50,7 +50,7 @@ void Tree::CheckDeath()
         {
             if (!ps.is_alive)
             {
-                ps = Particle(rect.pos, image, LAYERS["fruit"], 0.3);
+                ps = Particle(rect.pos, image, Settings::GetInstance().LAYERS["fruit"], 0.3);
                 ps.add(all_sprites);
                 break;
             }
@@ -90,7 +90,7 @@ void Tree::Damage()
             if (!ps.is_alive)
             {
                 ps = Particle(
-                        apple->rect.pos, apple->image, LAYERS["fruit"]);
+                        apple->rect.pos, apple->image, Settings::GetInstance().LAYERS["fruit"]);
                 ps.add(all_sprites);
                 break;
             }

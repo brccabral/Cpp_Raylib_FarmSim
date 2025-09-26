@@ -87,10 +87,10 @@ void Level::Setup()
 
     // static layers
     const std::vector<std::pair<std::string, unsigned int>> layers = {
-            {"HouseFloor", LAYERS["house floor"]}, //
-            {"HouseFurnitureBottom", LAYERS["house bottom"]}, //
-            {"HouseWalls", LAYERS["main"]}, //
-            {"HouseFurnitureTop", LAYERS["main"]}, //
+            {"HouseFloor", Settings::GetInstance().LAYERS["house floor"]}, //
+            {"HouseFurnitureBottom", Settings::GetInstance().LAYERS["house bottom"]}, //
+            {"HouseWalls", Settings::GetInstance().LAYERS["main"]}, //
+            {"HouseFurnitureTop", Settings::GetInstance().LAYERS["main"]}, //
     };
     for (auto &[layer_name, order]: layers)
     {
@@ -205,7 +205,7 @@ void Level::Setup()
     ground_surf = rg::image::Load("resources/graphics/world/ground.png");
     generic_sprites_.emplace_back(
             rg::math::Vector2{0, 0}, &ground_surf,
-            LAYERS["ground"]).add(&all_sprites);
+            Settings::GetInstance().LAYERS["ground"]).add(&all_sprites);
 }
 
 void Level::PlayerAdd(const std::string &item) const
@@ -263,7 +263,8 @@ void Level::PlantCollision()
             {
                 if (!ps.is_alive)
                 {
-                    ps = Particle(plant->rect.pos, plant->image, LAYERS["main"]);
+                    ps = Particle(
+                            plant->rect.pos, plant->image, Settings::GetInstance().LAYERS["main"]);
                     ps.add(&all_sprites);
                     break;
                 }

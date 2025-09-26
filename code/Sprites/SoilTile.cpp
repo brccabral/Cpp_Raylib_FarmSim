@@ -6,5 +6,5 @@ SoilTile::SoilTile(const rg::math::Vector2 pos, rg::Surface *surface)
 {
     image = surface;
     rect = image->GetRect().topleft(pos);
-    z = LAYERS["soil"];
+    z = Settings::GetInstance().LAYERS["soil"];
 }

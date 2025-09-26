@@ -19,7 +19,7 @@ void CameraGroup::CustomDraw(const Player *player)
                 const float yr = r->rect.centery();
                 return yl < yr;
             });
-    for (const auto &order: LAYERS | std::views::values)
+    for (const auto &order: Settings::GetInstance().LAYERS | std::views::values)
     {
         for (const auto *sprite: sorted)
         {
