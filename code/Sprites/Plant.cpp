@@ -25,7 +25,7 @@ Plant::Plant(
     }
     image = &frames[int(age)];
     rect = image->GetRect().midbottom(pos);
-    rect.pos += {0, y_offset};
+    rect.pos += {0.0f, y_offset};
 
 #ifdef SHOW_HITBOX
     for (const auto *surface: frames)
