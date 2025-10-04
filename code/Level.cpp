@@ -204,7 +204,7 @@ void Level::Setup()
 
     ground_surf = rg::image::Load("resources/graphics/world/ground.png");
     generic_sprites_.emplace_back(
-            rg::math::Vector2{0, 0}, &ground_surf,
+            rg::math::Vector2<float>{}, &ground_surf,
             Settings::GetInstance().LAYERS["ground"]).add(&all_sprites);
 }
 

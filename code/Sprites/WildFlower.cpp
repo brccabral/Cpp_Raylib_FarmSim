@@ -1,6 +1,6 @@
 #include "WildFlower.hpp"
 
-WildFlower::WildFlower(const rg::math::Vector2 pos, rg::Surface *surf)
+WildFlower::WildFlower(const rg::math::Vector2<float> pos, rg::Surface *surf)
     : GenericSprite(pos, surf)
 {
 }

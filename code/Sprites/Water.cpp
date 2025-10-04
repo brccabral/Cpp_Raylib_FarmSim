@@ -1,6 +1,6 @@
 #include "Water.hpp"
 
-Water::Water(const rg::math::Vector2 pos, rg::Frames *frames)
+Water::Water(const rg::math::Vector2<float> pos, rg::Frames *frames)
     : GenericSprite(pos, frames, Settings::GetInstance().LAYERS["water"]), frames(frames)
 {
 }

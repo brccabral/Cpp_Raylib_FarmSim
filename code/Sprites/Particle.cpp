@@ -1,7 +1,7 @@
 #include "Particle.hpp"
 
 Particle::Particle(
-        const rg::math::Vector2 pos, rg::Surface *surf, const unsigned int z,
+        const rg::math::Vector2<float> pos, rg::Surface *surf, const unsigned int z,
         const double duration)
     : GenericSprite(pos, surf, z), is_alive(true), duration(duration)
 {

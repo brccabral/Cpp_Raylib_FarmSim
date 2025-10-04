@@ -3,7 +3,7 @@
 
 
 Interaction::Interaction(
-        const rg::math::Vector2 pos, const rg::math::Vector2 size, std::string name)
+        const rg::math::Vector2<float> pos, const rg::math::Vector2<float> size, std::string name)
     : GenericSprite(pos, new rg::Surface(size)),
       name(std::move(name))
 {

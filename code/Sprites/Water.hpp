@@ -6,7 +6,7 @@ class Water : public GenericSprite
 {
 public:
 
-    Water(rg::math::Vector2 pos, rg::Frames *frames);
+    Water(rg::math::Vector2<float> pos, rg::Frames *frames);
     void Update(float deltaTime) override;
 
 private:

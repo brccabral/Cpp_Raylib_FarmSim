@@ -8,7 +8,7 @@ public:
 
     Drop() = default;
     Drop(
-            rg::math::Vector2 pos, rg::Surface *surface, unsigned int z,
+            rg::math::Vector2<float> pos, rg::Surface *surface, unsigned int z,
             bool moving);
     void Update(float deltaTime) override;
 
@@ -20,6 +20,6 @@ private:
     double start_time{};
 
     bool moving{};
-    rg::math::Vector2 direction{};
+    rg::math::Vector2<float> direction{};
     unsigned int speed{};
 };

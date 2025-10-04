@@ -1,7 +1,7 @@
 #include "Drop.hpp"
 
 Drop::Drop(
-        const rg::math::Vector2 pos, rg::Surface *surface,
+        const rg::math::Vector2<float> pos, rg::Surface *surface,
         const unsigned int z, const bool moving)
     : GenericSprite(pos, surface, z), is_alive(true), moving(moving)
 {

@@ -18,7 +18,7 @@ SoilLayer::SoilLayer(rg::sprite::Group *all_sprites, rg::sprite::Group *collisio
     CreateHitRects();
 }
 
-void SoilLayer::GetHit(const rg::math::Vector2 point)
+void SoilLayer::GetHit(const rg::math::Vector2<float> point)
 {
     for (const auto &rect: hit_rects)
     {
@@ -35,7 +35,7 @@ void SoilLayer::GetHit(const rg::math::Vector2 point)
     }
 }
 
-void SoilLayer::AddWater(const rg::math::Vector2 point)
+void SoilLayer::AddWater(const rg::math::Vector2<float> point)
 {
     // only if it is a SoilSprite (is in group soil_sprites)
     for (const auto *sprite: soil_sprites.Sprites())
@@ -72,7 +72,7 @@ void SoilLayer::RemoveAllWater()
     }
 }
 
-void SoilLayer::RemovePlant(const rg::math::Vector2 pos)
+void SoilLayer::RemovePlant(const rg::math::Vector2<float> pos)
 {
     const unsigned int x = pos.x / TILE_SIZE;
     const unsigned int y = pos.y / TILE_SIZE;
@@ -97,7 +97,7 @@ void SoilLayer::WaterAll()
     }
 }
 
-bool SoilLayer::PlantSeed(const rg::math::Vector2 pos, const std::string &seed)
+bool SoilLayer::PlantSeed(const rg::math::Vector2<float> pos, const std::string &seed)
 {
     for (const auto *soil_sprite: soil_sprites.Sprites())
     {
@@ -111,7 +111,7 @@ bool SoilLayer::PlantSeed(const rg::math::Vector2 pos, const std::string &seed)
                 grid[y][x].emplace_back('P');
                 plants_sprites_[y][x] = Plant(
                         soil_sprite->rect.midbottom(), seed, [this](
-                        const rg::math::Vector2 target)
+                        const rg::math::Vector2<float> target)
                         {
                             return this->CheckWatered(target);
                         });
@@ -123,7 +123,7 @@ bool SoilLayer::PlantSeed(const rg::math::Vector2 pos, const std::string &seed)
     return false;
 }
 
-bool SoilLayer::CheckWatered(const rg::math::Vector2 pos) const
+bool SoilLayer::CheckWatered(const rg::math::Vector2<float> pos) const
 {
     const unsigned int x = pos.x / TILE_SIZE;
     const unsigned int y = pos.y / TILE_SIZE;
@@ -283,7 +283,7 @@ void SoilLayer::CreateSoilTiles()
     }
 }
 
-void SoilLayer::CreateWaterTile(const rg::math::Vector2 &pos)
+void SoilLayer::CreateWaterTile(const rg::math::Vector2<float> &pos)
 {
     const unsigned int random_water = rl::GetRandomValue(0, water_surfs.size() - 1);
     const int index_row = pos.y / TILE_SIZE;

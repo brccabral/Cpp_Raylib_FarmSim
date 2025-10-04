@@ -14,19 +14,19 @@ public:
     explicit SoilLayer(rg::sprite::Group *all_sprites, rg::sprite::Group *collisionSprites);
 
     // Check if point is in a hittable tile, if so, adds a SoilTile to it
-    void GetHit(rg::math::Vector2 point);
+    void GetHit(rg::math::Vector2<float> point);
     // Adds WaterTile to an existing SoilTile
-    void AddWater(rg::math::Vector2 point);
+    void AddWater(rg::math::Vector2<float> point);
     // Remove all WaterTile, called when player goes to sleep (reset Level)
     void RemoveAllWater();
     // Remove Plant from position (during harvesting)
-    void RemovePlant(rg::math::Vector2 pos);
+    void RemovePlant(rg::math::Vector2<float> pos);
     // When it rains, all available soil will be watered
     void WaterAll();
     // Plant a seed in an empty soil
-    bool PlantSeed(rg::math::Vector2 pos, const std::string &seed);
+    bool PlantSeed(rg::math::Vector2<float> pos, const std::string &seed);
     // Check if position contains a watered soil
-    [[nodiscard]] bool CheckWatered(rg::math::Vector2 pos) const;
+    [[nodiscard]] bool CheckWatered(rg::math::Vector2<float> pos) const;
     // Update all plants
     void UpdatePlants();
 
@@ -38,7 +38,7 @@ private:
     void CreateSoilGrid();
     void CreateHitRects();
     void CreateSoilTiles();
-    void CreateWaterTile(const rg::math::Vector2 &pos);
+    void CreateWaterTile(const rg::math::Vector2<float> &pos);
     static bool IsFarmable(const std::vector<char> &cell);
     static bool IsHit(const std::vector<char> &cell);
     static bool IsWater(const std::vector<char> &cell);

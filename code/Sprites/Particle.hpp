@@ -12,7 +12,7 @@ public:
 
     Particle() = default;
     Particle(
-            rg::math::Vector2 pos, rg::Surface *surf, unsigned int z,
+            rg::math::Vector2<float> pos, rg::Surface *surf, unsigned int z,
             double duration = 0.2);
     Particle(const Particle &other) = delete;
     Particle &operator=(const Particle &other) = delete;

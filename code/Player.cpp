@@ -9,7 +9,7 @@
 #define HITBOX_Y_OFFSET 15
 
 Player::Player(
-        const rg::math::Vector2 pos, rg::sprite::Group *collisionSprites,
+        const rg::math::Vector2<float> pos, rg::sprite::Group *collisionSprites,
         rg::sprite::Group *treeSprites, rg::sprite::Group *interactionSprites,
         SoilLayer *soil_layer, const std::function<void()> &toggle_shop)
     : collisionSprites(collisionSprites), treeSprites(treeSprites),
@@ -255,7 +255,7 @@ void Player::Collision(const rg::Axis axis)
                     hitbox.top(sprite->hitbox.bottom());
                 }
             }
-            rg::math::Vector2 newPos = hitbox.center();
+            rg::math::Vector2<float> newPos = hitbox.center();
             newPos.y -= HITBOX_Y_OFFSET;
             rect.center(newPos);
         }

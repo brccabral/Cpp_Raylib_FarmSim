@@ -11,7 +11,7 @@ public:
 
     Player() = default;
     Player(
-            rg::math::Vector2 pos, rg::sprite::Group *collisionSprites,
+            rg::math::Vector2<float> pos, rg::sprite::Group *collisionSprites,
             rg::sprite::Group *treeSprites, rg::sprite::Group *interactionSprites,
             SoilLayer *soil_layer, const std::function<void()> &toggle_shop);
     void Update(float deltaTime) override;
@@ -54,7 +54,7 @@ private:
     void GetTargetPos();
     void SetStatus(const std::string &animation_status);
 
-    rg::math::Vector2 direction{};
+    rg::math::Vector2<float> direction{};
     float speed = 200.0f;
 
     std::map<std::string, std::vector<rg::Surface>> animations{};
@@ -71,7 +71,7 @@ private:
     rg::sprite::Group *interactionSprites = nullptr;
     SoilLayer *soil_layer = nullptr;
 
-    rg::math::Vector2 target_pos{};
+    rg::math::Vector2<float> target_pos{};
 
     std::function<void()> toggle_shop = nullptr;
 

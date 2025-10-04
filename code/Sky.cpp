@@ -22,5 +22,5 @@ void Sky::Display(const float dt)
         full_surf.Fill(
                 {current_color.r, current_color.g, current_color.b, 255});
     }
-    display_surface->Blit(&full_surf, rg::math::Vector2{}, rl::BLEND_MULTIPLIED);
+    display_surface->Blit(&full_surf, rg::math::Vector2<float>{}, rl::BLEND_MULTIPLIED);
 }

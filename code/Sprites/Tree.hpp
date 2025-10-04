@@ -9,7 +9,7 @@ class Tree : public GenericSprite
 public:
 
     Tree(
-            rg::math::Vector2 pos, rg::Surface *surf, rg::Surface *apple_surf,
+            rg::math::Vector2<float> pos, rg::Surface *surf, rg::Surface *apple_surf,
             rg::Surface *stump_surf, const char *name, CameraGroup *all_sprites,
             const std::function<void(const std::string &item)> &player_add);
     void Damage();

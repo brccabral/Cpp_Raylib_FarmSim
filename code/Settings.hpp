@@ -25,7 +25,7 @@ public:
         delete instance;
     }
 
-    std::map<std::string, rg::math::Vector2> OVERLAY_POSITIONS = {
+    std::map<std::string, rg::math::Vector2<float>> OVERLAY_POSITIONS = {
             {"tool", {40, SCREEN_HEIGHT - 15}}, //
             {"seed", {70, SCREEN_HEIGHT - 5}}, //
     };
@@ -46,12 +46,12 @@ public:
             {"rain drops", 12}, //
     };
 
-    rg::InsertOrderMap<std::string, std::vector<rg::math::Vector2>> APPLE_POS = {
+    rg::InsertOrderMap<std::string, std::vector<rg::math::Vector2<float>>> APPLE_POS = {
             {"Small", {{18, 17}, {30, 37}, {12, 50}, {30, 45}, {20, 30}, {30, 10}}},
             {"Large", {{30, 24}, {60, 65}, {50, 50}, {16, 40}, {45, 50}, {42, 70}}},
     };
 
-    std::map<std::string, rg::math::Vector2> PLAYER_TOOL_OFFSET = {
+    std::map<std::string, rg::math::Vector2<float>> PLAYER_TOOL_OFFSET = {
             {"left", {-50, 40}}, //
             {"right", {50, 40}}, //
             // up/down values are different from tutorial due to HITBOX_Y_OFFSET in Player.hpp

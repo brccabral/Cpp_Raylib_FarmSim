@@ -9,7 +9,7 @@ public:
 
     GenericSprite() = default;
     GenericSprite(
-            rg::math::Vector2 pos, rg::Surface *surf,
+            rg::math::Vector2<float> pos, rg::Surface *surf,
             unsigned int z = Settings::GetInstance().LAYERS["main"]);
     void InitImage(rg::Surface *surf);
 
