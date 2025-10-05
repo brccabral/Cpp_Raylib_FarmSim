@@ -19,7 +19,7 @@ void Drop::Update(const float deltaTime)
 {
     if (moving)
     {
-        rect.pos += direction * speed * deltaTime;
+        rect += direction * speed * deltaTime;
     }
 
     const double current_time = rl::GetTime();

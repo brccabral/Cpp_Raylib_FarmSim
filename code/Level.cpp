@@ -253,8 +253,7 @@ void Level::PlantCollision()
     for (auto *plantSprite: soil_layer.plant_sprites.Sprites())
     {
         const auto plant = dynamic_cast<Plant *>(plantSprite);
-        if (plant->harvestable &&
-            CheckCollisionRecs(plant->rect.rectangle, player->hitbox.rectangle))
+        if (plant->harvestable && plant->rect.colliderect(player->hitbox))
         {
             PlayerAdd(plant->plant_type);
             plant->Kill();
@@ -264,7 +263,7 @@ void Level::PlantCollision()
                 if (!ps.is_alive)
                 {
                     ps = Particle(
-                            plant->rect.pos, plant->image, Settings::GetInstance().LAYERS["main"]);
+                            plant->rect.pos(), plant->image, Settings::GetInstance().LAYERS["main"]);
                     ps.add(&all_sprites);
                     break;
                 }

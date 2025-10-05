@@ -46,7 +46,7 @@ void SoilLayer::AddWater(const rg::math::Vector2<float> point)
             const unsigned int y = sprite->rect.y / TILE_SIZE;
             grid[y][x].emplace_back('W');
 
-            CreateWaterTile(sprite->rect.pos);
+            CreateWaterTile(sprite->rect.pos());
         }
     }
 }

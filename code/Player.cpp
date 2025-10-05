@@ -231,7 +231,7 @@ void Player::Collision(const rg::Axis axis)
     for (auto *collisionSprite: collisionSprites->Sprites())
     {
         const auto sprite = dynamic_cast<GenericSprite *>(collisionSprite);
-        if (CheckCollisionRecs(sprite->hitbox.rectangle, hitbox.rectangle))
+        if (sprite->hitbox.colliderect(hitbox))
         {
             if (axis == rg::HORIZONTAL)
             {
@@ -278,13 +278,13 @@ void Player::Move(const float dt)
 
     // split the movement to deal with collisions
     // horizontal movement
-    rect.pos.x += direction.x * speed * dt;
+    rect.x += direction.x * speed * dt;
     hitbox.center(rect.center());
     hitbox.y += HITBOX_Y_OFFSET;
     Collision(rg::HORIZONTAL);
 
     // vertical movement
-    rect.pos.y += direction.y * speed * dt;
+    rect.y += direction.y * speed * dt;
     hitbox.center(rect.center());
     hitbox.y += HITBOX_Y_OFFSET;
     Collision(rg::VERTICAL);

@@ -32,7 +32,7 @@ void Tree::CreateFruit()
     {
         if (rl::GetRandomValue(0, 9) < 2) // 20%
         {
-            const rg::math::Vector2 pos = rect.pos + position;
+            const rg::math::Vector2 pos = (rect + position).pos();
             apples_sprites_[apple] = GenericSprite(
                     pos, apple_surf,
                     Settings::GetInstance().LAYERS["fruit"]);
@@ -50,7 +50,7 @@ void Tree::CheckDeath()
         {
             if (!ps.is_alive)
             {
-                ps = Particle(rect.pos, image, Settings::GetInstance().LAYERS["fruit"], 0.3);
+                ps = Particle(rect.pos(), image, Settings::GetInstance().LAYERS["fruit"], 0.3);
                 ps.add(all_sprites);
                 break;
             }
@@ -90,7 +90,7 @@ void Tree::Damage()
             if (!ps.is_alive)
             {
                 ps = Particle(
-                        apple->rect.pos, apple->image, Settings::GetInstance().LAYERS["fruit"]);
+                        apple->rect.pos(), apple->image, Settings::GetInstance().LAYERS["fruit"]);
                 ps.add(all_sprites);
                 break;
             }

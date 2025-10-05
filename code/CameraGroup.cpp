@@ -26,7 +26,7 @@ void CameraGroup::CustomDraw(const Player *player)
             if (sprite->z == order)
             {
                 rg::Rect offset_rect = sprite->rect;
-                offset_rect.pos -= offset;
+                offset_rect -= offset;
 
                 display_surface->Blit(sprite->image, offset_rect);
 

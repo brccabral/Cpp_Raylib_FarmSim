@@ -6,7 +6,7 @@ GenericSprite::GenericSprite(
 {
     this->z = z;
 
-    rect.pos = pos;
+    rect.pos(pos);
 
     InitImage(surf);
 }
