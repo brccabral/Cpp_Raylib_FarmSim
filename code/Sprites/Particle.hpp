@@ -27,5 +27,5 @@ private:
 
     double start_time = 0;
     double duration = 0;
-    rg::Surface mask;
+    rg::Surface mask_surface;
 };

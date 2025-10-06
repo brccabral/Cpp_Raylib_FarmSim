@@ -9,10 +9,10 @@ Particle::Particle(
 
     // the passed surf is going to be used as mask and replaced with a new surface
     // we don't need to delete the passed surf here, but in the class that creates the particle
-    const auto mask_surf = rg::mask::FromSurface(surf);
-    mask = mask_surf.ToSurface();
-    mask.SetColorKey(rl::BLACK);
-    image = &mask;
+    const auto mask = rg::mask::FromSurface(surf);
+    mask_surface = mask.ToSurface();
+    mask_surface.SetColorKey(rl::BLACK);
+    image = &mask_surface;
 }
 
 Particle::Particle(Particle &&other) noexcept
@@ -28,10 +28,10 @@ Particle &Particle::operator=(Particle &&other) noexcept
         is_alive = other.is_alive;
         start_time = other.start_time;
         duration = other.duration;
-        mask = std::move(other.mask);
+        mask_surface = std::move(other.mask_surface);
         GenericSprite::operator=(std::move(other));
 
-        image = &mask;
+        image = &mask_surface;
     }
     return *this;
 }
