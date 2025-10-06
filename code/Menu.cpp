@@ -3,7 +3,8 @@
 #include "Settings.hpp"
 
 Menu::Menu(Player *player, const std::function<void()> &toggle_menu)
-    : player(player), toggle_menu(toggle_menu)
+    : player(player), toggle_menu(toggle_menu),
+      font(rg::font::Font("resources/font/LycheeSoda.ttf", 30))
 {
     options.reserve(player->item_inventory.size() + player->seed_inventory.size());
     for (auto &item_name: player->item_inventory | std::views::keys)
@@ -24,17 +25,25 @@ void Menu::Update()
     timer.Update();
     Input();
     DisplayMoney();
-    auto s = rg::getValues<unsigned int, decltype(player->seed_inventory)>(player->seed_inventory);
-    auto amount_list =
-            rg::getValues<unsigned int, decltype(player->item_inventory)>(player->item_inventory);
-    amount_list.insert(amount_list.end(), s.begin(), s.end());
-
-    for (unsigned int text_index = 0; text_index < text_surfs.size(); ++text_index)
+    std::vector<unsigned int> amount_list;
+    for (auto seed: player->seed_inventory | std::views::values)
     {
-        const float top = main_rect.top() + text_index * (text_surfs[text_index].GetRect().height +
-                                                          padding * 2 + space);
+        amount_list.emplace_back(seed);
+    }
+    for (auto item: player->item_inventory | std::views::values)
+    {
+        amount_list.emplace_back(item);
+    }
+
+    for (unsigned int text_index = 0; text_index < entries_surfs.size(); ++text_index)
+    {
+        const float top = main_rect.top() + text_index * (
+                              entries_surfs[text_index].GetRect().height +
+                              padding * 2 + space);
+        amount_text[text_index] = std::to_string(amount_list[text_index]);
+        amount_surfs[text_index] = font.render(amount_text[text_index].c_str(), rl::BLACK);
         ShowEntry(
-                &text_surfs[text_index], amount_list[text_index], top,
+                &entries_surfs[text_index], &amount_surfs[text_index], top,
                 index == static_cast<int>(text_index));
     }
 }
@@ -102,11 +111,14 @@ void Menu::Setup()
 {
     for (auto &item: options)
     {
-        auto text_surf = font.render(item.c_str(), rl::BLACK);
-        total_height += text_surf.GetRect().height + padding * 2;
-        text_surfs.push_back(std::move(text_surf));
+        auto entry_surf = font.render(item.c_str(), rl::BLACK);
+        total_height += entry_surf.GetRect().height + padding * 2;
+        entries_surfs.push_back(std::move(entry_surf));
+        amount_text.emplace_back("0");
+        auto amount_surf = font.render(amount_text.back().c_str(), rl::BLACK);
+        amount_surfs.push_back(std::move(amount_surf));
     }
-    total_height += (text_surfs.size() - 1) * space;
+    total_height += (entries_surfs.size() - 1) * space;
     menu_top = SCREEN_HEIGHT / 2.0f - total_height / 2.0f;
     main_rect = {(SCREEN_WIDTH / 2.0f - width / 2.0f), menu_top, width, total_height};
 
@@ -115,36 +127,34 @@ void Menu::Setup()
     sell_text = font.render("sell", rl::BLACK);
 }
 
-void Menu::DisplayMoney() const
+void Menu::DisplayMoney()
 {
-    const auto text_surf =
+    money_surface =
             font.render(rl::TextFormat("$%s", std::to_string(player->money).c_str()), rl::BLACK);
     const rg::Rect text_rect =
-            text_surf.GetRect().midbottom({SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - 20.0f});
+            money_surface.GetRect().midbottom({SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - 20.0f});
 
     rg::draw::rect(display_surface, rl::WHITE, text_rect.inflate(10, 10), 0, 4);
-    display_surface->Blit(&text_surf, text_rect);
+    display_surface->Blit(&money_surface, text_rect);
 }
 
 void Menu::ShowEntry(
-        const rg::Surface *text_surf, const unsigned int amount, const float top,
-        const bool selected) const
+        rg::Surface *entry_surf, rg::Surface *amount_surf, const float top, const bool selected)
 {
     // background
     const rg::Rect bg_rect = {
-            main_rect.left(), top, width, text_surf->GetRect().height + padding * 2};
+            main_rect.left(), top, width, entry_surf->GetRect().height + padding * 2};
     rg::draw::rect(display_surface, rl::WHITE, bg_rect, 0, 4);
 
     // text
-    rg::Rect text_rect = text_surf->GetRect();
+    rg::Rect text_rect = entry_surf->GetRect();
     text_rect.midleft({main_rect.left() + 20, bg_rect.centery()});
-    display_surface->Blit(text_surf, text_rect);
+    display_surface->Blit(entry_surf, text_rect);
 
     // amount
-    auto amount_surf = font.render(std::to_string(amount).c_str(), rl::BLACK);
-    rg::Rect amount_rect = amount_surf.GetRect();
+    rg::Rect amount_rect = amount_surf->GetRect();
     amount_rect.midright({main_rect.right() - 20, bg_rect.centery()});
-    display_surface->Blit(&amount_surf, amount_rect);
+    display_surface->Blit(amount_surf, amount_rect);
 
     // selected
     if (selected)

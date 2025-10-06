@@ -18,15 +18,13 @@ public:
 private:
 
     void Setup();
-    void DisplayMoney() const;
-    void ShowEntry(
-            const rg::Surface *text_surf, unsigned int amount, float top,
-            bool selected) const;
+    void DisplayMoney();
+    void ShowEntry(rg::Surface *entry_surf, rg::Surface *amount_surf, float top, bool selected);
 
     Player *player = nullptr;
     std::function<void()> toggle_menu = nullptr;
     rg::Surface *display_surface = &rg::display::GetSurface();
-    rg::font::Font font = rg::font::Font("resources/font/LycheeSoda.ttf", 30);
+    rg::font::Font font{};
 
     // options
     float width = 400;
@@ -37,7 +35,9 @@ private:
     std::vector<std::string> options{};
     int sell_border = 0;
 
-    std::vector<rg::Surface> text_surfs{};
+    std::vector<rg::Surface> entries_surfs{};
+    std::vector<rg::Surface> amount_surfs{};
+    std::vector<std::string> amount_text{};
     float total_height{};
     float menu_top{};
     rg::Rect main_rect{};
@@ -49,4 +49,6 @@ private:
     // buy or sell text surface
     rg::Surface buy_text{};
     rg::Surface sell_text{};
+
+    rg::Surface money_surface{};
 };
