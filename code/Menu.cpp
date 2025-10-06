@@ -26,13 +26,13 @@ void Menu::Update()
     Input();
     DisplayMoney();
     std::vector<unsigned int> amount_list;
-    for (auto seed: player->seed_inventory | std::views::values)
-    {
-        amount_list.emplace_back(seed);
-    }
     for (auto item: player->item_inventory | std::views::values)
     {
         amount_list.emplace_back(item);
+    }
+    for (auto seed: player->seed_inventory | std::views::values)
+    {
+        amount_list.emplace_back(seed);
     }
 
     for (unsigned int text_index = 0; text_index < entries_surfs.size(); ++text_index)
