@@ -19,10 +19,18 @@ void CameraGroup::CustomDraw(const Player *player)
                 const float yr = r->rect.centery();
                 return yl < yr;
             });
+
+    auto screen_pos = rg::Rect{0.0f, 0.0f, SCREEN_WIDTH * 1.02f, SCREEN_HEIGHT * 1.02f};
+    screen_pos.center(player->rect.center());
+
     for (const auto &order: Settings::GetInstance().LAYERS | std::views::values)
     {
         for (const auto *sprite: sorted)
         {
+            if (!screen_pos.colliderect(sprite->rect))
+            {
+                continue;
+            }
             if (sprite->z == order)
             {
                 rg::Rect offset_rect = sprite->rect;
