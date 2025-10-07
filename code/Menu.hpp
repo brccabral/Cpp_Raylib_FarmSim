@@ -37,7 +37,6 @@ private:
 
     std::vector<rg::Surface> entries_surfs{};
     std::vector<rg::Surface> amount_surfs{};
-    std::vector<std::string> amount_text{};
     float total_height{};
     float menu_top{};
     rg::Rect main_rect{};

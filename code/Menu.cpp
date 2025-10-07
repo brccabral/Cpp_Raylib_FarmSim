@@ -40,8 +40,7 @@ void Menu::Update()
         const float top = main_rect.top() + text_index * (
                               entries_surfs[text_index].GetRect().height +
                               padding * 2 + space);
-        amount_text[text_index] = std::to_string(amount_list[text_index]);
-        amount_surfs[text_index] = font.render(amount_text[text_index].c_str(), rl::BLACK);
+        amount_surfs[text_index] = font.render(std::to_string(amount_list[text_index]).c_str(), rl::BLACK);
         ShowEntry(
                 &entries_surfs[text_index], &amount_surfs[text_index], top,
                 index == static_cast<int>(text_index));
@@ -114,8 +113,7 @@ void Menu::Setup()
         auto entry_surf = font.render(item.c_str(), rl::BLACK);
         total_height += entry_surf.GetRect().height + padding * 2;
         entries_surfs.push_back(std::move(entry_surf));
-        amount_text.emplace_back("0");
-        auto amount_surf = font.render(amount_text.back().c_str(), rl::BLACK);
+        auto amount_surf = font.render("0", rl::BLACK);
         amount_surfs.push_back(std::move(amount_surf));
     }
     total_height += (entries_surfs.size() - 1) * space;
