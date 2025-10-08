@@ -11,8 +11,8 @@
 SoilLayer::SoilLayer(rg::sprite::Group *all_sprites, rg::sprite::Group *collisionSprites)
     : all_sprites(all_sprites), collisionSprites(collisionSprites)
 {
-    soil_surfs = rg::image::ImportFolderDict("resources/graphics/soil");
-    water_surfs = rg::image::ImportFolder("resources/graphics/soil_water");
+    soil_surfs = rg::image::LoadFolderDict("resources/graphics/soil");
+    water_surfs = rg::image::LoadFolderList("resources/graphics/soil_water");
 
     CreateSoilGrid();
     CreateHitRects();

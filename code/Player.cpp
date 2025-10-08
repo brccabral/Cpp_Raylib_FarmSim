@@ -302,7 +302,7 @@ void Player::ImportAssets()
     for (auto &key: keys)
     {
         std::string path = "resources/graphics/character/" + key;
-        animations[key] = rg::image::ImportFolder(path.c_str());
+        animations[key] = rg::image::LoadFolderList(path.c_str());
 
 #ifdef SHOW_HITBOX
         for (const auto *surface: surfaces)

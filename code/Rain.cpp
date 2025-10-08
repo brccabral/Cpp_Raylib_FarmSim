@@ -7,8 +7,8 @@ Rain::Rain(
         const unsigned int ground_height) : all_sprites(all_sprites), ground_width(ground_width),
                                             ground_height(ground_height)
 {
-    rain_drops = rg::image::ImportFolder("resources/graphics/rain/drops");
-    rain_floor = rg::image::ImportFolder("resources/graphics/rain/floor");
+    rain_drops = rg::image::LoadFolderList("resources/graphics/rain/drops");
+    rain_floor = rg::image::LoadFolderList("resources/graphics/rain/floor");
 
     drops_sprites_.resize(200);
 }

@@ -113,7 +113,7 @@ void Level::Setup()
     }
 
     // water
-    const auto waterSurfaces = rg::image::ImportFolder("resources/graphics/water");
+    const auto waterSurfaces = rg::image::LoadFolderList("resources/graphics/water");
     water_frames = rg::Frames::Merge(waterSurfaces, 1, waterSurfaces.size());
     const rl::tmx_layer *water_layer = tmx_find_layer_by_name(tmx_data, "Water");
     auto water_tiles = rg::tmx::GetTMXTiles(tmx_data, water_layer);

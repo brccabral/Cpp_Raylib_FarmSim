@@ -10,7 +10,7 @@ Plant::Plant(
       check_watered(check_watered)
 {
     const std::string path = "resources/graphics/fruit/" + plant_type;
-    frames = rg::image::ImportFolder(path.c_str());
+    frames = rg::image::LoadFolderList(path.c_str());
 
     max_age = frames.size() - 1;
     grow_speed = Settings::GetInstance().GROW_SPEED[plant_type];
