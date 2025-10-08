@@ -14,7 +14,7 @@ Level::Level()
             {
                 Reset();
             }, player);
-    rain = Rain(&all_sprites);
+    rain = Rain(&all_sprites, ground_surf.GetTexture().width, ground_surf.GetTexture().height);
     raining = rl::GetRandomValue(0, 9) > RAIN_CHANCE;
     soil_layer.raining = raining;
 
@@ -263,7 +263,8 @@ void Level::PlantCollision()
                 if (!ps.is_alive)
                 {
                     ps = Particle(
-                            plant->rect.pos(), plant->image, Settings::GetInstance().LAYERS["main"]);
+                            plant->rect.pos(), plant->image,
+                            Settings::GetInstance().LAYERS["main"]);
                     ps.add(&all_sprites);
                     break;
                 }

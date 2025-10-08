@@ -2,15 +2,15 @@
 #include "Sprites/Drop.hpp"
 
 
-Rain::Rain(CameraGroup *all_sprites) : all_sprites(all_sprites)
+Rain::Rain(
+        CameraGroup *all_sprites, const unsigned int ground_width,
+        const unsigned int ground_height) : all_sprites(all_sprites), ground_width(ground_width),
+                                            ground_height(ground_height)
 {
     rain_drops = rg::image::ImportFolder("resources/graphics/rain/drops");
     rain_floor = rg::image::ImportFolder("resources/graphics/rain/floor");
 
-    const auto ground = rg::image::Load("resources/graphics/world/ground.png");
-    ground_w = ground.GetRect().width;
-    ground_h = ground.GetRect().height;
-    drops_sprites_.resize(ground_h * ground_w);
+    drops_sprites_.resize(200);
 }
 
 void Rain::Update()
@@ -22,8 +22,8 @@ void Rain::Update()
 void Rain::CreateFloor()
 {
     const unsigned int random_floor = rl::GetRandomValue(0, rain_floor.size() - 1);
-    const int x = rl::GetRandomValue(0, ground_w);
-    const int y = rl::GetRandomValue(0, ground_h);
+    const int x = rl::GetRandomValue(0, ground_width);
+    const int y = rl::GetRandomValue(0, ground_height);
     for (auto &drop: drops_sprites_)
     {
         if (!drop.is_alive)
@@ -40,8 +40,8 @@ void Rain::CreateFloor()
 void Rain::CreateDrops()
 {
     const unsigned int random_drop = rl::GetRandomValue(0, rain_drops.size() - 1);
-    const int x = rl::GetRandomValue(0, ground_w);
-    const int y = rl::GetRandomValue(0, ground_h);
+    const int x = rl::GetRandomValue(0, ground_width);
+    const int y = rl::GetRandomValue(0, ground_height);
     for (auto &drop: drops_sprites_)
     {
         if (!drop.is_alive)

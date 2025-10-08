@@ -8,7 +8,7 @@ class Rain
 public:
 
     Rain() = default;
-    explicit Rain(CameraGroup *all_sprites);
+    explicit Rain(CameraGroup *all_sprites, unsigned int ground_width, unsigned int ground_height);
     void Update();
 
 private:
@@ -19,8 +19,8 @@ private:
     CameraGroup *all_sprites = nullptr;
     std::vector<rg::Surface> rain_drops{};
     std::vector<rg::Surface> rain_floor{};
-    unsigned int ground_w{};
-    unsigned int ground_h{};
+    unsigned int ground_width{};
+    unsigned int ground_height{};
 
     std::vector<Drop> drops_sprites_;
 };
