@@ -3,7 +3,6 @@
 
 Game::Game(const int width, const int height)
 {
-    rg::Init();
     rg::display::SetMode(width, height);
     rg::display::SetCaption("Farmew Valley");
 
@@ -16,7 +15,6 @@ Game::~Game()
 {
     Settings::Destroy();
     delete level;
-    rg::Quit();
 }
 
 void Game::run() const

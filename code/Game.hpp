@@ -12,5 +12,7 @@ public:
 
 private:
 
+    // need to init level after rg::display::SetMode as it calls rl::InitWindow()
+    // and InitWindow starts raylib/OpenGL resources that are needed in Level()
     Level *level = nullptr;
 };

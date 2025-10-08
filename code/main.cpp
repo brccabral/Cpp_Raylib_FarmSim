@@ -3,8 +3,12 @@
 
 int main()
 {
-    const Game game(SCREEN_WIDTH, SCREEN_HEIGHT);
-    game.run();
+    rg::Init();
+    {
+        const Game game(SCREEN_WIDTH, SCREEN_HEIGHT);
+        game.run();
+    }
+    rg::Quit();
 
     return 0;
 }
